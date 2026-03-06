@@ -1,0 +1,68 @@
+# Fan Test Seqs
+0
+3000
+3100
+3200
+3300
+3400
+3500
+3600
+3650
+3700
+3750
+3850
+3900
+3950
+4000
+4050
+4055
+4060
+4065
+4070
+4075
+4080
+
+
+# Temperature control config
+cold_start_duration_sec: 5
+fan_start_temp: 50
+fan_stop_temp: 40
+pwm_min: 3800
+pwm_max: 4060
+temp_min: 40
+temp_max: 70
+
+# 当温度在检测窗口内没有下降时，是否强制全速（1=启用, 0=禁用）
+force_on_stagnation: 0
+# 强制最大 PWM 的最长持续时间（秒）。达到后回到正常控制。
+force_duration_sec: 30
+# 检测温度是否停滞的间隔（秒），默认 10
+stagnation_check_interval_sec: 10
+
+# 日志开关：1=启用日志打印（默认会输出运行日志），0=禁用（默认 0）
+# 当设置为 0 时，服务将尽量静默，不打印周期性状态日志
+enable_logging: 0
+
+# 是否将当前风扇转速（PWM 值）通过 ZMQ 发布到消息总线（1=发布，0=不发布）
+publish_fan_speed: 0
+# 发布频率（秒），当 publish_fan_speed=1 时生效，默认每 5 秒发布一次
+publish_fan_speed_interval_sec: 5
+
+# Mode-specific PWM ranges
+# quiet mode: 静音模式（用于录音/唤醒），降低最大转速
+mode_quiet_pwm_min: 0
+mode_quiet_pwm_max: 1000
+
+# normal mode: 常规模式（默认），正常范围
+mode_normal_pwm_min: 1000
+mode_normal_pwm_max: 3095
+
+# performance mode: 性能模式（高负载），提高最小转速
+mode_performance_pwm_min: 3395
+mode_performance_pwm_max: 4060
+
+# RGB LED Max 255 Min 0
+rgb_left: 1 1 1
+rgb_right: 1 1 1
+#rgb_left: 0 0 0
+#rgb_right: 0 0 0

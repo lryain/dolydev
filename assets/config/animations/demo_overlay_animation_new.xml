@@ -1,0 +1,38 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    
+    <!-- 演示1: 基础 sprite 动画 -->
+    <block type="overlay_animation">
+        <sprites_animations 
+            name="CUTE_FRUITS" 
+            category="SPRITE_FRUIT" 
+            loop_count="1" 
+            side="BOTH" 
+            speed="1.0" 
+            clear_time="100" 
+        />
+        <field name="delay_ms">0</field>
+        <field name="duration_ms">1500</field>
+    </block>
+    
+    <!-- 演示2: 眼睛背景设置 -->
+    <block type="eye_background">
+        <field name="type">IMAGE</field>
+        <field name="style">RETRO1</field>
+        <field name="eye_side">2</field>
+        <field name="start">0</field>
+    </block>
+    
+    <!-- 演示3: 眼睛动画 -->
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">SPARKLING</field>
+        <field name="start">1</field>
+    </block>
+    
+    <!-- 完成标记 -->
+    <block type="delay_ms">
+        <field name="delay_ms">500</field>
+        <field name="start">1</field>
+    </block>
+</xml>

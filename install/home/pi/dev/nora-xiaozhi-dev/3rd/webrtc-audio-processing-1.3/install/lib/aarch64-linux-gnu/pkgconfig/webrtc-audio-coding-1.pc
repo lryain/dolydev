@@ -1,0 +1,10 @@
+prefix=/home/pi/dolydev/3rd/webrtc-audio-processing-1.3/install
+includedir=${prefix}/include
+libdir=${prefix}/lib/aarch64-linux-gnu
+
+Name: webrtc-audio-coding-1
+Description: WebRTC Audio Coding library
+Version: 1.3
+Libs: -L${libdir} -lwebrtc-audio-coding-1
+Libs.private: -lrt -pthread
+Cflags: -I${includedir}/webrtc-audio-processing-1 -DWEBRTC_LIBRARY_IMPL -DWEBRTC_POSIX

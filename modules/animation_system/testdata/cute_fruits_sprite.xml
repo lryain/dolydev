@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<List>
+    <SpriteAnimation Name="CUTE_FRUITS" Id="201" Categories="SPRITE" IrisId="0" BackgroundId="0" Sprites="FRUITS">
+        <AnimationSide Side="Left">
+            <Event X="100" Y="120" TimeMs="600" Wait="0" ScaleX="1.2" ScaleY="1.2" RotateAngle="0" />
+            <Event X="100" Y="120" TimeMs="50" Wait="100" ScaleX="1.2" ScaleY="1.2" RotateAngle="0" />
+            <Event X="100" Y="120" TimeMs="600" Wait="500" ScaleX="1.4" ScaleY="1.4" RotateAngle="0" />
+        </AnimationSide>
+    </SpriteAnimation>
+</List>

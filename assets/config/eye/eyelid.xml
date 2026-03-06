@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- ft=> frame total (if not image sequence must be "0" or "not defined" otherwise set total frame count)
+ratio => frame ratio divider (ex; ratio="2" equals 25/2 fps)
+loop => replay count, (ex loop="0" loop forever, loop="1" play once)
+name => just for information not used in application
+path => image path (if it is image sequence set first image adress without sequence number ex abc.png not abc0.png)
+r => red channel for rest of lid part
+g => green channel for rest of lid part
+b => blue channel for rest of lid part
+a => alpha channel for rest of lid part, if you want transparent set "0" 
+NEVER CHANGE ID# code use the ids -->
+<List>
+  <Images>
+    <Data id="0" name="NONE" path="/.doly/images/lids/None.png" r="0" g="0" b="0" a="0"/>
+    <Data id="1" name="1L" path="/.doly/images/lids/1L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="2" name="1R" path="/.doly/images/lids/1R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="3" name="2L" path="/.doly/images/lids/2L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="4" name="2R" path="/.doly/images/lids/2R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="5" name="3L" path="/.doly/images/lids/3L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="6" name="3R" path="/.doly/images/lids/3R.png" r="48" g="48" b="48" a="255" />
+    <Data id="7" name="4L" path="/.doly/images/lids/4L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="8" name="4R" path="/.doly/images/lids/4R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="9" name="5L" path="/.doly/images/lids/5L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="10" name="5R" path="/.doly/images/lids/5R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="11" name="6L" path="/.doly/images/lids/6L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="12" name="6R" path="/.doly/images/lids/6R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="13" name="7L" path="/.doly/images/lids/7L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="14" name="7R" path="/.doly/images/lids/7R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="15" name="8L" path="/.doly/images/lids/8L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="16" name="8R" path="/.doly/images/lids/8R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="17" name="9L" path="/.doly/images/lids/9L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="18" name="9R" path="/.doly/images/lids/9R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="19" name="10L" path="/.doly/images/lids/10L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="20" name="10R" path="/.doly/images/lids/10R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="21" name="11B" path="/.doly/images/lids/11B.png" r="48" g="48" b="48" a="255"/>
+    <Data id="22" name="11T" path="/.doly/images/lids/11T.png" r="48" g="48" b="48" a="255"/>
+    <Data id="23" name="12B" path="/.doly/images/lids/12B.png" r="48" g="48" b="48" a="255"/>
+    <Data id="24" name="12T" path="/.doly/images/lids/12T.png" r="48" g="48" b="48" a="255"/>
+    <Data id="25" name="13B" path="/.doly/images/lids/13B.png" r="48" g="48" b="48" a="255"/>
+    <Data id="26" name="13T" path="/.doly/images/lids/13T.png" r="48" g="48" b="48" a="255" />
+    <Data id="27" name="14B" path="/.doly/images/lids/14B.png" r="48" g="48" b="48" a="255"/>
+    <Data id="28" name="14T" path="/.doly/images/lids/14T.png" r="48" g="48" b="48" a="255"/>
+    <Data id="29" name="15L" path="/.doly/images/lids/15L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="30" name="15R" path="/.doly/images/lids/15R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="31" name="16L" path="/.doly/images/lids/16L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="32" name="16R" path="/.doly/images/lids/16R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="33" name="17L" path="/.doly/images/lids/17L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="34" name="17R" path="/.doly/images/lids/17R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="35" name="18L" path="/.doly/images/lids/18L.png" r="48" g="48" b="48" a="255"/>
+    <Data id="36" name="18R" path="/.doly/images/lids/18R.png" r="48" g="48" b="48" a="255"/>
+    <Data id="37" name="POLICE" path="/.doly/images/lids/police.png" r="0" g="0" b="0" a="0"/>
+    <Data id="38" name="FIREMAN" path="/.doly/images/lids/fireman.png" r="0" g="0" b="0" a="0"/>
+    <Data id="40" name="SCAN" path="/.doly/images/lids/scan.png" r="0" g="0" b="0" a="0"/>
+    <Data id="46" name="BLACK" path="/.doly/images/lids/black.png" r="0" g="0" b="0" a="255"/>
+    <Data id="47" name="GLASS L" path="/.doly/images/lids/glassL.png" r="0" g="0" b="0" a="0"/>
+    <Data id="48" name="GLASS R" path="/.doly/images/lids/glassR.png" r="0" g="0" b="0" a="0"/>
+    <Data id="51" name="HEADBAND" path="/.doly/images/lids/headband.png" r="0" g="0" b="0" a="0"/>
+    <Data id="52" name="VR L" path="/.doly/images/lids/vrL.png" r="0" g="0" b="0" a="0"/>
+    <Data id="53" name="VR R" path="/.doly/images/lids/vrR.png" r="0" g="0" b="0" a="0"/>
+  </Images>
+  <Animations>
+    <Data id="39" name="FLAME" path="/.doly/images/animations/flame.seq" w="240" h="135" ft="15" ratio="3" loop="0"/>
+    <Data id="41" name="BATTERY" path="/.doly/images/animations/battery_low.seq" w="240" h="240" ft="13" ratio="2" loop="0"/>
+    <Data id="42" name="PUMPKIN" path="/.doly/images/animations/pumpkin.seq" w="240" h="240" ft="83" ratio="2" loop="1"/>
+    <Data id="43" name="HEARTS" path="/.doly/images/animations/hearts.seq" w="240" h="240" ft="40" ratio="2" loop="1"/>
+    <Data id="44" name="THINK L" path="/.doly/images/animations/think_l.seq" w="240" h="240" ft="36" ratio="1" loop="0"/>
+    <Data id="45" name="THINK R" path="/.doly/images/animations/think_r.seq" w="240" h="240" ft="26" ratio="1" loop="1"/>
+    <Data id="49" name="WORKOUT L" path="/.doly/images/animations/workout_l.seq" w="240" h="240" ft="31" ratio="1" loop="1"/>
+    <Data id="50" name="WORKOUT R" path="/.doly/images/animations/workout_r.seq" w="240" h="240" ft="31" ratio="1" loop="1"/>
+  </Animations>
+</List>

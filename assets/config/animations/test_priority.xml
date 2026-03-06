@@ -1,0 +1,53 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    
+    <!-- 背景设置：不占据任务槽位，立即执行 -->
+    <block type="eye_background">
+        <field name="type">COLOR</field>
+        <field name="style">COLOR_BLUE</field>
+        <field name="start">1</field>
+    </block>
+    
+    <!-- 低优先级动画 (priority=3) -->
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">HAPPY</field>
+        <field name="priority">3</field>
+        <field name="start">1</field>
+    </block>
+    
+    <!-- 相同优先级动画：会排队执行 -->
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">SPARKLING</field>
+        <field name="priority">5</field>
+        <field name="start">1</field>
+    </block>
+    
+    <block type="eye_animations">
+        <field name="category">SPECIAL</field>
+        <field name="animation">HEARTS</field>
+        <field name="priority">5</field>
+        <field name="start">1</field>
+    </block>
+    
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">BLINK ONLY</field>
+        <field name="priority">5</field>
+        <field name="start">1</field>
+    </block>
+    
+    <!-- 高优先级动画：会打断当前任务 -->
+    <block type="eye_animations">
+        <field name="category">ALARM</field>
+        <field name="animation">DANGER</field>
+        <field name="priority">8</field>
+        <field name="start">1</field>
+    </block>
+    
+    <block type="delay_ms">
+        <field name="delay_ms">100</field>
+        <field name="start">1</field>
+    </block>
+</xml>

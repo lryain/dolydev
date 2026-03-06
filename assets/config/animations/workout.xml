@@ -1,0 +1,279 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="arm_set_angle">
+        <field name="angle">160</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_distance">
+        <field name="distance">10</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">20</field>
+        <field name="brake">0</field>
+        <field name="direction">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">WORKOUT</field>
+        <field name="start">0</field>
+    </block>
+    <block type="repeat">
+        <field name="times">5</field>
+        <field name="start">0</field>
+        <statement name="repeat_statement">
+            <block type="arm_set_angle">
+                <field name="angle">175</field>
+                <field name="side">1</field>
+                <field name="start">1</field>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">145</field>
+                <field name="side">2</field>
+                <field name="start">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">500</field>
+                <field name="start">1</field>
+            </block>
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_left">
+                    <block type="led_animation_color">
+                        <field name="color_main">#00cccc</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#00cccc</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">145</field>
+                <field name="side">1</field>
+                <field name="start">1</field>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">175</field>
+                <field name="side">2</field>
+                <field name="start">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">500</field>
+                <field name="start">1</field>
+            </block>
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_left">
+                    <block type="led_animation_color">
+                        <field name="color_main">#993399</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#993399</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+        </statement>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">WORKOUT</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_distance">
+        <field name="distance">10</field>
+        <field name="start">0</field>
+        <field name="speed">50</field>
+        <field name="accel">20</field>
+        <field name="brake">0</field>
+        <field name="direction">0</field>
+    </block>
+    <block type="repeat">
+        <field name="times">5</field>
+        <field name="start">0</field>
+        <statement name="repeat_statement">
+            <block type="arm_set_angle">
+                <field name="angle">175</field>
+                <field name="side">1</field>
+                <field name="start">1</field>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">145</field>
+                <field name="side">2</field>
+                <field name="speed">30</field>
+                <field name="start">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">400</field>
+                <field name="start">1</field>
+            </block>
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_left">
+                    <block type="led_animation_color">
+                        <field name="color_main">#00cccc</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#00cccc</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">145</field>
+                <field name="side">1</field>
+                <field name="start">1</field>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">175</field>
+                <field name="side">2</field>
+                <field name="speed">30</field>
+                <field name="start">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">400</field>
+                <field name="start">1</field>
+            </block>
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_left">
+                    <block type="led_animation_color">
+                        <field name="color_main">#993399</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#993399</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+        </statement>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">WORKOUT</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_distance">
+        <field name="distance">10</field>
+        <field name="start">0</field>
+        <field name="speed">50</field>
+        <field name="accel">20</field>
+        <field name="brake">0</field>
+        <field name="direction">1</field>
+    </block>
+    <block type="repeat">
+        <field name="times">3</field>
+        <field name="start">0</field>
+        <statement name="repeat_statement">
+            <block type="arm_set_angle">
+                <field name="angle">165</field>
+                <field name="side">1</field>
+                <field name="start">1</field>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">135</field>
+                <field name="side">2</field>
+                <field name="speed">5</field>
+                <field name="start">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">500</field>
+                <field name="start">1</field>
+            </block>
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_left">
+                    <block type="led_animation_color">
+                        <field name="color_main">#00cccc</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#00cccc</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">135</field>
+                <field name="side">1</field>
+                <field name="start">1</field>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">165</field>
+                <field name="side">2</field>
+                <field name="speed">5</field>
+                <field name="start">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">500</field>
+                <field name="start">1</field>
+            </block>
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_left">
+                    <block type="led_animation_color">
+                        <field name="color_main">#993399</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#993399</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+        </statement>
+    </block>
+    <block type="arm_set_angle">
+        <field name="angle">160</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">BLINK</field>
+        <field name="start">0</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">DEPRESSION</field>
+        <field name="animation">TIRED</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">1000</field>
+        <field name="start">0</field>
+    </block>
+    <block type="sound">
+        <field name="type_id">DOLY</field>
+        <field name="name">RELIEVE (4)</field>
+        <field name="start">1</field>
+    </block>
+</xml>

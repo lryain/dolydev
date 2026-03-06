@@ -1,0 +1,251 @@
+# 人脸识别设置配置文件
+# 用于 Daemon 中的 FaceRecoManager
+
+face_recognition:
+  # 基础设置
+  enabled: true
+  auto_greet: true
+  greet_cooldown_seconds: 300  # 5分钟内不重复打招呼
+  liveness_change_alert: true  # liveness 变化时发出警告而非打招呼
+  
+  # 拍照功能配置
+  photo:
+    enabled: true                    # 是否启用拍照功能
+    display_duration: 3.0            # 照片显示时长（秒），0 表示不显示
+    display_scale: 0.3               # 照片显示缩放比例
+    display_side: "RIGHT"            # 显示侧：LEFT/RIGHT/BOTH
+    auto_send_email: true            # 是否自动发送邮件
+    email_recipients:                # 收件人列表（当 auto_send_email 为 true 时）
+      - "47129927@qq.com"
+      # - "example@gmail.com"
+      # - "another@gmail.com"
+  
+  # 录像功能配置
+  video:
+    enabled: true                    # 是否启用录像功能
+    default_duration: 5             # 默认录像时长（秒）
+    max_duration: 60                 # 最大录像时长（秒）
+    enable_stream_preview: true      # 是否启用录像实时预览（推流到 eyeEngine）
+    disable_face_tracking: false      # 录像时禁用人脸识别和跟踪（仅录像）
+    auto_send_email: true            # 是否自动发送邮件
+    email_recipients:                # 收件人列表（当 auto_send_email 为 true 时）
+      - "47129927@qq.com"
+      # - "example@gmail.com"
+  
+  # 识别阈值
+  recognition_threshold: 0.85
+  liveness_required: false
+  
+  # 运行模式配置
+  mode:
+    default: "IDLE"  # 默认模式: idle, recognition, tracking
+    recognition_timeout: 10  # 识别模式超时（秒）
+    auto_switch_idle: true   # 识别后自动回 idle
+  
+  # 眼神跟随配置（Gaze Tracking）
+  gaze_tracking:
+    enabled: false                 # 是否启用眼神跟随
+    screen_width: 480             # eyeEngine 屏幕宽度
+    screen_height: 480            # eyeEngine 屏幕高度
+    update_interval: 0.2          # 更新间隔（秒）
+    smoothing: 0.3                # 平滑系数 [0-1]，0=无平滑，1=完全平滑
+    dead_zone: 0.08               # 死区阈值，小于此值不更新
+    max_x: 0.8                    # X 轴最大值（限制眼球偏移）
+    max_y: 0.6                    # Y 轴最大值
+    duration: 300                 # 眼球移动时长（毫秒）
+  
+  # 眼神跟随配置（已弃用，使用 gaze_tracking）
+  eye_tracking:
+    enabled: true
+    update_interval_ms: 200  # 更新间隔（毫秒）
+    smooth_factor: 0.3       # 平滑系数 [0-1]
+    dead_zone: 0.05          # 移动小于此值不更新
+  
+  # 人脸管理语音确认配置
+  voice_confirmation:
+    enabled: true
+    timeout: 10  # 等待确认超时（秒）
+    ok_command: "cmd_ActOk"
+    cancel_command: "cmd_ActCancel"
+  
+  # 姓名到角色的映射（用于确定识别到的人脸属于哪个关系类别）
+  # 格式: 姓名: 关系类型
+  # 关系类型可选: master, family, friend, acquaintance, stranger
+  name_to_relation:
+    liuhu: master          # 主人
+    zhangsan: friend       # 朋友
+    zhijun: family           # 家人
+    # 可以继续添加更多人脸映射
+    # wangwu: acquaintance
+  
+  # 未在映射表中的人脸，默认关系类型
+  default_relation: stranger
+  
+  # 新人脸处理
+  new_face_behavior:
+    enabled: true
+    prompt_registration: false
+    auto_register_delay_seconds: 10
+    # 新人脸动画
+    animation: "CURIOUS.curious_look"
+    # 新人脸 TTS（可选）
+    tts: "很高兴认识你！请告诉我你的名字吧！"
+    
+  # 已知人脸行为映射excited_1
+  known_face_behaviors:
+    master:  # 主人
+      greeting_animation: "love_1.xml"  # 使用兴奋表情
+      greeting_tts: "我的主人！"
+      follow_gaze: false
+      led_effect: "rainbow"
+      priority: 8
+      
+      # 伪人脸反应（liveness: false 时触发）
+      fake:
+        animation: "confused.xml"  # 困惑表情
+        tts: "嗯？这个是我主人的照片，你想干嘛..."
+        led_effect: rainbow
+        priority: 3
+      
+    family:  # 家人
+      greeting_animation: "miss_1.xml"  # 使用普通开心表情
+      greeting_tts: "你好呀，{name}！"
+      follow_gaze: true
+      led_effect: "warm_pulse"
+      priority: 7
+      
+      # 伪人脸反应（liveness: false 时触发）
+      fake:
+        animation: "confused_1.xml"  # 困惑表情
+        tts: "等等，{name}，你好像是假的？"
+        led_effect: null
+        priority: 3
+      
+    friend:  # 朋友
+      greeting_animation: "miss_3.xml"  # 使用眨眼表情
+      greeting_tts: "嗨，{name}，好久不见！"
+      follow_gaze: true
+      led_effect: null
+      priority: 6
+      
+      # 伪人脸反应（liveness: false 时触发）
+      fake:
+        animation: "suspicious_look"  # 怀疑表情
+        tts: "{name}？这是你的照片吗？"
+        led_effect: null
+        priority: 3
+      
+    acquaintance:  # 熟人
+      greeting_animation: "NEUTRAL.neutral_normal"  # 使用中性表情
+      greeting_tts: "你好，{name}。"
+      follow_gaze: true
+      led_effect: null
+      priority: 5
+      
+      # 伪人脸反应（liveness: false 时触发）
+      fake:
+        animation: "skeptical_look"  # 怀疑表情
+        tts: "这不是真人吧？"
+        led_effect: null
+        priority: 3
+      
+    stranger:  # 陌生人
+      greeting_animation: "angry1_1"  # 使用愤怒表情
+      greeting_tts: "我不认识你！"  # 陌生人不说话
+      follow_gaze: true
+      led_effect: null
+      priority: 4
+      
+      # 伪人脸反应（liveness: false 时触发）
+      fake:
+        animation: "angry1_1"  # 保持愤怒表情
+        tts: "连假人我也不认识！"
+        led_effect: null
+        priority: 2
+      
+  # 人脸消失行为
+  face_lost_behaviors:
+    delay_seconds: 2.0
+    animation: "SAD.sad_light"
+    tts: null
+    priority: 4
+    
+  # 状态过滤：在这些状态下不处理人脸事件
+  ignore_in_states:
+    - "sleeping"
+    - "shutdown"
+    - "error"
+
+# Vision Service 连接设置
+vision_service:
+  # ZMQ 端点 - Vision Service 事件发布端点
+  sub_endpoint: "ipc:///tmp/doly_events.sock"          # Daemon订阅这里来接收Vision Service的命令响应（暂未使用）
+  pub_endpoint: "ipc:///tmp/doly_vision_events.sock"   # ★ 修复：Vision Service发布事件的端点，Daemon订阅此端点
+  
+  # 订阅话题
+  subscribe_topics:
+    - "event.vision.face"
+    - "event.vision.face.recognized"
+    - "event.vision.face.new"
+    - "event.vision.face.lost"
+    - "status.vision.state"
+    
+  # 心跳检测
+  heartbeat_timeout_ms: 5000
+  reconnect_interval_ms: 3000
+
+# 人脸数据库设置（用于本地缓存）
+face_profiles:
+  # 本地缓存文件
+  cache_file: "/home/pi/dev/dolydev/config/face_profiles_cache.yaml"
+  
+  # 同步间隔（秒）
+  sync_interval_seconds: 60
+
+# 人脸管理设置（Face Management）
+face_management:
+  # 语音确认设置
+  confirmation:
+    enabled: true
+    timeout: 30                    # 确认超时时间（秒）
+    retry_on_timeout: false        # 超时后是否重试
+    cancel_keywords: ["取消", "不要", "算了", "放弃"]  # 取消关键词
+    confirm_keywords: ["确认", "好的", "可以", "开始"]  # 确认关键词
+  
+  # TTS 语音提示设置
+  tts:
+    enabled: true
+    engine: "edge-tts"             # TTS 引擎
+    voice: "zh-CN-XiaoxiaoNeural"  # 语音
+    rate: "+0%"                    # 语速
+    volume: "+0%"                  # 音量
+    priority: high                 # TTS 优先级
+  
+  # 操作限制
+  limits:
+    max_faces: 100                 # 最大人脸数量
+    min_name_length: 2             # 最小姓名长度
+    max_name_length: 20            # 最大姓名长度
+    duplicate_check: true          # 是否检查重复姓名
+    allowed_operations: ["register", "update", "delete", "query"]  # 允许的操作
+  
+  # 人脸注册设置
+  registration:
+    min_face_quality: 0.7          # 最低人脸质量要求
+    require_frontal: true          # 是否要求正脸
+    snapshot_count: 3              # 采集快照数量
+    snapshot_interval: 0.5         # 快照间隔（秒）
+    auto_naming: true              # 是否自动命名（新朋友1, 新朋友2...）
+    default_relation: "friend"     # 默认关系类型
+  
+  # FaceDB 连接设置
+  face_db:
+    type: "zmq"                    # 数据库类型: zmq (通过Vision Service), sqlite (本地)
+    req_endpoint: "ipc:///tmp/doly_vision_req.sock"  # ZMQ REQ端点（用于CRUD操作）
+    timeout_ms: 5000               # 请求超时（毫秒）
+    retry_count: 3                 # 重试次数
+    
+    # 本地数据库配置（备用）
+    local_db:
+      path: "/home/pi/dev/dolydev/data/face_db.sqlite"
+      auto_sync: true              # 是否自动同步到 Vision Service

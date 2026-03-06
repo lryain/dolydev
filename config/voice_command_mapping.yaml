@@ -1,0 +1,863 @@
+# Doly 语音指令映射配置
+# 将离线语音指令映射到动画、直接命令或技能
+
+# 动作类型说明:
+# - play_animation: 播放行为动画 XML
+# - direct_command: 直接发送 ZMQ 命令
+# - skill: 调用技能模块
+# - dummy: 占位符（未实现的命令）
+
+mappings:
+  # ===== 唤醒类 =====
+  wakeup_detected:
+    action: play_animation
+    animation: wake_word.xml
+    priority: high
+    category: INTERNAL
+    
+  cmd_iHelloDoly:
+    action: play_animation
+    animation: happy_1.xml
+    priority: high
+    category: wakeup
+    
+  cmd_iInterrupt:
+    action: direct_command
+    target: system
+    command: interrupt
+    priority: high
+    category: wakeup
+    
+  # ===== 休眠类 =====
+  cmd_iShutup:
+    action: play_animation
+    animation: sleep.xml
+    priority: high
+    category: sleep
+    
+  cmd_StaSleep:
+    action: play_animation
+    animation: sleep_2.xml
+    priority: high
+    category: sleep
+    
+  cmd_StaRestTime:
+    action: play_animation
+    animation: sleepy_end.xml
+    priority: normal
+    category: sleep
+
+  # ===== 动作/娱乐类 =====
+  cmd_ActDance:
+    action: play_animation
+    animation: bad_robot_1.xml
+    priority: normal
+    category: action
+    
+  cmd_ActSing:
+    action: play_animation
+    animation: test_tts_emotions.xml
+    priority: normal
+    category: action
+    
+  cmd_ActTellJoke:
+    action: play_animation
+    animation: compliment_1.xml
+    priority: normal
+    category: action
+    
+  cmd_ActTellStory:
+    action: play_animation
+    animation: speak_1.xml
+    priority: normal
+    category: action
+    
+  cmd_ActMakeFace:
+    action: play_animation
+    animation: confuse.xml
+    priority: normal
+    category: action
+    
+  cmd_ActMakeSmile:
+    action: play_animation
+    animation: happy_3.xml
+    priority: normal
+    category: action
+    
+  cmd_ActMakeGhost:
+    action: play_animation
+    animation: bugged.xml
+    priority: normal
+    category: action
+    
+  cmd_ActWhatcanudo:
+    action: play_animation
+    animation: bad_robot_1.xml
+    priority: normal
+    category: action
+    
+  cmd_ActWhoami:
+    action: skill
+    target: face_recognition
+    command: recognize
+    priority: high
+    category: action
+    animation: "happy_2.xml"  # 播放好奇表情
+    description: "看看我是谁 - 触发人脸识别"
+
+  # ===== 眼睛控制类 =====
+  cmd_EyeBlink:
+    action: direct_command
+    target: eye
+    command: blink
+    params:
+      count: 1
+      eye: both
+    category: eye
+    
+  cmd_EyeBlinkL:
+    action: direct_command
+    target: eye
+    command: blink
+    params:
+      count: 1
+      eye: left
+    category: eye
+    
+  cmd_EyeBlinkR:
+    action: direct_command
+    target: eye
+    command: blink
+    params:
+      count: 1
+      eye: right
+    category: eye
+    
+  cmd_EyelidSquint:
+    action: direct_command
+    target: eye
+    command: squint
+    params:
+      eye: both
+      amount: 0.5
+    category: eye
+    
+  cmd_EyeLookup:
+    action: direct_command
+    target: eye
+    command: gaze
+    params:
+      x: 0
+      y: -0.5
+    category: eye
+    
+  cmd_EyeLookdown:
+    action: direct_command
+    target: eye
+    command: gaze
+    params:
+      x: 0
+      y: 0.5
+    category: eye
+    
+  cmd_EyeLookL:
+    action: direct_command
+    target: eye
+    command: gaze
+    params:
+      x: -0.5
+      y: 0
+    category: eye
+    
+  cmd_EyeLookR:
+    action: direct_command
+    target: eye
+    command: gaze
+    params:
+      x: 0.5
+      y: 0
+    category: eye
+    
+  cmd_EyeCircle:
+    action: direct_command
+    target: eye
+    command: circle
+    params:
+      direction: cw
+      cycles: 1
+    category: eye
+    
+  cmd_EyeDouji:
+    action: direct_command
+    target: eye
+    command: cross_eyed
+    params:
+      duration: 2000
+    category: eye
+    
+  cmd_EyeDizz:
+    action: play_animation
+    animation: confuse_2.xml
+    category: eye
+
+  cmd_EyeStunned:
+    action: play_animation
+    animation: shock_bf_1.xml
+    category: eye
+    
+  cmd_EyeSuperise:
+    action: play_animation
+    animation: surprise_1.xml
+    category: SURPRISE
+    priority: normal
+    
+  # 眼睛开闭
+  cmd_EyeOpen:
+    action: play_animation
+    animation: eye_open.xml
+    category: EYE_ACTION
+    priority: high
+    
+  cmd_EyeClose:
+    action: play_animation
+    animation: eye_close.xml
+    category: EYE_ACTION
+    priority: high
+  
+  # 眯眼
+  cmd_EyelidSquintL:
+    action: direct_command
+    target: eye
+    command: squint
+    params:
+      eye: left
+      amount: 0.5
+    category: eye
+    
+  cmd_EyelidSquintR:
+    action: direct_command
+    target: eye
+    command: squint
+    params:
+      eye: right
+      amount: 0.5
+    category: eye
+  
+  # 眼睛风格切换
+  cmd_EyeStyle:
+    action: direct_command
+    target: eye
+    command: cycle_lid_style
+    category: eye
+    description: "循环切换眼睑样式"
+    
+  cmd_EyeCat:
+    action: direct_command
+    target: eye
+    command: set_lid
+    params:
+      side_id: "cat"
+    category: eye
+    description: "切换到猫眼"
+    
+  cmd_EyeMech:
+    action: direct_command
+    target: eye
+    command: set_lid
+    params:
+      side_id: "mech"
+    category: eye
+    description: "切换到机械眼"
+  
+  # 虹膜控制
+  cmd_EyeIris:
+    action: direct_command
+    target: eye
+    command: cycle_iris_style
+    category: eye
+    description: "循环切换虹膜样式"
+    
+  cmd_EyePupil:
+    action: direct_command
+    target: eye
+    command: cycle_iris_style
+    params:
+      focus: pupil
+    category: eye
+    description: "循环切换瞳孔样式"
+  
+  # 瞳孔大小（Workaround：使用预设虹膜样式）
+  cmd_EyePupilInc:
+    action: direct_command
+    target: eye
+    command: set_iris
+    params:
+      theme: "默认主题"
+      style: "large_pupil"
+    category: eye
+    description: "瞳孔变大"
+    
+  cmd_EyePupilDec:
+    action: direct_command
+    target: eye
+    command: set_iris
+    params:
+      theme: "默认主题"
+      style: "small_pupil"
+    category: eye
+    description: "瞳孔变小"
+
+  # ===== 手臂控制类 =====
+  cmd_ArmRise:
+    action: play_animation
+    animation: hand_up.xml
+    category: arm
+    
+  cmd_ArmRiseL:
+    action: play_animation
+    animation: hand_up_l.xml
+    category: arm
+    
+  cmd_ArmRiseR:
+    action: play_animation
+    animation: hand_up_r.xml
+    category: arm
+    
+  cmd_ArmACWave:
+    action: play_animation
+    animation: workout.xml
+    category: arm
+    
+  cmd_ArmACWaveL:
+    action: direct_command
+    target: drive
+    command: servo_wave
+    params:
+      servo: left_arm
+      cycles: 3
+    category: arm
+    
+  cmd_ArmACWaveR:
+    action: direct_command
+    target: drive
+    command: servo_wave
+    params:
+      servo: right_arm
+      cycles: 3
+    category: arm
+
+  # ===== 移动控制类 =====
+  cmd_ActForward:
+    action: play_animation
+    animation: go_forward.xml
+    priority: normal
+    category: move
+    
+  cmd_ActBackward:
+    action: play_animation
+    animation: go_back.xml
+    priority: normal
+    category: move
+    
+  cmd_ActTurnLeft:
+    action: play_animation
+    animation: go_left.xml
+    priority: normal
+    category: move
+    
+  cmd_ActTurnRight:
+    action: play_animation
+    animation: go_right.xml
+    priority: normal
+    category: move
+    
+  cmd_ActGoHome:
+    action: skill
+    target: navigation
+    command: go_home
+    category: move
+    
+  cmd_iEStop:
+    action: direct_command
+    target: drive
+    command: emergency_stop
+    priority: high
+    category: move
+
+  # ===== 系统控制类 =====
+  cmd_SysVolUp:
+    action: direct_command
+    target: audio_system
+    command: volume_up
+    params:
+      step: 10
+    priority: high
+    category: system
+    
+  cmd_SysVolDown:
+    action: direct_command
+    target: audio_system
+    command: volume_down
+    params:
+      step: 10
+    priority: high
+    category: system
+    
+  cmd_SysVolMute:
+    action: direct_command
+    target: audio_system
+    command: mute
+    priority: high
+    category: system
+    
+  cmd_SysVolNorm:
+    action: direct_command
+    target: audio_system
+    command: unmute
+    priority: high
+    category: system
+    
+  cmd_ActReset:
+    action: direct_command
+    target: system
+    command: reset
+    category: system
+
+  # ===== 游戏类 =====
+  cmd_StaGame1:
+    action: skill
+    target: game
+    command: parrot
+    category: game
+  # 逗鸟
+  cmd_StaGame2:
+    action: play_animation
+    animation: bird_teasing.xml
+    category: action
+
+  cmd_StaGame4:
+    action: skill
+    target: game
+    command: rock_paper_scissors
+    category: game
+    
+  cmd_StaGame5:
+    action: play_animation
+    animation: game_2.xml
+    category: game
+    
+  cmd_StaNextGame:
+    action: skill
+    target: game
+    command: next_game
+    category: game
+
+  # ===== 探索模式 =====
+  cmd_StaExplore:
+    action: direct_command
+    target: system
+    command: start_explore
+    category: state
+
+  # ===== LED 灯效 =====
+  cmd_ArmRGB:
+    action: direct_command
+    target: drive
+    command: led_rgb
+    params:
+      mode: rainbow
+    category: led
+    
+  cmd_ArmRGBBrth:
+    action: direct_command
+    target: drive
+    command: led_rgb
+    params:
+      mode: breath
+    category: led
+    
+  cmd_ArmWSLEDSty1:
+    action: direct_command
+    target: drive
+    command: led_ws
+    params:
+      style: flow
+    category: led
+    
+  cmd_ArmWSLEDSty2:
+    action: direct_command
+    target: drive
+    command: led_ws
+    params:
+      style: knight
+    category: led
+    
+  cmd_ActTurnLightOn:
+    action: direct_command
+    target: drive
+    command: led_on
+    category: led
+    
+  cmd_ActTurnLightOff:
+    action: direct_command
+    target: drive
+    command: led_off
+    category: led
+
+  # ===== 天气/时钟/定时器 Widget =====
+  # 0x19: 几点了 - 报时并显示时钟
+  cmd_ActTime:
+    action: widget_control
+    widget: clock
+    timeout: 5  # 5秒后自动隐藏
+    tts: true  # 播报时间
+    priority: normal
+    category: widget
+  
+  # 0x1A: 今天几号|日期 - 报日期并显示日期界面
+  cmd_ActDate:
+    action: widget_control
+    widget: date
+    timeout: 5  # 5秒后自动隐藏
+    tts: true  # 播报日期
+    priority: normal
+    category: widget
+  
+  # 0x1B: 倒计时 - 显示倒计时 默认30秒不自动开始
+  # cmd_ActTimerCD:
+  #   action: widget_control
+  #   widget: countdown
+  #   duration: 30  # 默认30秒
+  #   auto_start: false  # 不自动开始，需要"开始"指令
+  #   timeout: 1  # 不自动恢复eye，需要手动取消或完成
+  #   priority: high
+  #   category: widget
+  
+  # # 0x1C: 十秒倒计时 - 启动一个10秒的倒计时
+  # cmd_ActTimerCD10:
+  #   action: widget_control
+  #   widget: countdown
+  #   duration: 3  # 10秒
+  #   auto_start: true  # 自动开始
+  #   # timeout: 1  # 不自动恢复
+  #   priority: high
+  #   category: widget
+  
+  # # 0x1D: 计时器 - 启动正计时
+  # cmd_ActTimerCU:
+  #   action: widget_control
+  #   widget: timer
+  #   auto_start: true  # 自动开始
+  #   timeout: 1  # 不自动恢复
+  #   priority: normal
+  #   category: widget
+  
+  # 0x1E: 闹钟 - 显示闹钟界面（目前没有实现闹铃功能）
+  cmd_ActAlarmClock:
+    action: widget_control
+    widget: alarm
+    timeout: 1  # 不自动恢复
+    priority: normal
+    category: widget
+  
+  # 0x10: 天气 - 显示天气界面
+  cmd_ActWeather:
+    action: widget_control
+    widget: weather
+    timeout: 10  # 10秒后自动隐藏
+    priority: normal
+    category: widget
+  
+  # ===== 控制计时器的指令 =====
+  # 0x20: 开始
+  cmd_ActStart:
+    action: timer_control
+    command: start
+    priority: high
+    category: timer_control
+  
+  # 0x21: 取消|不行
+  cmd_ActCancel:
+    action: timer_control
+    command: cancel
+    priority: high
+    category: timer_control
+  
+  # # 0x22: 暂停
+  # cmd_ActPause:
+  #   action: timer_control
+  #   command: pause
+  #   priority: high
+  #   category: timer_control
+  
+  # 0x23: 继续
+  # cmd_ActResume:
+  #   action: timer_control
+  #   command: resume
+  #   priority: high
+  #   category: timer_control
+
+  # ===== 音乐控制（离线语音联动） =====
+  # 0x0F: 音乐
+  cmd_ActPlayMusic:
+    action: direct_command
+    target: music
+    command: play
+    params: {}
+    priority: high
+    category: music
+
+  # 0x22: 暂停（serial.yaml 里是 cmd_ActPuase，保留拼写兼容）
+  cmd_ActPuase:
+    action: direct_command
+    target: music
+    command: pause
+    params: {}
+    priority: high
+    category: music
+
+  # 0x23: 继续 cmd_ActResume 时优先走音乐控制
+  cmd_ActResume:
+    action: direct_command
+    target: music
+    command: resume
+    params: {}
+    priority: high
+    category: music
+
+  # 0x24: 上一曲
+  cmd_ActPrevious:
+    action: direct_command
+    target: music
+    command: previous
+    params: {}
+    priority: high
+    category: music
+
+  # 0x25: 下一曲
+  cmd_ActNext:
+    action: direct_command
+    target: music
+    command: next
+    params: {}
+    priority: high
+    category: music
+  
+  cmd_ActStop:
+    action: direct_command
+    target: music
+    command: stop
+    params: {}
+    priority: high
+    category: move
+  
+  # 随机播放
+  cmd_ShufflePlay:
+    action: direct_command
+    target: music
+    command: set_play_mode
+    params:
+      mode: "random"
+    priority: high
+    category: music
+  
+  # 单曲循环
+  cmd_SingleLoopPlay:
+    action: direct_command
+    target: music
+    command: set_play_mode
+    params:
+      mode: "single_loop"
+    priority: high
+    category: music
+  
+  # 列表循环
+  cmd_ListLoopPlay:
+    action: direct_command
+    target: music
+    command: set_play_mode
+    params:
+      mode: "loop_all"
+    priority: high
+    category: music
+  
+  # 播放N次（params 由 VoiceCommandManager 动态填充）
+  cmd_PlayNTimes:
+    action: direct_command
+    target: music
+    command: set_loop_count
+    params:
+      count: 1  # 默认播放一次，实际值由处理器覆盖
+    priority: normal
+    category: music
+
+  
+  # ===== 旧版兼容（保留） =====
+  cmd_ActShowTime:
+    action: direct_command
+    target: widget
+    command: clock.show
+    params:
+      duration: 3  # 0=持续显示直到隐藏
+    priority: high
+    category: widget
+    
+  cmd_HideClock:
+    action: direct_command
+    target: widget
+    command: clock.hide
+    priority: normal
+    category: widget
+    
+  cmd_PauseTimer:
+    action: direct_command
+    target: widget
+    command: timer.pause
+    priority: normal
+    category: widget
+    
+  cmd_ResumeTimer:
+    action: direct_command
+    target: widget
+    command: timer.resume
+    priority: normal
+    category: widget
+    
+  cmd_StopTimer:
+    action: direct_command
+    target: widget
+    command: timer.stop
+    priority: normal
+    category: widget
+    
+  cmd_HideTimer:
+    action: direct_command
+    target: widget
+    command: timer.hide
+    priority: normal
+    category: widget
+
+  # cmd_ActWeather:
+  #   action: skill
+  #   target: query
+  #   command: weather
+  #   category: query
+
+  # 拍照指令
+  cmd_ActPhoto:
+    action: skill
+    target: face_recognition
+    command: capture_photo
+    animation: capture.xml
+    params:
+      include_annotations: true
+    priority: normal
+    category: vision
+
+  # 拍照指令（离线语音识别的命令名）
+  cmd_ActTakePhoto:
+    action: skill
+    target: face_recognition
+    command: capture_photo
+    priority: high
+    category: action
+    animation: "photo.xml"  # 拍照动画
+    params:
+      include_annotations: true  # 是否包含人脸标注
+    description: "拍照功能（离线语音）"
+  
+  # 录像指令
+  cmd_ActTakeVideo:
+    action: skill
+    target: face_recognition
+    command: capture_video
+    priority: high
+    category: action
+    animation: "photo.xml"  # 拍照动画
+    params:
+      duration: 10  # 录像时长（秒）
+      include_annotations: true
+    description: "录像功能"
+
+  # ===== 人脸管理类 =====
+  
+  # 注册新人脸
+  cmd_RegisterFace:
+    action: face_management
+    operation: register
+    priority: high
+    category: face_management
+    description: "注册新人脸"
+    confirmation_required: true
+    tts_prompt: "准备注册新人脸，请说'确认'继续，或说'取消'放弃"
+    tts_success: "人脸注册成功！"
+    tts_failure: "人脸注册失败，请重试"
+    tts_no_face: "请先确保摄像头能看到您的脸"
+    timeout: 30
+  
+  # 更新人脸信息
+  cmd_UpdateFace:
+    action: face_management
+    operation: update
+    priority: high
+    category: face_management
+    description: "更新人脸信息"
+    confirmation_required: true
+    tts_prompt: "准备更新人脸信息，请说'确认'继续"
+    tts_success: "人脸信息已更新"
+    tts_failure: "更新失败，请重试"
+    timeout: 30
+  
+  # 删除人脸
+  cmd_DeleteFace:
+    action: face_management
+    operation: delete
+    priority: high
+    category: face_management
+    description: "删除人脸"
+    confirmation_required: true
+    tts_prompt: "警告！即将删除人脸数据，此操作不可恢复，请说'确认'继续"
+    tts_success: "人脸已删除"
+    tts_failure: "删除失败"
+    timeout: 30
+  
+  # 查询人脸信息
+  cmd_QueryFace:
+    action: face_management
+    operation: query
+    priority: normal
+    category: face_management
+    description: "查询人脸信息"
+    confirmation_required: false  # 查询无需确认
+    tts_prompt: ""
+    tts_success: "查询完成"
+    tts_failure: "未找到匹配的人脸"
+    tts_empty: "当前没有已注册的人脸"
+    timeout: 0
+
+  # ===== 确认/取消类 =====
+  
+  # 确认操作
+  cmd_Confirm:
+    action: confirmation
+    value: true
+    priority: critical
+    category: confirmation
+    description: "确认操作"
+  
+  # 取消操作
+  cmd_Cancel:
+    action: confirmation
+    value: false
+    priority: critical
+    category: confirmation
+    description: "取消操作"
+
+# 其他语音指令动画映射
+# voice_commands:
+#   # 拍照指令
+#   cmd_ActPhoto:
+#     enabled: true
+#     animation: "photo.xml"  # 拍照动画
+#     priority: 7
+#     description: "收到拍照语音指令时播放"

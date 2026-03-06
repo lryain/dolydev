@@ -1,0 +1,62 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    
+    <!-- 第一段：设置手臂角度90度，启用自动保持3秒 -->
+    <block type="arm_set_angle">
+        <field name="angle">90</field>
+        <field name="side">0</field>
+        <field name="start">0</field>
+        <field name="speed">50</field>
+        <field name="brake">0</field>
+        <field name="en_servo_autohold">1</field>
+        <field name="servo_autohold_duration">3000</field>
+    </block>
+    
+    <!-- 延迟1秒 -->
+    <block type="delay_ms">
+        <field name="duration">1000</field>
+    </block>
+    
+    <!-- 移动到60度，启用自动保持2秒 -->
+    <block type="arm_set_angle">
+        <field name="angle">60</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+        <field name="speed">40</field>
+        <field name="brake">0</field>
+        <field name="en_servo_autohold">1</field>
+        <field name="servo_autohold_duration">2000</field>
+    </block>
+    
+    <!-- 延迟1秒 -->
+    <block type="delay_ms">
+        <field name="duration">1000</field>
+    </block>
+    
+    <!-- 移动到120度，关闭自动保持 -->
+    <block type="arm_set_angle">
+        <field name="angle">120</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="brake">0</field>
+        <field name="en_servo_autohold">0</field>
+        <field name="servo_autohold_duration">0</field>
+    </block>
+    
+    <!-- 延迟2秒 -->
+    <block type="delay_ms">
+        <field name="duration">2000</field>
+    </block>
+    
+    <!-- 返回中立位置，关闭自动保持 -->
+    <block type="arm_set_angle">
+        <field name="angle">90</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+        <field name="speed">40</field>
+        <field name="brake">0</field>
+        <field name="en_servo_autohold">0</field>
+        <field name="servo_autohold_duration">0</field>
+    </block>
+</xml>

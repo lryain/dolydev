@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+测试 TTS 快乐情绪动画
+场景：欢迎语
+-->
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    
+    <!-- 快乐表情 -->
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">EXCITED</field>
+        <field name="priority">8</field>
+        <field name="hold_duration">2000</field>
+    </block>
+    
+    <!-- 快乐情绪的 TTS -->
+    <block type="tts">
+        <field name="text">你好呀！很高兴见到你！</field>
+        <field name="emotion">happy</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+           
+    <!-- 眼睛恢复正常 -->
+    <block type="eye_animations">
+        <field name="category">NORMAL</field>
+        <field name="animation">BLINK</field>
+        <field name="priority">5</field>
+    </block>
+</xml>

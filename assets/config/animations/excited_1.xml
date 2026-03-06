@@ -1,0 +1,136 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="sound">
+        <field name="type_id">DOLY</field>
+        <field name="name">HAPPY (4)</field>
+        <field name="start">0</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">EXCITED</field>
+        <field name="start">0</field>
+    </block>
+    <block type="drive_rotate_right">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">0</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#ffffff</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_left">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#000000</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_right">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#ffffff</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_left">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#000000</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_distance">
+        <field name="distance">10</field>
+        <field name="start">1</field>
+        <field name="direction">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#ffffff</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">200</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_distance">
+        <field name="distance">10</field>
+        <field name="start">1</field>
+        <field name="direction">1</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#000000</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_right">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#ffffff</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_left">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#000000</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_right">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#ffffff</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_left">
+        <field name="driveRotate">2</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+    </block>
+</xml>

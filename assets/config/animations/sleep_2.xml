@@ -1,0 +1,61 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="arm_set_angle">
+        <field name="angle">15</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#101010</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="sound">
+        <field name="type_id">DOLY</field>
+        <field name="name">YAWN (2)</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">SLEEP</field>
+        <field name="start">0</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">2000</field>
+        <field name="start">1</field>
+    </block>
+    <block type="sound">
+        <field name="type_id">DOLY</field>
+        <field name="name">SLEEP (2)</field>
+        <field name="start">1</field>
+    </block>
+    
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">SLEEP</field>
+        <field name="start">0</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">2000</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">SLEEP</field>
+        <field name="start">1</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#000000</field>
+        <field name="side">0</field>
+        <field name="start">1</field>
+    </block> 
+    <block type="overlay_animation">
+        <sequence_animations name="sheeps" loop_count="1" fps="15" side="BOTH" speed="1.0" exclusive="true" clear_time="5000" />
+        <field name="delay_ms">0</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">1000</field>
+        <field name="start">1</field>
+    </block>
+</xml>

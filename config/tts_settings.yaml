@@ -1,0 +1,104 @@
+# TTS引擎配置文件
+
+tts:
+  # 默认引擎: espeak, edge-tts, piper
+  default_engine: "espeak"
+  
+  # 引擎配置
+  engines:
+    espeak:
+      enabled: true
+      # 默认参数
+      default_voice: "zh"
+      default_speed: 150
+      default_pitch: 50
+      default_volume: 100
+      
+    edge-tts:
+      enabled: true
+      # 默认发音人
+      default_voice: "zh-CN-YunxiaNeural"
+      # 情绪预设
+      emotion_presets:
+        happy:
+          pitch: "+10Hz"
+          rate: "+15%"
+          volume: "+5%"
+        sad:
+          pitch: "-10Hz"
+          rate: "-20%"
+          volume: "-10%"
+        angry:
+          pitch: "+15Hz"
+          rate: "+10%"
+          volume: "+15%"
+        excited:
+          pitch: "+20Hz"
+          rate: "+25%"
+          volume: "+10%"
+        calm:
+          pitch: "-5Hz"
+          rate: "-10%"
+          volume: "+0%"
+        surprised:
+          pitch: "+25Hz"
+          rate: "+20%"
+          volume: "+10%"
+        neutral:
+          pitch: "+0Hz"
+          rate: "+0%"
+          volume: "+0%"
+          
+    piper:
+      enabled: false
+      model_path: "/home/pi/models/piper/zh_CN-huayan-medium.onnx"
+      
+  # 情绪映射：从XiaozhiEmotionManager的情绪映射到TTS情绪
+  emotion_mapping:
+    # XiaozhiEmotionManager情绪 -> TTS情绪
+    happy: happy
+    excited: excited
+    sad: sad
+    angry: angry
+    calm: calm
+    surprised: surprised
+    neutral: neutral
+    curious: excited
+    shy: calm
+    bored: sad
+    
+  # 是否自动使用机器人当前情绪
+  use_robot_emotion: true
+  
+  # 语音缓存
+  cache:
+    enabled: true
+    cache_dir: "/tmp/doly_tts_cache"
+    max_size_mb: 100
+    
+  # 音频输出
+  output:
+    # 通过ZMQ发送到audio_player
+    zmq_endpoint: "ipc:///tmp/doly_events.sock"
+    # 或直接播放
+    direct_play: false
+    
+  # 音频播放队列配置
+  playback_queue:
+    enabled: true
+    # 队列大小（最多容纳多少条TTS任务）
+    max_size: 10
+    # 队列模式: fifo(先进先出), priority(优先级), immediate(立即打断)
+    mode: "fifo"
+    # 是否等待当前音频播放完成
+    wait_completion: false
+    # 音频播放器命令端点
+    audio_player_cmd: "ipc:///tmp/doly_audio_player_cmd.sock"
+    # 音频播放器状态端点
+    audio_player_status: "ipc:///tmp/doly_audio_player_status.sock"
+    # 默认音频优先级(0-100, 数值越大优先级越高)
+    default_priority: 50
+    # 是否启用ducking(背景音乐降低音量)
+    enable_ducking: true
+    # 播放超时(秒)
+    timeout: 30

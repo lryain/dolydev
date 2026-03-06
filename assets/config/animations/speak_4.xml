@@ -1,0 +1,49 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="eye_animations">
+        <field name="category">IDLE</field>
+        <field name="animation">BLINK SLOW</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">400</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">IDLE</field>
+        <field name="animation">LEFT</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">500</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">IDLE</field>
+        <field name="animation">RIGHT</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">500</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">BLINK</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">BLINK</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">IDLE</field>
+        <field name="animation">ATTENTION</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">500</field>
+        <field name="start">1</field>
+    </block>
+</xml>

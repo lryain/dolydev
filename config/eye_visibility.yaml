@@ -1,0 +1,27 @@
+# Eye 显示/隐藏管理配置
+
+# 超时自动恢复配置
+auto_restore:
+  enabled: true
+  timeout: 30  # 秒，widget 显示后多久自动恢复 eye，0=禁用自动恢复
+  
+# 强制恢复 eye 的事件列表（高优先级）
+force_restore_events:
+  - event.audio.wakeup_detected        # 唤醒检测
+  - event.audio.cmd_iHelloDoly         # "你好 Doly"
+  - event.sensor.touch.head            # 头部触摸
+  - event.sensor.touch.back            # 背部触摸
+  - event.tof.gesture.wave             # 手势挥手
+  
+# 允许暂停自动恢复的 widget 类型
+# 这些 widget 可以通过特定命令控制显示时长
+pausable_widgets:
+  - clock        # 时钟
+  - timer        # 计时器
+  - countdown    # 倒计时
+  - alarm        # 闹钟
+  - weather      # 天气
+
+# 手动控制模式
+# 当设置为 true 时，只能通过明确的 restore_eye 命令恢复显示
+manual_mode: false

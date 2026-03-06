@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">LOOK UP</field>
+        <field name="start">1</field>
+    </block>
+    <block type="overlay_animation">
+        <overlay_sequence name="flame" loop="false" side="BOTH" speed="0.8" />
+        <field name="delay_ms">1000</field>
+        <field name="start">0</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">LIDS DOWN 5S</field>
+        <field name="start">1</field>
+    </block>
+</xml>

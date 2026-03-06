@@ -1,0 +1,111 @@
+# ZeroMQ 配置
+zmq:
+  pub_endpoint: "ipc:///tmp/doly_serial_pub.sock"
+  mode: "server"
+
+device: /dev/ttyUSB0
+baud: 115200
+# mapping from hex code (0xNN) to topic
+mappings:
+  0x00: event.audio.wakeup_detected           # 0 嗨多利|嘿多利
+  0x01: event.audio.cmd_Reserved              # 1 Reserved 
+  0x02: event.audio.cmd_iHelloDoly            # 2 你好多利|多利在吗
+  0x03: event.audio.cmd_iInterrupt            # 3 多利多利|打断一下
+  0x04: event.audio.cmd_iTalkingg             # 4 和我聊聊
+  0x05: event.audio.cmd_iShutup               # 5 不聊了再见
+  0x06: event.audio.cmd_iEStop                # 6 小心危险
+  0x07: event.audio.cmd_ActWhoami             # 7 看看我是谁
+  0x08: event.audio.cmd_ActWhatcanudo         # 8 你会做什么
+  0x09: event.audio.cmd_ActSing               # 9 唱歌
+  0x0A: event.audio.cmd_ActDance              # 10 跳舞
+  0x0B: event.audio.cmd_ActKiss               # 11 亲吻
+  0x0C: event.audio.cmd_ActTellStory          # 12 讲故事
+  0x0D: event.audio.cmd_ActTakePhoto          # 13 拍照
+  0x0E: event.audio.cmd_ActTakeVideo          # 14 录像
+  0x0F: event.audio.cmd_ActPlayMusic          # 15 音乐
+  0x10: event.audio.cmd_ActWeather            # 16 天气  
+  0x11: event.audio.cmd_ActPlayRadio          # 17 广播
+  0x12: event.audio.cmd_ActPlayNews           # 18 新闻
+  0x13: event.audio.cmd_ActGoHome             # 19 回家|充电
+  0x14: event.audio.cmd_ActForward            # 20 前进|上一个
+  0x15: event.audio.cmd_ActBackward           # 21 后退|下一个
+  0x16: event.audio.cmd_ActTurnLeft           # 22 左转
+  0x17: event.audio.cmd_ActTurnRight          # 23 右转
+  0x18: event.audio.cmd_ActStop               # 24 停止
+  0x19: event.audio.cmd_ActTime               # 25 几点了
+  0x1A: event.audio.cmd_ActDate               # 26 今天几号|日期
+  0x1B: event.audio.cmd_ActTimerCD            # 27 倒计时
+  0x1C: event.audio.cmd_ActTimerCD10          # 28 十秒倒计时
+  0x1D: event.audio.cmd_ActTimerCU            # 29 计时器 
+  0x1E: event.audio.cmd_ActAlarmClock         # 30 闹钟
+  0x1F: event.audio.cmd_ActOk                 # 31 确认|确定
+  0x20: event.audio.cmd_ActStart              # 32 开始
+  0x21: event.audio.cmd_ActCancel             # 33 取消|不行
+  0x22: event.audio.cmd_ActPuase              # 34 暂停
+  0x23: event.audio.cmd_ActResume             # 35 继续
+  0x24: event.audio.cmd_ActPrevious           # 36 前一个|上一个
+  0x25: event.audio.cmd_ActNext               # 37 后一个|下一个
+  0x26: event.audio.cmd_ActReset              # 38 复位|恢复设置
+  0x27: event.audio.cmd_ActTurnLightOn        # 39 开灯
+  0x28: event.audio.cmd_ActTurnLightOff       # 40 关灯
+  0x29: event.audio.cmd_ActMakeFace           # 41 做个表情
+  0x2A: event.audio.cmd_ActMakeSmile          # 42 笑一个
+  0x2B: event.audio.cmd_ActMakeGhost          # 43 做个鬼脸
+  0x2C: event.audio.cmd_EyeBlink              # 44 眨眼
+  0x2D: event.audio.cmd_EyeBlinkL             # 45 眨左眼
+  0x2E: event.audio.cmd_EyeBlinkR             # 46 眨右眼
+  0x2F: event.audio.cmd_EyelidSquint          # 47 眯眼
+  0x30: event.audio.cmd_EyelidSquintL         # 48 眯左眼
+  0x31: event.audio.cmd_EyelidSquintR         # 49 眯右眼
+  0x32: event.audio.cmd_EyeLookup             # 50 向上看  
+  0x33: event.audio.cmd_EyeLookdown           # 51 向下看
+  0x34: event.audio.cmd_EyeLookL              # 52 向左看  
+  0x35: event.audio.cmd_EyeLookR              # 53 向右看
+  0x36: event.audio.cmd_EyeCircle             # 54 转眼珠
+  0x37: event.audio.cmd_EyeDouji              # 55 斗鸡眼
+  0x38: event.audio.cmd_EyeDizz               # 56 眩晕
+  0x39: event.audio.cmd_EyeStunned            # 57 惊讶
+  0x3A: event.audio.cmd_EyeSuperise           # 58 惊喜  
+  0x3B: event.audio.cmd_EyeOpen               # 59 睁眼 
+  0x3C: event.audio.cmd_EyeClose              # 60 闭眼  
+  0x3D: event.audio.cmd_EyeStyle              # 61 换个眼型
+  0x3E: event.audio.cmd_EyeCat                # 62 猫眼  
+  0x3F: event.audio.cmd_EyeMech               # 63 机械眼  
+  0x40: event.audio.cmd_EyeIris               # 64 换个虹膜
+  0x41: event.audio.cmd_EyePupil              # 65 换个瞳孔 
+  0x42: event.audio.cmd_EyePupilInc           # 66 瞳孔变大
+  0x43: event.audio.cmd_EyePupilDec           # 67 瞳孔变小
+  0x44: event.audio.cmd_ArmRise               # 68 举手投降 
+  0x45: event.audio.cmd_ArmRiseL              # 69 举左手
+  0x46: event.audio.cmd_ArmRiseR              # 70 举右手
+  0x47: event.audio.cmd_ArmACWave             # 71 双臂挥动  
+  0x48: event.audio.cmd_ArmACWave1            # 72 双臂交叉挥动 
+  0x49: event.audio.cmd_ArmACWave2            # 73 小幅交叉挥动 
+  0x4A: event.audio.cmd_ArmACWaveL            # 74 挥左手
+  0x4B: event.audio.cmd_ArmACWaveR            # 75 挥右手
+  0x4C: event.audio.cmd_ArmRGB                 # 76 手指灯变色
+  0x4D: event.audio.cmd_ArmRGBBrth             # 77 手指灯呼吸  
+  0x4E: event.audio.cmd_ArmRGBBup              # 78 手指灯亮度增加 
+  0x4F: event.audio.cmd_ArmRGBBDn              # 79 手指灯亮度减小 
+  0x50: event.audio.cmd_ArmWSLEDSty            # 80 手臂灯效变换
+  0x51: event.audio.cmd_ArmWSLEDSty1           # 81 流水灯 
+  0x52: event.audio.cmd_ArmWSLEDSty2           # 82 骑士灯  
+  0x53: event.audio.cmd_ArmWSLEDSty3           # 83 脉冲灯  
+  0x54: event.audio.cmd_ArmWSLEDSty4           # 84 能量波
+  0x55: event.audio.cmd_ArmWSLEDSty5           # 85 无线电
+  0x56: event.audio.cmd_SysVolUp               # 86 音量增大|声音大点
+  0x57: event.audio.cmd_SysVolDown             # 87 音量减小|声音小点
+  0x58: event.audio.cmd_SysVolMute             # 88 安静
+  0x59: event.audio.cmd_SysVolNorm             # 89 恢复音量
+  0x5A: event.audio.cmd_SysVolWispr            # 90 小点声|悄悄话  
+  0x5B: event.audio.cmd_StaRestTime            # 91 休息
+  0x5C: event.audio.cmd_StaSleep               # 92 睡觉
+  0x5D: event.audio.cmd_StaExplore             # 93 自由活动  
+  0x5E: event.audio.cmd_StaGame1               # 94 鹦鹉学舌 
+  0x5F: event.audio.cmd_StaGame2               # 95 逗鸟  
+  0x60: event.audio.cmd_StaGame3               # 96 角色扮演  
+  0x61: event.audio.cmd_StaGame4               # 97 石头剪刀布  
+  0x62: event.audio.cmd_StaGame5               # 98 老虎机  
+  0x63: event.audio.cmd_StaGame6               # 99 猜数字  
+  0x64: event.audio.cmd_StaNextGame            # 100 换个游戏
+

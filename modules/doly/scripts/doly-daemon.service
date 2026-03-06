@@ -1,0 +1,33 @@
+[Unit]
+Description=Doly Daemon - Main Control System
+Documentation=file:///home/pi/dolydev/modules/doly/README.md
+Requires=network.target doly-serial.service eyeengine-service.service widget-service.service drive-service.service
+Wants=network.target eyeengine-service.service widget-service.service drive-service.service
+PartOf=doly.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/dolydev
+ExecStart=/home/pi/DOLY-DIY/venv/bin/python /home/pi/dolydev/modules/doly/daemon.py --config /home/pi/dolydev/config
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/home/pi/dolydev:/home/pi/dolydev/modules
+Environment=VIRTUAL_ENV=/home/pi/DOLY-DIY/venv
+Environment=PATH=/home/pi/DOLY-DIY/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=doly-daemon
+User=pi
+Group=pi
+LimitNOFILE=4096
+LimitNPROC=4096
+
+# 安全性设置
+# 注意: 禁用 PrivateTmp 以允许与其他服务共享 /tmp 中的 ZMQ IPC socket
+# 如果启用 PrivateTmp=yes，会导致 /tmp 被隔离，服务间通信失败
+PrivateTmp=no
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

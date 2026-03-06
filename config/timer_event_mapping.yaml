@@ -1,0 +1,55 @@
+# 定时器事件动画映射配置
+# 当收到Widget服务的定时器事件时，播放相应的动画
+
+# 配置说明:
+# - event: 事件名称（由widget_service发布）
+# - animation: 要播放的动画文件名
+# - priority: 动画优先级 (1-10, 10最高)
+# - enabled: 是否启用此事件的动画
+
+timer_events:
+  # 倒计时/计时器开始
+  timer_start:
+    enabled: true
+    animation: "timer_start.xml"  # 定时器开始动画
+    priority: 5
+    description: "倒计时或计时器开始时播放"
+  
+  # 倒计时/计时器暂停
+  timer_pause:
+    enabled: true
+    animation: "timer_pause.xml"  # 定时器暂停动画
+    priority: 5
+    description: "倒计时或计时器暂停时播放"
+  
+  # 倒计时/计时器继续
+  timer_resume:
+    enabled: true
+    animation: "timer_resume.xml"  # 定时器继续动画
+    priority: 5
+    description: "倒计时或计时器从暂停恢复时播放"
+  
+  # 倒计时/计时器停止
+  timer_stop:
+    enabled: true
+    animation: "sad_1.xml"  # 定时器停止动画
+    priority: 5
+    description: "倒计时或计时器手动停止时播放"
+  
+  # 倒计时时间到
+  countdown_complete:
+    enabled: true
+    animation: "alarm5.xml"  # 倒计时完成动画
+    priority: 8
+    description: "倒计时时间到时播放"
+  
+  # 整点报时
+  hourly_chime:
+    enabled: true
+    animation: "hourly_chime.xml"  # 整点报时动画
+    priority: 6
+    description: "整点报时时播放"
+
+
+  
+  # 可以继续添加其他语音指令...

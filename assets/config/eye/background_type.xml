@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- name=> COLOR left and right not required! name=> IMAGE if right not defined duplicated from left in code -->
+<List>
+    <Background_Type name="COLOR">
+        <Background style="COLOR_BLACK" />
+        <Background style="COLOR_WHITE" />
+        <Background style="COLOR_GRAY" />
+        <Background style="COLOR_SALMON" />
+        <Background style="COLOR_RED" />
+        <Background style="COLOR_DARK_RED" />
+        <Background style="COLOR_PINK" />
+        <Background style="COLOR_ORANGE" />
+        <Background style="COLOR_GOLD" />
+        <Background style="COLOR_YELLOW" />
+        <Background style="COLOR_PURPLE" />
+        <Background style="COLOR_MAGENTA" />
+        <Background style="COLOR_LIME" />
+        <Background style="COLOR_GREEN" />
+        <Background style="COLOR_DARK_GREEN" />
+        <Background style="COLOR_CYAN" />
+        <Background style="COLOR_SKY_BLUE" />
+        <Background style="COLOR_BLUE" />
+        <Background style="COLOR_DARK_BLUE" />
+        <Background style="COLOR_BROWN" />
+    </Background_Type>
+    <Background_Type name="IMAGE">
+        <Background style="CONFETTI" left="/.doly/images/background/confetti.png" />
+        <Background style="GALAXY" left="/.doly/images/background/galaxy.png" />
+        <Background style="HEARTS" left="/.doly/images/background/hearts.png" />
+        <Background style="LINES" left="/.doly/images/background/lines_l.png" right="/.doly/images/background/lines_r.png"/>
+        <Background style="NIGHT" left="/.doly/images/background/night_l.png" right="/.doly/images/background/night_r.png"/>
+        <Background style="TELEPORT" left="/.doly/images/background/teleport.png" />
+        <Background style="WINTER" left="/.doly/images/background/winter.png" />
+        <Background style="RETRO1" left="/.doly/images/casino/retro_1.png" />
+        <Background style="RETRO2" left="/.doly/images/casino/retro_2.png" />
+        <Background style="RETRO3" left="/.doly/images/match/retro_3.png" />
+        <Background style="MATCH OVER" left="/.doly/images/match/match_over.png" />
+        <Background style="MATCH SCORE" left="/.doly/images/match/match_score.png" />
+    </Background_Type>
+</List>

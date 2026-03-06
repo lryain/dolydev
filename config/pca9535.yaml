@@ -1,0 +1,156 @@
+# PCA9535 扩展 IO 模块配置 v2.0
+# 所有事件发布和控制命令都可以通过此配置文件进行定制
+
+# TODO: 主题名称需要重构以反映具体功能模块
+# 全局主题前缀 
+topic_prefix: "io.pca9535."
+
+# 传感器数据接收配置（从 sensor_service 订阅）
+# ============================================================
+sensor_receiver:
+  # TOF 传感器数据日志
+  tof:
+    enabled: true                  # 是否启用 TOF 数据接收
+    debug: false                    # 是否打印 TOF 数据日志
+    log_interval_ms: 1000          # 日志打印周期（毫秒，0=每次都打印）
+    topic: "status.sensor.tof"     # 订阅主题
+
+  # AHRS 姿态数据日志
+  ahrs:
+    enabled: true                  # 是否启用 AHRS 数据接收
+    debug: false                   # 是否打印 AHRS 数据日志
+    log_interval_ms: 1000          # 日志打印周期（毫秒）
+    topic: "status.sensor.ahrs"    # 订阅主题
+
+  # MLC 手势事件日志
+  gesture:
+    enabled: true                  # 是否启用手势事件接收
+    debug: false                    # 是否打印手势事件日志
+    log_interval_ms: 0             # 日志打印周期（0=事件驱动，每次都打印）
+    topic: "status.sensor.gesture" # 订阅主题
+
+  # 电源监测数据日志
+  power:
+    enabled: false                  # 是否启用电源数据接收
+    debug: false                   # 是否打印电源数据日志
+    log_interval_ms: 2000          # 日志打印周期（毫秒）
+    topic: "status.power"          # 订阅主题
+
+# ======== 硬件默认使能状态 ========
+enable_servo_left_default: true
+enable_servo_right_default: true
+enable_tof_default: true
+enable_cliff_default: true
+auto_configure_tof: true
+
+# 硬件默认使能状态
+hardware_defaults:
+  enable_servo_left: true       
+  enable_servo_right: true      
+  enable_tof: true              # TOF 传感器默认启用
+  enable_cliff: true             # 悬崖传感器默认启用
+  auto_configure_tof: true       # TOF 传感器自动地址配置（0x29 -> 0x2A）
+
+# 事件发布配置
+events:
+  # 原始 GPIO 状态事件 (16-bit 状态字)
+  raw_state:
+    enabled: true
+    emit_event: false
+    debug: false
+    topic: "raw.state"           # 完整主题: io.pca9535.raw.state
+
+  # PIN 状态变化事件
+  pin_change:
+    enabled: true
+    emit_event: true
+    debug: false
+    topic: "pin.change"          # 完整主题: io.pca9535.pin.change
+
+  # 触摸手势识别事件 (single_tap, double_tap, long_press)
+  # depends: pin_change (数据层依赖，通过enabled控制处理，emit_event控制消息发布)
+  touch_gesture:
+    enabled: true
+    emit_event: true
+    debug: true
+    topic: "touch.gesture"       # 完整主题: io.pca9535.touch.gesture
+
+  # 触摸历史数据 (完整序列用于外部分析)
+  touch_history:
+    enabled: false
+    emit_event: false
+    debug: false
+    topic: "touch.history"       # 完整主题: io.pca9535.touch.history
+
+  # 悬崖模式识别事件 (stable, cliff, line, noisy)
+  cliff_pattern:
+    enabled: true
+    emit_event: true
+    debug: true
+    topic: "cliff.pattern"       # 完整主题: io.pca9535.cliff.pattern
+
+  # 悬崖历史数据
+  cliff_history:
+    enabled: false
+    emit_event: false
+    debug: false
+    topic: "cliff.history"       # 完整主题: io.pca9535.cliff.history
+
+# 控制命令配置
+commands:
+  enable_servo_left:
+    enabled: true
+    emit_event: true
+    debug: false
+    topic: "cmd.servo.left"      # 完整主题: io.pca9535.cmd.servo.left
+
+  enable_servo_right:
+    enabled: true
+    emit_event: true
+    debug: false
+    topic: "cmd.servo.right"     # 完整主题: io.pca9535.cmd.servo.right
+
+  enable_tof:
+    enabled: true
+    emit_event: true
+    debug: false
+    topic: "cmd.tof"             # 完整主题: io.pca9535.cmd.tof
+
+  enable_cliff:
+    enabled: true
+    emit_event: true
+    debug: false
+    topic: "cmd.cliff"           # 完整主题: io.pca9535.cmd.cliff
+
+  set_ext_io:
+    enabled: true
+    emit_event: true
+    debug: false
+    topic: "cmd.ext_io"          # 完整主题: io.pca9535.cmd.ext_io
+
+
+# 触摸手势参数 (毫秒)
+touch:
+  single_min_ms: 50              # 单击最小时长
+  single_max_ms: 800             # 单击最大时长
+  double_interval_ms: 500        # 双击间隔
+  long_press_ms: 1000             # 长按阈值
+
+# 舵机参数配置（P1.3 新增）
+servo:
+  left:
+    default_angle: 5             # 上电后的默认角度（0-180度）
+    enable_autohold: true        # 是否启用自动保持
+    autohold_duration_ms: 3000   # 自动保持时长（毫秒，0=永不释放）
+
+  right:
+    default_angle: 5           # 上电后的默认角度（0-180度）
+    enable_autohold: true        # 是否启用自动保持
+    autohold_duration_ms: 3000   # 自动保持时长（毫秒，0=永不释放）
+
+# 悬崖传感器参数
+cliff:
+  window_ms: 100                 # 分析时间窗口
+  stable_max_edges: 2            # 稳定状态最大边沿数
+  line_min_edges: 5              # 黑白线最小边沿数
+  cliff_duty_threshold: 60       # 悬崖占空比阈值 (0-100)

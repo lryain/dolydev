@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- if right not defined duplicated from left in code -->
+<List>
+    <Iris_Type name="CLASSIC">
+        <Iris style="COLOR_BLACK" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/black.png" />
+        <Iris style="COLOR_WHITE" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/white.png" />
+        <Iris style="COLOR_GRAY" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/gray.png" />
+        <Iris style="COLOR_SALMON" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/salmon.png" />
+        <Iris style="COLOR_RED" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/red.png" />
+        <Iris style="COLOR_DARK_RED" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/dark_red.png" />
+        <Iris style="COLOR_PINK" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/pink.png" />
+        <Iris style="COLOR_ORANGE" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/orange.png" />
+        <Iris style="COLOR_GOLD" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/gold.png" />
+        <Iris style="COLOR_YELLOW" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/yellow.png" />
+        <Iris style="COLOR_PURPLE" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/purple.png" />
+        <Iris style="COLOR_MAGENTA" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/magenta.png" />
+        <Iris style="COLOR_LIME" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/lime.png" />
+        <Iris style="COLOR_GREEN" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/green.png" />
+        <Iris style="COLOR_DARK_GREEN" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/dark_green.png" />
+        <Iris style="COLOR_CYAN" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/cyan.png" />
+        <Iris style="COLOR_SKY_BLUE" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/sky_blue.png" />
+        <Iris style="COLOR_BLUE" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/blue.png" />
+        <Iris style="COLOR_DARK_BLUE" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/dark_blue.png" />
+        <Iris style="COLOR_BROWN" offsetX="4" offsetY="0" left="/.doly/images/iris/classic/brown.png" />
+    </Iris_Type>
+    <Iris_Type name="MODERN">
+        <Iris style="COLOR_BLACK" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/black.png" />
+        <Iris style="COLOR_WHITE" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/white.png" />
+        <Iris style="COLOR_GRAY" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/gray.png" />
+        <Iris style="COLOR_SALMON" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/salmon.png" />
+        <Iris style="COLOR_RED" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/red.png" />
+        <Iris style="COLOR_DARK_RED" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/dark_red.png" />
+        <Iris style="COLOR_PINK" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/pink.png"/>
+        <Iris style="COLOR_ORANGE" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/orange.png" />
+        <Iris style="COLOR_GOLD" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/gold.png" />
+        <Iris style="COLOR_YELLOW" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/yellow.png" />
+        <Iris style="COLOR_PURPLE" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/purple.png" />
+        <Iris style="COLOR_MAGENTA" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/magenta.png" />
+        <Iris style="COLOR_LIME" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/lime.png" />
+        <Iris style="COLOR_GREEN" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/green.png" />
+        <Iris style="COLOR_DARK_GREEN" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/dark_green.png" />
+        <Iris style="COLOR_CYAN" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/cyan.png" />
+        <Iris style="COLOR_SKY_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/sky_blue.png" />
+        <Iris style="COLOR_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/blue.png" />
+        <Iris style="COLOR_DARK_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/dark_blue.png" />
+        <Iris style="COLOR_BROWN" offsetX="0" offsetY="0" left="/.doly/images/iris/modern/brown.png" />
+    </Iris_Type>
+    <Iris_Type name="SPACE">
+        <Iris style="COLOR_BLACK" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/black.png"/>
+        <Iris style="COLOR_WHITE" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/white.png" />
+        <Iris style="COLOR_GRAY" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/gray.png" />
+        <Iris style="COLOR_SALMON" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/salmon.png"/>
+        <Iris style="COLOR_RED" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/red.png" />
+        <Iris style="COLOR_DARK_RED" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/dark_red.png"/>
+        <Iris style="COLOR_PINK" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/pink.png" />
+        <Iris style="COLOR_ORANGE" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/orange.png" />
+        <Iris style="COLOR_GOLD" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/gold.png" />
+        <Iris style="COLOR_YELLOW" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/yellow.png" />
+        <Iris style="COLOR_PURPLE" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/purple.png" />
+        <Iris style="COLOR_MAGENTA" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/magenta.png" />
+        <Iris style="COLOR_LIME" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/lime.png" />
+        <Iris style="COLOR_GREEN" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/green.png" />
+        <Iris style="COLOR_DARK_GREEN" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/dark_green.png" />
+        <Iris style="COLOR_CYAN" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/cyan.png" />
+        <Iris style="COLOR_SKY_BLUE" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/sky_blue.png" />
+        <Iris style="COLOR_BLUE" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/blue.png" />
+        <Iris style="COLOR_DARK_BLUE" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/dark_blue.png"/>
+        <Iris style="COLOR_BROWN" offsetX="5" offsetY="-10" left="/.doly/images/iris/space/brown.png" />
+    </Iris_Type>
+    <Iris_Type name="DIGI">
+        <Iris style="COLOR_BLACK" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/black.png" />
+        <Iris style="COLOR_WHITE" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/white.png" />
+        <Iris style="COLOR_GRAY" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/gray.png" />
+        <Iris style="COLOR_SALMON" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/salmon.png" />
+        <Iris style="COLOR_RED" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/red.png" />
+        <Iris style="COLOR_DARK_RED" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/dark_red.png" />
+        <Iris style="COLOR_PINK" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/pink.png" />
+        <Iris style="COLOR_ORANGE" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/orange.png" />
+        <Iris style="COLOR_GOLD" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/gold.png" />
+        <Iris style="COLOR_YELLOW" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/yellow.png" />
+        <Iris style="COLOR_PURPLE" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/purple.png" />
+        <Iris style="COLOR_MAGENTA" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/magenta.png" />
+        <Iris style="COLOR_LIME" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/lime.png" />
+        <Iris style="COLOR_GREEN" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/green.png" />
+        <Iris style="COLOR_DARK_GREEN" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/dark_green.png" />
+        <Iris style="COLOR_CYAN" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/cyan.png" />
+        <Iris style="COLOR_SKY_BLUE" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/sky_blue.png" />
+        <Iris style="COLOR_BLUE" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/blue.png" />
+        <Iris style="COLOR_DARK_BLUE" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/dark_blue.png" />
+        <Iris style="COLOR_BROWN" offsetX="0" offsetY="5" left="/.doly/images/iris/digi/brown.png" />
+    </Iris_Type>
+    <Iris_Type name="ORBIT">
+        <Iris style="COLOR_BLACK" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/black.png"/>
+        <Iris style="COLOR_WHITE" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/white.png"/>
+        <Iris style="COLOR_GRAY" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/gray.png"/>
+        <Iris style="COLOR_SALMON" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/salmon.png"/>
+        <Iris style="COLOR_RED" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/red.png"/>
+        <Iris style="COLOR_DARK_RED" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/dark_red.png"/>
+        <Iris style="COLOR_PINK" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/pink.png"/>
+        <Iris style="COLOR_ORANGE" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/orange.png"/>
+        <Iris style="COLOR_GOLD" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/gold.png"/>
+        <Iris style="COLOR_YELLOW" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/yellow.png"/>
+        <Iris style="COLOR_PURPLE" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/purple.png"/>
+        <Iris style="COLOR_MAGENTA" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/magenta.png"/>
+        <Iris style="COLOR_LIME" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/lime.png"/>
+        <Iris style="COLOR_GREEN" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/green.png"/>
+        <Iris style="COLOR_DARK_GREEN" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/dark_green.png"/>
+        <Iris style="COLOR_CYAN" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/cyan.png"/>
+        <Iris style="COLOR_SKY_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/sky_blue.png"/>
+        <Iris style="COLOR_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/blue.png"/>
+        <Iris style="COLOR_DARK_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/dark_blue.png"/>
+        <Iris style="COLOR_BROWN" offsetX="0" offsetY="0" left="/.doly/images/iris/orbit/brown.png"/>
+    </Iris_Type>
+    <Iris_Type name="GLOW">
+        <Iris style="COLOR_BLACK" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/black.png"/>
+        <Iris style="COLOR_WHITE" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/white.png"/>
+        <Iris style="COLOR_GRAY" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/gray.png"/>
+        <Iris style="COLOR_SALMON" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/salmon.png"/>
+        <Iris style="COLOR_RED" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/red.png"/>
+        <Iris style="COLOR_DARK_RED" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/dark_red.png"/>
+        <Iris style="COLOR_PINK" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/pink.png"/>
+        <Iris style="COLOR_ORANGE" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/orange.png"/>
+        <Iris style="COLOR_GOLD" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/gold.png"/>
+        <Iris style="COLOR_YELLOW" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/yellow.png"/>
+        <Iris style="COLOR_PURPLE" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/purple.png"/>
+        <Iris style="COLOR_MAGENTA" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/magenta.png"/>
+        <Iris style="COLOR_LIME" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/lime.png"/>
+        <Iris style="COLOR_GREEN" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/green.png"/>
+        <Iris style="COLOR_DARK_GREEN" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/dark_green.png"/>
+        <Iris style="COLOR_CYAN" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/cyan.png"/>
+        <Iris style="COLOR_SKY_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/sky_blue.png"/>
+        <Iris style="COLOR_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/blue.png"/>
+        <Iris style="COLOR_DARK_BLUE" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/dark_blue.png"/>
+        <Iris style="COLOR_BROWN" offsetX="0" offsetY="0" left="/.doly/images/iris/glow/brown.png"/>
+    </Iris_Type>
+    <Iris_Type name="FOOD">
+        <Iris style="APPLE" offsetX="0" offsetY="0" left="/.doly/images/iris/food/apple.png"/>
+        <Iris style="BANANA" offsetX="0" offsetY="0" left="/.doly/images/iris/food/banana.png"/>
+        <Iris style="BIRTHDAY CAKE" offsetX="0" offsetY="0" left="/.doly/images/iris/food/birthday_cake.png"/>
+        <Iris style="BROCCOLI" offsetX="0" offsetY="0" left="/.doly/images/iris/food/broccoli.png"/>
+        <Iris style="BUBBLE TEA" offsetX="0" offsetY="0" left="/.doly/images/iris/food/bubble_tea.png"/>
+        <Iris style="BURGER" offsetX="0" offsetY="0" left="/.doly/images/iris/food/burger.png"/>
+        <Iris style="CHERRY" offsetX="0" offsetY="0" left="/.doly/images/iris/food/cherries.png"/>
+        <Iris style="COCONUT DRINK" offsetX="0" offsetY="0" left="/.doly/images/iris/food/coconut_drink.png"/>
+        <Iris style="COFFEE" offsetX="0" offsetY="0" left="/.doly/images/iris/food/coffee_cup.png"/>
+        <Iris style="CUPCAKE" offsetX="0" offsetY="0" left="/.doly/images/iris/food/cupcake.png"/>
+        <Iris style="DONUT" offsetX="0" offsetY="0" left="/.doly/images/iris/food/donut.png"/>
+        <Iris style="FRENCH FRIES" offsetX="0" offsetY="0" left="/.doly/images/iris/food/french_fries.png"/>
+        <Iris style="FRIED CHICKEN" offsetX="0" offsetY="0" left="/.doly/images/iris/food/fried_chicken.png"/>
+        <Iris style="FRIED EGG" offsetX="0" offsetY="0" left="/.doly/images/iris/food/fried_egg.png"/>
+        <Iris style="GRAPES" offsetX="0" offsetY="0" left="/.doly/images/iris/food/grapes.png"/>
+        <Iris style="ICE CREAM" offsetX="0" offsetY="0" left="/.doly/images/iris/food/ice_cream.png"/>
+        <Iris style="LEMON" offsetX="0" offsetY="0" left="/.doly/images/iris/food/lemon.png"/>
+        <Iris style="PINEAPPLE" offsetX="0" offsetY="0" left="/.doly/images/iris/food/pineapple.png"/>
+        <Iris style="PIZZA" offsetX="0" offsetY="0" left="/.doly/images/iris/food/pizza.png"/>
+        <Iris style="SODA" offsetX="0" offsetY="0" left="/.doly/images/iris/food/soda.png"/>
+        <Iris style="STRAWBERRY" offsetX="0" offsetY="0" left="/.doly/images/iris/food/strawberry.png"/>
+        <Iris style="TACO" offsetX="0" offsetY="0" left="/.doly/images/iris/food/taco.png"/>
+        <Iris style="WATERMELON" offsetX="0" offsetY="0" left="/.doly/images/iris/food/watermelon.png"/>
+    </Iris_Type>
+    <Iris_Type name="MISC">
+        <Iris style="ALARM" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/alarm.png"/>
+        <Iris style="ALARM CLOCK" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/alarm_clock.png"/>
+        <Iris style="AMERICAN FOOTBALL" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/american_footbal.png"/>
+        <Iris style="ATOM" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/atom.png"/>
+        <Iris style="BALLOON" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/balloon.png"/>
+        <Iris style="BASEBALL" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/baseball.png"/>
+        <Iris style="BASKETBALL" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/basketball.png"/>
+        <Iris style="BOMB" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/bomb.png"/>
+        <Iris style="BUTTERFLY" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/butterfly.png"/>
+        <Iris style="CLOVER" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/clover.png"/>
+        <Iris style="CONFETTI" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/confetti.png"/>
+        <Iris style="DIAMOND" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/diamond.png"/>
+        <Iris style="DROP" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/drop.png"/>
+        <Iris style="FIRE" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/fire.png"/>
+        <Iris style="FOOTBALL" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/football.png"/>
+        <Iris style="HEART" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/heart.png"/>
+        <Iris style="HYPNOSIS" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/hypnosis.png"/>
+        <Iris style="KING" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/king.png"/>
+        <Iris style="LAMP" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/lamp.png"/>
+        <Iris style="LIGHTNING" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/lightning.png"/>
+        <Iris style="LIKE" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/like.png"/>
+        <Iris style="LOCK" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/lock.png"/>
+        <Iris style="MEDAL" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/medal.png"/>
+        <Iris style="METEOR" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/meteor.png"/>
+        <Iris style="MOON" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/moon.png"/>
+        <Iris style="PLANET EARTH" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/planet_earth.png"/>
+        <Iris style="RECYCLE" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/recycle.png"/>
+        <Iris style="RUBBER RING" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/rubber_ring.png"/>
+        <Iris style="SNAKE EYE" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/snake_eye.png"/>
+        <Iris style="SOLAR SYSTEM" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/solar_system.png"/>
+        <Iris style="STAR" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/star.png"/>
+        <Iris style="TENNIS BALL" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/tennis_ball.png"/>
+        <Iris style="THINKING BUBBLE" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/thinking_bubble.png"/>
+        <Iris style="VICTORY" offsetX="0" offsetY="0" left="/.doly/images/iris/misc/victory.png"/>
+    </Iris_Type>
+
+    <Iris_Type name="SEASONAL">
+        <Iris style="BAUBLE" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/bauble.png"/>
+        <Iris style="BEACH BALL" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/beach_ball.png"/>
+        <Iris style="BEACH UMBRELLA" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/beach_umbrella.png"/>
+        <Iris style="BOO" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/boo.png"/>
+        <Iris style="CHRISTMAS WREATH" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/christmas_wreath.png"/>
+        <Iris style="CRAB" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/crab.png"/>
+        <Iris style="EASTER EGG" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/easter_egg.png"/>
+        <Iris style="FLOWER" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/flower.png"/>
+        <Iris style="GIFT" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/gift.png"/>
+        <Iris style="HALLOWEEN EYE" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/halloween_eye.png"/>
+        <Iris style="MAPLE LEAF" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/maple_leaf.png"/>
+        <Iris style="PALM TREE" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/palm_tree.png"/>
+        <Iris style="PUMPKIN" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/pumpkin.png"/>
+        <Iris style="RABBIT" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/rabbit.png"/>
+        <Iris style="SANTA HAT" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/santa_hat.png"/>
+        <Iris style="SNOWFLAKE" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/snowflake.png"/>
+        <Iris style="SNOWMAN" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/snowman.png"/>
+        <Iris style="STARFISH" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/starfish.png"/>
+        <Iris style="SUN" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/sun.png"/>
+        <Iris style="TURKEY" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/turkey.png"/>
+        <Iris style="UMBRELLA" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/umbrella.png"/>
+        <Iris style="WINTER HAT" offsetX="0" offsetY="0" left="/.doly/images/iris/seasonal/winter_hat.png"/>
+    </Iris_Type>
+    <Iris_Type name="SYMBOL">
+        <Iris style="ARROW DOWN" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/arrow_down.png"/>
+        <Iris style="ARROW UP" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/arrow_up.png"/>
+        <Iris style="ARROW LEFT" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/arrow_left.png"/>
+        <Iris style="ARROW RIGHT" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/arrow_right.png"/>
+        <Iris style="CHECK" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/check.png"/>
+        <Iris style="DOLLAR" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/dollar.png"/>
+        <Iris style="DOLLAR SYMBOL" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/dollar_symbol.png"/>
+        <Iris style="EXCLAMATION MARK" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/exclamation_mark.png"/>
+        <Iris style="FORBIDDEN" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/forbidden.png"/>
+        <Iris style="QUESTION MARK" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/question_mark.png"/>
+        <Iris style="STOP SIGN" offsetX="0" offsetY="0" left="/.doly/images/iris/symbol/stop_sign.png"/>
+    </Iris_Type>
+    <Iris_Type name="CASINO">
+        <Iris style="WINNER" offsetX="0" offsetY="0" left="/.doly/images/casino/winner.png"/>
+        <Iris style="JACKPOT" offsetX="0" offsetY="0" left="/.doly/images/casino/jackpot.png"/>
+        <Iris style="READY" offsetX="0" offsetY="0" left="/.doly/images/casino/ready.png"/>
+        <Iris style="DOLY GLOW" offsetX="0" offsetY="0" left="/.doly/images/casino/doly_glow.png"/>
+        <Iris style="APPLE" offsetX="0" offsetY="0" left="/.doly/images/casino/apple.png"/>
+        <Iris style="BANANA" offsetX="0" offsetY="0" left="/.doly/images/casino/banana.png"/>
+        <Iris style="CHERRY" offsetX="0" offsetY="0" left="/.doly/images/casino/cherries.png"/>
+        <Iris style="LEMON" offsetX="0" offsetY="0" left="/.doly/images/casino/lemon.png"/>
+        <Iris style="STRAWBERRY" offsetX="0" offsetY="0" left="/.doly/images/casino/strawberry.png"/>
+    </Iris_Type>
+    <Iris_Type name="MATCH">
+        <Iris style="LEVEL_UP" offsetX="0" offsetY="0" left="/.doly/images/match/level_up.png"/>
+    </Iris_Type>
+</List>

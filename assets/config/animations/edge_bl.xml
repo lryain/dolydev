@@ -1,0 +1,120 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <!-- <block type="drive_stop">
+        <field name="start">1</field>
+        <field name="brake">1</field>
+    </block> -->
+    <block type="sound">
+        <field name="type_id">DOLY</field>
+        <field name="name">SHOCK (8)</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">CONFUSION</field>
+        <field name="animation">DIZZY L</field>
+        <field name="start">0</field>
+    </block>
+    <block type="led_animation">
+        <field name="start">0</field>
+        <statement name="led_left">
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+        </statement>
+        <statement name="led_right">
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ff6600</field>
+                <field name="led_time">100</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">100</field>
+            </block>
+        </statement>
+    </block>
+    <block type="drive_forward">
+        <field name="start">1</field>
+        <field name="speed">40</field>
+        <field name="duration">0.5</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">100</field>
+        <field name="start">1</field>
+    </block>
+    <!-- 左转2秒 = 90度 -->
+    <block type="drive_rotate_left">
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">20</field>
+        <field name="duration">0.6</field>
+    </block>
+</xml>

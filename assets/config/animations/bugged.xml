@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="eye_animations">
+        <field name="category">ANGER</field>
+        <field name="animation">BUGGED</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">BLINK ONLY</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">ANGER</field>
+        <field name="animation">BUGGED</field>
+        <field name="start">1</field>
+    </block>
+</xml>

@@ -1,0 +1,17 @@
+[Unit]
+Description=Doly Serial Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/dolydev/libs/serial/build/serial_service --config /home/pi/dolydev/config/serial.yaml
+User=pi
+Group=dialout
+ExecStartPost=/bin/sh -c 'sleep 0.1; if [ -e /tmp/doly_zmq.sock ]; then chmod 0666 /tmp/doly_zmq.sock || true; fi'
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

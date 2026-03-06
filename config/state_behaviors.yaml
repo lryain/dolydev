@@ -1,0 +1,146 @@
+# State behaviors configuration
+# 定义每个状态下可触发的动作及其权重和触发间隔（秒）
+# state 下的 key 使用 state enum 的 value 名称，例如: idle, activated, exploring, sleeping
+
+idle:
+  enabled: true
+  min_interval: 350    # 最小触发间隔（秒）
+  max_interval: 1000    # 最大触发间隔（秒）
+  # 当多少秒没有与主人交互（触摸/语音）后进入短暂小睡（秒），0 表示禁用
+  snooze_after: 300    # 测试用：改为 100 秒
+  actions:
+    - type: animation
+      category: ANIMATION_BORED
+      level: 1
+      weight: 3
+      enabled: false
+    - type: animation
+      category: ANIMATION_HAPPY
+      level: 1
+      weight: 2
+      enabled: false
+    - type: animation
+      category: ANIMATION_PETTING
+      level: 1
+      weight: 1
+      enabled: false
+  # 当 nap_after 到达时执行的 nap_action（可选），type 支持 animation/sound/led...
+  nap_action:
+    type: animation
+    category: ANIMATION_SLEEP
+    level: 1
+  # LED: 淡蓝色呼吸效果
+  led:
+    effect: breathe
+    color: '#87CEFA'
+    side: both
+    speed: 60
+
+activated:
+  enabled: true
+  min_interval: 30
+  max_interval: 60
+  actions:
+    - type: animation
+      category: ANIMATION_WAKE_WORD
+      level: 1
+      weight: 5
+      enabled: true
+  # LED: 绿色闪烁效果
+  led:
+    effect: blink
+    color: '#00FF00'
+    side: both
+    speed: 40
+
+face_recognition:
+  enabled: true
+  min_interval: 20
+  max_interval: 50
+  actions:
+    - type: animation
+      category: ANIMATION_HAPPY
+      level: 1
+      weight: 2
+      enabled: false
+  led:
+    effect: breathe
+    color: '#8A2BE2'
+    side: both
+    speed: 50
+
+exploring:
+  enabled: true
+  min_interval: 3000
+  max_interval: 5000
+  # 探索状态下也可以设置短暂休眠阈值（通常禁用）
+  nap_after: 3000
+  actions:
+    - type: animation
+      category: ANIMATION_FUN
+      level: 1
+      weight: 2
+      enabled: false
+    - type: animation
+      category: ANIMATION_EXCITED
+      level: 1
+      weight: 1
+      enabled: false
+  # LED: 彩色渐变效果
+  led:
+    effect: gradient
+    mode: rainbow
+    side: both
+
+# 可以为更多状态添加配置
+
+# 注意：如果 animation category 在动画系统中不存在，将被忽略
+
+sleep:
+  enabled: true
+  schedule:
+    # 支持多段，每段使用 start/end（24小时制 HH:MM）
+    - start: "00:00"
+      end: "00:00"
+  entry_action:
+    type: animation
+    category: ANIMATION_SLEEP
+    level: 1
+  # 休眠时为橙色呼吸或关闭（可选）
+  led:
+    effect: breathe
+    color: '#FFA500'
+    side: both
+
+# 也可以额外为 sleeping 状态单独定义（同 sleep 区别只是命名）
+sleeping:
+  led:
+    effect: breathe
+    color: '#FFA500'
+    side: both
+
+# TOF 手势跟随模式配置
+tof_tracking:
+  enabled: false
+  
+  # 跟随模式的基本参数
+  tracking_distance_min: 50   # mm，最小跟随距离
+  tracking_distance_max: 500  # mm，最大跟随距离
+  tracking_speed: 1.0          # 跟随速度系数
+  tracking_smooth: 0.3         # 平滑系数（0-1）
+  
+  # 退出跟随模式的语音命令
+  exit_commands:
+    - cmd_ActStop     # "停止"
+    - cmd_ActCancel   # "取消"
+    - cmd_iShutup     # "闭嘴"
+  
+  # 超时自动退出（秒），0 表示不超时
+  auto_exit_timeout: 300  # 5 分钟后自动退出
+  
+  # LED 指示灯配置
+  led:
+    effect: breathe
+    color: '#00FFFF'  # 青色表示跟随模式
+    side: both
+    speed: 80

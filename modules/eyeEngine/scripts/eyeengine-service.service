@@ -1,0 +1,36 @@
+[Unit]
+Description=EyeEngine ZMQ Service for Doly
+Documentation=file:///home/pi/dolydev/modules/eyeEngine/README.md
+After=network.target syslog.target
+Wants=network.target
+PartOf=doly.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/dolydev/modules/eyeEngine
+ExecStart=/home/pi/DOLY-DIY/venv/bin/python /home/pi/dolydev/modules/eyeEngine/zmq_service.py
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/home/pi/dolydev:/home/pi/dolydev/modules
+Environment=VIRTUAL_ENV=/home/pi/DOLY-DIY/venv
+Environment=PATH=/home/pi/DOLY-DIY/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Restart=on-failure
+RestartSec=5
+# 如果停止动作超时，systemd 会发出 SIGKILL 强制终止
+KillMode=process
+TimeoutStopSec=5
+KillSignal=SIGKILL
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=eyeengine
+User=pi
+Group=pi
+LimitNOFILE=4096
+LimitNPROC=4096
+
+# 安全性设置
+# 注意: 禁用 PrivateTmp 以允许与其他服务共享 /tmp 中的 ZMQ IPC socket
+PrivateTmp=no
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,125 @@
+# 手势互动状态配置
+gesture_interaction:
+  enabled: true
+  
+  # 状态触发配置
+  triggers:
+    # 进入状态的触发事件
+    enter_event: "gesture_approach_both"
+    # 退出状态的触发事件
+    exit_event: "gesture_removed"
+  
+  # 进入/退出时播放的动画（状态感知）
+  animations:
+    # 进入手势互动状态时的动画
+    enter:
+      IDLE:
+        action: "play_animation"
+        animation: "confuse.xml"
+        priority: "normal"
+      EXPLORING:
+        action: "play_animation_category"
+        category: "greeting"
+        level: 1
+        priority: "normal"
+      ANY:
+        action: "play_animation"
+        animation: "confuse.xml"
+        priority: "normal"
+    
+    # 退出手势互动状态时的动画
+    exit:
+      IDLE:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "normal"
+      EXPLORING:
+        action: "play_animation_category"
+        category: "beybey"
+        level: 1
+        priority: "normal"
+      ANY:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "normal"
+    
+    # 每次追逐执行的行为动画（状态感知）
+    chase_animations:
+      IDLE:
+        action: "play_animation"
+        animation: "go_forward_step.xml"
+        priority: "normal"
+      EXPLORING:
+        action: "play_animation"
+        animation: "go_forward_step.xml"
+        priority: "normal"
+      ANY:
+        action: "play_animation"
+        animation: "go_forward_step.xml"
+        priority: "normal"
+    
+    # 后退躲避动画（手靠太近时执行）
+    retreat_animations:
+      IDLE:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "normal"
+      EXPLORING:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "normal"
+      ANY:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "normal"
+  
+  # 手势互动行为配置
+  behavior:
+    # 是否忽略其他手势事件（专注于互动）
+    ignore_other_gestures: true
+    
+    # 与手保持的目标距离（mm）
+    target_distance: 60
+    
+    # 距离容差（mm）- 在目标距离±tolerance范围内不移动
+    distance_tolerance: 20
+    
+    # 运动控制参数
+    movement:
+      # 更新频率（Hz）- 多久检查一次距离
+      update_frequency: 5
+      
+      # 速度控制
+      speed:
+        min: 0.1    # 最小速度（当距离接近目标时）
+        max: 0.5    # 最大速度（当距离远离目标时）
+        base: 0.3   # 基础速度
+      
+      # 距离→速度映射
+      # 距离差异越大，速度越快
+      speed_mapping:
+        # 距离差 < 30mm: 慢速
+        slow_threshold: 30
+        slow_speed: 0.15
+        # 距离差 30-60mm: 中速
+        medium_threshold: 60
+        medium_speed: 0.3
+        # 距离差 > 60mm: 快速
+        fast_speed: 0.5
+      
+      # 运动样式（模拟活泼可爱）
+      style:
+        # 使用步进式移动而非连续移动
+        use_step_animations: true
+        # 每步移动距离（cm）
+        step_distance: 2
+        # 每步之间的停顿时间（秒）
+        step_pause: 0.3
+        # 追逐动作的随机性（0-1）
+        chase_randomness: 0.2
+  
+  # 调试配置
+  debug:
+    log_distance: true       # 记录距离变化
+    log_movement: true       # 记录运动指令
+    log_state_changes: true  # 记录状态变化

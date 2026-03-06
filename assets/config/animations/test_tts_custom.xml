@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+测试 TTS 自定义参数
+场景：演示参数覆盖功能
+-->
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    
+    <!-- 1. 使用快乐预设 -->
+    <block type="tts">
+        <field name="text">亲爸爸，我想吃鸡翅，请亲爸爸成全！</field>
+        <field name="emotion">happy</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block>
+    
+    <!-- 2. 覆盖音调 -->
+    <block type="tts">
+        <field name="text">亲爸爸，我想吃鸡翅，请亲爸爸成全！</field>
+        <field name="emotion">happy</field>
+        <field name="pitch">+20Hz</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block>
+    
+    <!-- 3. 覆盖语速 -->
+    <!-- <block type="tts">
+        <field name="text">这是自定义快速语速</field>
+        <field name="emotion">neutral</field>
+        <field name="rate">+30%</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block> -->
+    
+    <!-- 4. 完全自定义 -->
+    <block type="tts">
+        <field name="text">亲爸爸，我想吃鸡翅，请亲爸爸成全！</field>
+        <field name="voice">zh-CN-YunjianNeural</field>
+        <field name="pitch">-10Hz</field>
+        <field name="rate">-10%</field>
+        <field name="volume">+10%</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block>
+    
+    <!-- 5. 只合成不播放 -->
+    <!-- <block type="tts">
+        <field name="text">这段只合成不播放</field>
+        <field name="emotion">neutral</field>
+        <field name="play">false</field>
+        <field name="save_dir">/tmp</field>
+        <field name="filename">test_synthesis.wav</field>
+    </block> -->
+</xml>

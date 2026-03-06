@@ -1,0 +1,198 @@
+# Doly 场景音效列表配置
+# 版本: 1.0
+# 描述: 定义各种场景的音效组合，通过场景名称触发随机播放
+
+# ===== 随机播放规则 =====
+# 同前缀带序号的音效会被自动归类，如 sfx_alarm_1, sfx_alarm_2 会成为 sfx_alarm 组
+
+# ===== 场景音效组 =====
+scenes:
+  # 动物园场景 - 随机播放多种动物叫声
+  zoo:
+    description: "动物园场景，随机播放动物叫声"
+    sounds:
+      - "animal_bear"
+      - "animal_bird"
+      - "animal_cat"
+      - "animal_chicken"
+      - "animal_cow"
+      - "animal_dog"
+      - "animal_duck"
+      - "animal_elephant"
+      - "animal_frog"
+      - "animal_horse"
+      - "animal_lion"
+      - "animal_owl"
+      - "animal_pig"
+      - "animal_rooster"
+      - "animal_sheep"
+      - "animal_wolf"
+    play_mode: "random_one"       # random_one: 随机播放一个, sequence: 顺序播放, random_all: 随机播放全部
+    interval: 0                   # 播放间隔(秒), 0表示不间隔
+
+  # 早起闹钟场景
+  morning_alarm:
+    description: "早起闹钟，播放鸟叫和自然声音"
+    sounds:
+      - "animal_bird"
+      - "animal_rooster"
+      - "sfx_alarm_1"
+      - "sfx_alarm_2"
+      - "sfx_alarm_3"
+    play_mode: "random_one"
+    
+  # 游戏场景
+  game:
+    description: "游戏音效"
+    sounds:
+      - "game_game_start_6104"
+      - "game_power_up_game_sound_effect_359227"
+      - "game_coin_recieved_230517"
+      - "game_game_level_complete_143022"
+    play_mode: "random_one"
+
+  # 成功/胜利场景
+  success:
+    description: "成功/完成音效"
+    sounds:
+      - "sfx_success_1"
+      - "sfx_success_2"
+      - "sfx_success_3"
+      - "sfx_level_up"
+      - "sfx_coins"
+    play_mode: "random_one"
+
+  # 失败/错误场景
+  failure:
+    description: "失败/错误音效"
+    sounds:
+      - "sfx_error_1"
+      - "sfx_error_2"
+      - "sfx_error_3"
+      - "sfx_lost_1"
+      - "sfx_lost_2"
+    play_mode: "random_one"
+
+  # 通知场景
+  notification:
+    description: "通知提示音"
+    sounds:
+      - "sfx_notification_1"
+      - "sfx_notification_2"
+      - "sfx_notification_3"
+      - "sfx_hint"
+    play_mode: "random_one"
+
+  # 放松场景
+  relax:
+    description: "放松音乐和自然声音"
+    sounds:
+      - "music_nature"
+      - "music_nature_60s"
+      - "sfx_beach"
+      - "music_ballad"
+    play_mode: "random_one"
+
+  # 运动/健身场景
+  workout:
+    description: "运动健身音乐"
+    sounds:
+      - "music_exercise"
+      - "music_rock"
+      - "music_funk"
+    play_mode: "random_one"
+
+# ===== 功能音效组 (按前缀自动分组) =====
+# 这些是按照前缀自动归类的音效组，用于 play_random(prefix) 方法
+prefixed_groups:
+  # 闹钟音效组
+  sfx_alarm:
+    description: "闹钟提示音"
+    # 自动匹配: sfx_alarm_1, sfx_alarm_2, sfx_alarm_3...
+    
+  # 增益音效组
+  sfx_buff:
+    description: "正面增益音效"
+    
+  # 减益音效组
+  sfx_debuff:
+    description: "负面减益音效"
+    
+  # 鼓点音效组
+  sfx_drum_roll:
+    description: "鼓点音效"
+    
+  # 错误音效组
+  sfx_error:
+    description: "错误提示音"
+    
+  # 爆炸音效组
+  sfx_explosion:
+    description: "爆炸音效"
+    
+  # 锣声音效组
+  sfx_gong:
+    description: "锣声音效"
+    
+  # 失败音效组
+  sfx_lost:
+    description: "失败音效"
+    
+  # 通知音效组
+  sfx_notification:
+    description: "通知提示音"
+    
+  # 成功音效组
+  sfx_success:
+    description: "成功音效"
+    
+  # 传送音效组
+  sfx_teleport:
+    description: "传送音效"
+    
+  # 胜利音效组
+  sfx_win:
+    description: "胜利音效"
+    
+  # 动物叫声组
+  animal:
+    description: "动物叫声"
+    
+  # 唤醒词音效组
+  wuw:
+    description: "唤醒词响应音效"
+
+# ===== 情绪音效映射 =====
+emotion_sounds:
+  happy:
+    sounds: ["effect_kid_happy", "effect_kid_laugh", "sfx_success_1"]
+  sad:
+    sounds: ["effect_male_crying", "effect_woman_sigh"]
+  angry:
+    sounds: ["effect_frustration", "effect_ugh"]
+  surprised:
+    sounds: ["effect_surprised", "effect_kid_surprised", "effect_woman_wow"]
+  curious:
+    sounds: ["sfx_hmmm", "sfx_hint"]
+  sleepy:
+    sounds: ["effect_sleeping"]
+  bored:
+    sounds: ["effect_nop", "sfx_hmmm"]
+
+# ===== 状态进入音效 =====
+state_sounds:
+  idle:
+    entry: null
+    exit: null
+  activated:
+    entry: "wuw_wuw_1"            # 唤醒音效
+    exit: null
+  sleeping:
+    entry: "effect_sleeping"
+    exit: null
+  exploring:
+    entry: "sfx_notification_1"
+    exit: null
+  charging:
+    entry: "sfx_click"
+    exit: "sfx_success_1"

@@ -1,0 +1,55 @@
+# 邮件发送配置
+# 用于发送照片、视频等附件
+
+email:
+  # SMTP 服务器配置
+  smtp:
+    enabled: true               # 是否启用邮件功能
+    server: "smtp.qq.com"     # SMTP 服务器地址
+    port: 465                    # SMTP 端口（587 for TLS, 465 for SSL）
+    use_tls: true                # 是否使用 TLS
+    username: "47129927@qq.com"                 # SMTP 用户名（通常是邮箱地址）
+    password: ""                 # SMTP 密码或应用专用密码
+  
+  # 发件人信息
+  sender:
+    email: "47129927@qq.com"                    # 发件人邮箱（默认使用 smtp.username）
+    name: "Doly Robot"           # 发件人昵称
+  
+  # 默认收件人
+  default_recipients:
+    - "47129927@qq.com"
+    # - "another@gmail.com"
+  
+  # 邮件模板
+  templates:
+    photo:
+      subject: "📸 来自 Doly 的照片 - {timestamp}"
+      body: |
+        这是 Doly 机器人在 {timestamp} 拍摄的照片。
+        
+        文件名: {filename}
+        分辨率: {width}x{height}
+        文件大小: {file_size} KB
+        
+        -- 
+        Doly Robot 🤖
+    
+    video:
+      subject: "🎥 来自 Doly 的视频 - {timestamp}"
+      body: |
+        这是 Doly 机器人在 {timestamp} 录制的视频。
+        
+        文件名: {filename}
+        时长: {duration} 秒
+        文件大小: {file_size} MB
+        
+        -- 
+        Doly Robot 🤖
+
+# 使用说明：
+# 2. QQ 邮箱用户需要开启 SMTP 服务并获取授权码
+# 3. 163 邮箱配置示例：
+#    server: smtp.163.com
+#    port: 465
+#    use_tls: false (使用 SSL)

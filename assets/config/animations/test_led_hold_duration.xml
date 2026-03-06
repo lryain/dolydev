@@ -1,0 +1,24 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    
+    <!-- Use "led" block type as defined in BLOCK_TYPE_MAP -->
+    <block type="led">
+        <field name="color_main">#0000FF</field>
+        <field name="side">0</field>
+        <field name="hold_duration">2000</field>
+        <field name="default_color">#000000</field>
+        <field name="start">1</field>
+    </block>
+    
+    <block type="delay_ms">
+        <field name="duration">3000</field>
+        <field name="start">1</field>
+    </block>
+
+    <!-- <block type="led">
+        <field name="color_main">#00FF00</field>
+        <field name="side">0</field>
+        <field name="hold_duration">0</field>
+        <field name="start">1</field>
+    </block> -->
+</xml>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+测试 TTS 多种情绪
+场景：演示不同情绪的语音合成
+-->
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    
+    <!-- 1. 中性情绪 -->
+    <!-- <block type="eye_animations">
+        <field name="category">NORMAL</field>
+        <field name="animation">BLINK</field>
+        <field name="priority">5</field>
+        <field name="hold_duration">0</field>
+    </block> -->
+    <block type="tts">
+        <field name="text">这是中性语调</field>
+        <field name="emotion">neutral</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block>
+    
+    <!-- 2. 快乐情绪 -->
+    <!-- <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">EXCITED</field>
+        <field name="priority">8</field>
+        <field name="hold_duration">1</field>
+    </block> -->
+    <block type="tts">
+        <field name="text">亲爸爸，我想吃鸡翅，请亲爸爸成全！</field>
+        <field name="emotion">happy</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block>
+    
+    <!-- 3. 兴奋情绪 -->
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">VERY_EXCITED</field>
+        <field name="priority">8</field>
+        <field name="hold_duration">1</field>
+    </block>
+    <block type="tts">
+        <field name="text">亲爸爸，我想吃鸡翅，请亲爸爸成全！</field>
+        <field name="emotion">excited</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block>
+    
+    <!-- 4. 悲伤情绪 -->
+    <block type="eye_animations">
+        <field name="category">DEPRESSION</field>
+        <field name="animation">SAD</field>
+        <field name="priority">8</field>
+        <field name="hold_duration">2</field>
+    </block>
+    <block type="tts">
+        <field name="text">亲爸爸，我想吃鸡翅，不知亲爸爸意下如何！</field>
+        <field name="emotion">sad</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block>
+    
+    <!-- 5. 温柔情绪 -->
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">GENTLE</field>
+        <field name="priority">8</field>
+        <field name="hold_duration">2</field>
+    </block>
+    <block type="tts">
+        <field name="text">亲爸爸，我想吃鸡翅，请亲爸爸成全！</field>
+        <field name="emotion">gentle</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <!-- <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block> -->
+    
+    <!-- 6. 惊讶情绪 -->
+    <!-- <block type="eye_animations">
+        <field name="category">SURPRISE</field>
+        <field name="animation">SHOCKED</field>
+        <field name="priority">8</field>
+        <field name="hold_duration">2000</field>
+    </block>
+    <block type="tts">
+        <field name="text">哇！真是太惊讶了！</field>
+        <field name="emotion">surprised</field>
+        <field name="play">true</field>
+        <field name="play_mode">audio_player</field>
+    </block>
+    <block type="delay">
+        <field name="duration_ms">1000</field>
+    </block> -->
+    
+    <!-- 恢复正常 -->
+    <block type="eye_animations">
+        <field name="category">NORMAL</field>
+        <field name="animation">BLINK</field>
+        <field name="priority">5</field>
+    </block>
+</xml>

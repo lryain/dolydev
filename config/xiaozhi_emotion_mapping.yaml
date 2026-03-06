@@ -1,0 +1,278 @@
+# 小智情绪到 Doly 动画的映射配置
+# 版本: 1.0
+# 日期: 2026-02-07
+
+# 情绪映射定义
+emotion_mapping:
+  # ========== 基础情绪 ==========
+  neutral:
+    description: "平静/中性"
+    animation:
+      category: null  # 不播放动画，保持当前状态
+      level: 1
+    led:
+      effect: breathe
+      color: '#87CEFA'  # 淡蓝色
+      speed: 60
+      side: both
+      
+  happy:
+    description: "开心/高兴"
+    animation:
+      category: ANIMATION_HAPPY
+      level: 1
+    led:
+      effect: blink
+      color: '#00FF00'  # 绿色
+      speed: 40
+      side: both
+      
+  laughing:
+    description: "大笑"
+    animation:
+      category: ANIMATION_EXCITED
+      level: 1
+    led:
+      effect: gradient
+      mode: rainbow
+      speed: 60
+      side: both
+      
+  funny:
+    description: "有趣/搞笑"
+    animation:
+      category: ANIMATION_HAPPY
+      level: 1
+    led:
+      effect: blink
+      color: '#FFFF00'  # 黄色
+      speed: 50
+      side: both
+
+  # ========== 负面情绪 ==========
+  sad:
+    description: "难过/伤心"
+    animation:
+      category: ANIMATION_SAD
+      level: 1
+    led:
+      effect: breathe
+      color: '#0000FF'  # 蓝色
+      speed: 30
+      side: both
+      
+  angry:
+    description: "生气"
+    animation:
+      category: ANIMATION_ANGER
+      level: 1
+    led:
+      effect: blink
+      color: '#FF0000'  # 红色
+      speed: 80
+      side: both
+      
+  crying:
+    description: "哭泣"
+    animation:
+      category: ANIMATION_CRY
+      level: 1
+    led:
+      effect: breathe
+      color: '#4169E1'  # 皇家蓝
+      speed: 20
+      side: both
+
+  # ========== 正面情绪 ==========
+  loving:
+    description: "充满爱意"
+    animation:
+      category: ANIMATION_LOVE
+      level: 1
+    led:
+      effect: breathe
+      color: '#FF69B4'  # 热粉色
+      speed: 40
+      side: both
+      
+  embarrassed:
+    description: "害羞/尴尬"
+    animation:
+      category: ANIMATION_COMPLIMENT
+      level: 1
+    led:
+      effect: breathe
+      color: '#FFB6C1'  # 浅粉色
+      speed: 50
+      side: both
+
+  # ========== 惊讶类情绪 ==========
+  surprised:
+    description: "惊讶"
+    animation:
+      category: ANIMATION_SHOCKED
+      level: 1
+    led:
+      effect: blink
+      color: '#FFFFFF'  # 白色
+      speed: 60
+      side: both
+      
+  shocked:
+    description: "震惊"
+    animation:
+      category: ANIMATION_SHOCKED
+      level: 2
+    led:
+      effect: blink
+      color: '#FFFFFF'
+      speed: 100
+      side: both
+
+  # ========== 思考类情绪 ==========
+  thinking:
+    description: "思考中"
+    animation:
+      category: ANIMATION_CONFUSE
+      level: 1
+    led:
+      effect: pulse
+      color: '#4169E1'  # 皇家蓝
+      speed: 40
+      side: both
+      
+  confused:
+    description: "困惑"
+    animation:
+      category: ANIMATION_CONFUSE
+      level: 1
+    led:
+      effect: breathe
+      color: '#9370DB'  # 中紫色
+      speed: 30
+      side: both
+
+  # ========== 特殊情绪 ==========
+  winking:
+    description: "眨眼/调皮"
+    animation:
+      category: ANIMATION_COMPLIMENT
+      level: 1
+    led:
+      effect: blink
+      color: '#FFD700'  # 金色
+      speed: 50
+      side: both
+      
+  cool:
+    description: "酷/自信"
+    animation:
+      category: ANIMATION_COMPLIMENT
+      level: 1
+    led:
+      effect: gradient
+      color: '#00CED1'  # 深青色
+      speed: 40
+      side: both
+      
+  relaxed:
+    description: "放松/惬意"
+    animation:
+      category: ANIMATION_BORED
+      level: 1
+    led:
+      effect: breathe
+      color: '#98FB98'  # 淡绿色
+      speed: 30
+      side: both
+      
+  delicious:
+    description: "美味（谈论食物时）"
+    animation:
+      category: ANIMATION_HAPPY
+      level: 1
+    led:
+      effect: blink
+      color: '#FFA500'  # 橙色
+      speed: 50
+      side: both
+      
+  kissy:
+    description: "亲亲/撒娇"
+    animation:
+      category: ANIMATION_LOVE
+      level: 1
+    led:
+      effect: pulse
+      color: '#FF1493'  # 深粉色
+      speed: 60
+      side: both
+      
+  confident:
+    description: "自信"
+    animation:
+      category: ANIMATION_COMPLIMENT
+      level: 1
+    led:
+      effect: blink
+      color: '#FFD700'  # 金色
+      speed: 40
+      side: both
+      
+  sleepy:
+    description: "困倦"
+    animation:
+      category: ANIMATION_SLEEP
+      level: 1
+    led:
+      effect: breathe
+      color: '#FFA07A'  # 浅橙色
+      speed: 20
+      side: both
+      
+  silly:
+    description: "傻萌/可爱"
+    animation:
+      category: ANIMATION_HAPPY
+      level: 1
+    led:
+      effect: blink
+      color: '#FF69B4'  # 热粉色
+      speed: 60
+      side: both
+
+# ========== 全局配置 ==========
+settings:
+  # 情绪变化的最小间隔（毫秒）
+  min_emotion_interval_ms: 500
+  
+  # 是否在说话时播放情绪动画
+  animate_while_speaking: true
+  
+  # 情绪动画优先级 (1-10)
+  emotion_animation_priority: 6
+  
+  # LED 是否跟随情绪变化
+  led_follows_emotion: true
+  
+  # 是否播放情绪音效
+  play_emotion_sound: false
+  
+  # 默认回退情绪
+  fallback_emotion: neutral
+  
+  # 启用情绪处理
+  enabled: true
+
+# ========== 状态过滤 ==========
+# 在以下状态下不处理情绪变化
+ignore_in_states:
+  - sleeping
+  - snoozing
+
+# ========== 日志配置 ==========
+logging:
+  # 是否记录情绪变化
+  log_emotion_changes: true
+  # 日志级别: DEBUG, INFO, WARNING
+  level: INFO

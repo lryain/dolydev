@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "global": {
+    "language": "cn"
+  },
+  "clock": {
+    "enabled": true,
+    "show_on_start": false,
+    "display_mode": "exclusive",
+    "layout": "split",
+    "hour_format": "24h",
+    "left_role": "minute",
+    "right_role": "hour",
+    "colon_blink": true,
+    "digit_color": {"r": 0, "g": 255, "b": 0},
+    "background_color": {"r": 0, "g": 0, "b": 0},
+    "digit_scale_percent": 75,
+    "audio": {
+      "enabled": true,
+      "tick_sound_en": false,
+      "tick_sound": "sfx_clock_tick",
+      "cmd_endpoint": "ipc:///tmp/doly_audio_player_cmd.sock",
+      "tick_priority": 20,
+      "req_timeout_ms": 150
+    },
+    "chime": {
+      "enabled": true,
+      "language": "inherit",
+      "text_template": "现在时间 {HH} 点整",
+      "text_template_en": "The time is {HH}:{MM}",
+      "text_template_24h_zh": "现在是{period}{HH}点{MM}分",
+      "text_template_12h_zh": "现在是{period}{HH}点{MM}分",
+      "text_template_24h_en": "The time is {HH} {MM}",
+      "text_template_12h_en": "The time is {HH} {MM} in the {period}",
+      "announce_template": "现在时间 {HH} 点 {MM} 分",
+      "announce_template_en": "The time is {HH} {MM}",
+      "announce_template_24h_zh": "现在是{period}{HH}点{MM}分",
+      "announce_template_12h_zh": "现在是{period}{HH}点{MM}分",
+      "announce_template_24h_en": "The time is {HH} {MM}",
+      "announce_template_12h_en": "The time is {HH} {MM} in the {period}",
+      "tts": {
+        "engine": "edge_tts",
+        "espeak_ng": {
+          "command": "espeak-ng -v zh '{text}' >/dev/null 2>&1"
+        },
+        "edge_tts": {
+          "transport": "zmq",
+          "endpoint": "ipc:///tmp/doly_tts_req.sock",
+          "client_bin": "python3 /home/pi/dev/dolydev/libs/tts/tts-server/edge_tts_client.py",
+          "voice1": "zh-CN-XiaoyiNeural",
+          "voice": "zh-CN-shaanxi-XiaoniNeural",
+          "pitch": "+60Hz",
+          "rate": "-20%",
+          "volume": "+60%",
+          "format": "wav",
+          "play": true,
+          "play_mode": "audio_player",
+          "audio_player_volume": 1.0,
+          "alias": "clock_chime",
+          "ducking": true,
+          "timeout_ms": 10000,
+          "retries": 1
+        }
+      }
+    },
+    "api": {
+      "enabled": true,
+      "endpoint": "ipc:///tmp/doly_clock_api.sock"
+    },
+    "auto_display": {
+      "show_on_tts": true,
+      "show_on_chime": true,
+      "slot": "both",
+      "timeout_ms": 6000,
+      "return_to_previous": true
+    }
+  },
+  "timer": {
+    "enabled": false,
+    "show_on_start": false,
+    "display_mode": "widget",
+    "mode": "countdown",
+    "duration_sec": 10,
+    "auto_hide": true,
+    "timer_timeout": 8000,
+    "auto_start": false,
+    "auto_show_remaining_sec": 10,
+    "position": {
+      "anchor": "bottom-center",
+      "offset_x": 0,
+      "offset_y": -18
+    },
+    "style": {
+      "font_size": 60,
+      "color": {"r": 255, "g": 232, "b": 125, "a": 255},
+      "warning_color": {"r": 255, "g": 82, "b": 82, "a": 255},
+      "background": {"r": 0, "g": 0, "b": 0, "a": 180},
+      "digit_scale_percent": 75
+    },
+    "audio": {
+      "enabled": true,
+      "tick_sound_en": true,
+      "timeup_sound_en": true,
+      "alarm_sound_en": false,
+      "speak_last_sec_en": false,
+      "speak_last_sec_start": 5,
+      "tick_topic": "event.eye.timer.tick",
+      "finished_topic": "event.eye.timer.finished",
+      "cmd_endpoint": "ipc:///tmp/doly_audio_player_cmd.sock",
+      "tick_sound": "sfx_clock_tick",
+      "timeup_sound": "sfx_gong_2",
+      "alarm_sound": "sfx_alarm_4",
+      "tick_priority": 30,
+      "timeup_priority": 40,
+      "final_priority": 60,
+      "alarm_play_count": 1,
+      "alarm_repeat_interval_ms": 1000,
+      "req_timeout_ms": 150,
+      "tts": {
+        "engine": "espeak-ng",
+        "templates": {
+          "start": "{seconds}秒倒计时开始",
+          "tick": "{seconds}",
+          "final": "时间到！"
+        },
+        "espeak_ng": {
+          "command": "espeak-ng -v zh '{text}' >/dev/null 2>&1"
+        },
+        "edge_tts": {
+          "enabled": true,
+          "transport": "zmq",
+          "endpoint": "ipc:///tmp/doly_tts_req.sock",
+          "client_bin": "python3 /home/pi/dev/dolydev/libs/tts/tts-server/edge_tts_client.py",
+          "voice1": "zh-CN-YunxiaNeural",
+          "voice": "zh-CN-shaanxi-XiaoniNeural",
+          "pitch": "+60Hz",
+          "rate": "+0%",
+          "volume": "+20%",
+          "format": "wav",
+          "play": true,
+          "play_mode": "audio_player",
+          "audio_player_volume": 1.0,
+          "alias": "timer_tts",
+          "ducking": true,
+          "timeout_ms": 10000,
+          "retries": 1
+        }
+      }
+    }
+  },
+  "weather": {
+    "enabled": true,
+    "show_on_start": false,
+    "display_mode": "exclusive",
+    "position": {
+      "anchor": "top-right",
+      "offset_x": -20,
+      "offset_y": 20
+    },
+    "style": {
+      "icon_size": 22,
+      "font_size": 18,
+      "color": {"r": 255, "g": 255, "b": 255, "a": 255},
+      "background": {"r": 0, "g": 100, "b": 0, "a": 160}
+    },
+    "display": {
+      "label": "襄阳",
+      "show_icon": true,
+      "show_temperature": true,
+      "show_humidity": true,
+      "show_condition": true
+    },
+    "provider": {
+      "type": "openweather",
+      "api_key_env": "6f0220bbb5c9d4c646a8aeb7a4ba464d",
+      "units": "metric",
+      "lang": "zh_cn",
+      "lat": 31.2304,
+      "lon": 121.4737,
+      "refresh_interval_sec": 600
+    },
+    "fallback": {
+      "temp": 22,
+      "temp_unit": "C",
+      "icon": "sunny",
+      "humidity": 55,
+      "condition": "晴"
+    }
+  }
+}

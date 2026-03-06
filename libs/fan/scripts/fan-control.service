@@ -1,0 +1,30 @@
+[Unit]
+Description=Doly Fan Temperature Control Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+# 使用绝对路径启动服务
+ExecStart=/home/pi/dolydev/libs/fan/build/fan_service --bus-endpoint ipc:///tmp/doly_fan_zmq.sock -c "/home/pi/dolydev/config/fan_config.txt"
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=fan-service
+
+# 环境变量
+Environment=LD_LIBRARY_PATH=/home/pi/DOLY-DIY/SDK/lib:/usr/local/lib:/usr/lib/aarch64-linux-gnu
+
+# 预执行
+ExecStartPre=/usr/bin/mkdir -p /home/pi/dolydev/data/logs
+
+# 权限与路径配置
+ProtectHome=no
+ReadWritePaths=/home/pi/dolydev/data/logs /home/pi/dolydev/config /tmp
+
+# 资源限制
+MemoryMax=50M
+CPUQuota=10%

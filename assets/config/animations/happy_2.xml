@@ -1,0 +1,105 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="led_animation">
+        <field name="start">0</field>
+        <statement name="led_left">
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#ffffff</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ffffff</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#000000</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#ffffff</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ffffff</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#000000</field>
+            </block>
+        </statement>
+        <statement name="led_right">
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#ffffff</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ffffff</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#000000</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#000000</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#ffffff</field>
+            </block>
+            <block type="led_animation_color">
+                <field name="color_main">#ffffff</field>
+                <field name="led_time">600</field>
+                <field name="color_fade">#000000</field>
+            </block>
+        </statement>
+    </block>
+    <block type="eye_animations">
+        <field name="category">HAPPINESS</field>
+        <field name="animation">HAPPY</field>
+        <field name="start">0</field>
+    </block>
+    <block type="sound">
+        <field name="type_id">DOLY</field>
+        <field name="name">HAPPY (2)</field>
+        <field name="start">0</field>
+    </block>
+    <block type="drive_rotate_left">
+        <field name="driveRotate">3</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+        <field name="direction">0</field>
+    </block>
+    <block type="drive_rotate_right">
+        <field name="driveRotate">6</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+        <field name="direction">0</field>
+    </block>
+    <block type="drive_rotate_left">
+        <field name="driveRotate">3</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+        <field name="direction">0</field>
+    </block>
+    <block type="drive_rotate_right">
+        <field name="driveRotate">6</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+        <field name="direction">0</field>
+    </block>
+    <block type="drive_rotate_left">
+        <field name="driveRotate">3</field>
+        <field name="isCenter">TRUE</field>
+        <field name="start">1</field>
+        <field name="speed">50</field>
+        <field name="accel">0</field>
+        <field name="brake">0</field>
+        <field name="direction">0</field>
+    </block>
+</xml>

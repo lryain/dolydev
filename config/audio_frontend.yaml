@@ -1,0 +1,68 @@
+capture:
+  device: "default"  # 使用 ALSA plugin 设备，支持格式转换（hw:0 不支持单声道）
+  sample_rate: 16000
+  channels: 1
+  frame_ms: 20
+  alsa_buffer_ms: 160
+  # 当 audio_player 停止播放后等待多少毫秒再恢复录音（避免回放结尾被录到）
+  resume_delay_ms: 300
+
+vad:
+  engine: "silero"
+  speech_threshold: 3.0
+  noise_threshold: 2.0
+  min_energy: 0.022
+  smoothing: 0.02
+  hangover_ms: 250
+  release_ms: 400
+  # 新字段：是否发布噪音事件（event.audio.noise_detected），若未设置则取 publish_noise
+  publish_noise_event: true
+  # 新字段：在 Silero 判定为语音时，是否需要同时满足能量门限以确认（减少噪音误判为语音），默认 true
+  require_energy_for_speech: true
+  noise_min_level: 0.35
+  noise_counter_window_ms: 60000
+  noise_counter_threshold: 3
+  # 空气噪声最小时长(ms)：只有噪音持续时间超过该阈值，才会作为噪音事件发送（0 表示立即触发）
+  noise_min_length_ms: 0
+  # 噪音合并间隔(ms)：两次噪音段间隔小于该值则合并为同一段；0 表示不合并
+  noise_merge_gap_ms: 300
+  silero_model: "/home/pi/dev/dolydev/3rd/vadc/silero_vad_v4.onnx"
+  silero_speech_probability: 0.65
+  silero_release_probability: 0.35
+  silero_arena_bytes: 33554432
+
+wakeword:
+  enabled: false  # 暂时禁用 wakeword（测试阶段），避免路径问题阻塞 VAD 测试
+  # 可选值："snowboy" 或 "lowwi"（旧 alias: "openwakeword" 会被映射为 "lowwi"）
+  engine: "lowwi"
+  model: "models/example_wakewords/hey_mycroft.onnx"
+  trigger_level: 0.55
+  cooldown_ms: 3000
+
+# 如果使用 lowwi，并且启用 ENABLE_LOWWI，需要确保项目在运行时能找到 Lowwi 的 ONNX Runtime:
+# 3rd/lowwi/lib/aarch64/lib/libonnxruntime.so.1.18.1
+
+streams:
+  ringbuffer_name: "/doly_audio_rb"
+  ringbuffer_size_ms: 4000
+  zmq_frame_ms: 100
+  zmq_hwm: 32
+  publish_voice_stream: true
+  # 新字段：是否将噪音帧写入共享 ringbuffer（默认 true，保持向后兼容）
+  publish_noise_to_ringbuffer: true
+
+endpoints:
+  pub: "ipc:///tmp/doly_audio_pub.sock"
+  cmd: "ipc:///tmp/doly_audio_cmd.sock"
+
+control:
+  allow_runtime_update: true
+  state_topic: "status.audio.frontend"
+  vad_topic: "event.audio.vad"
+  speech_topic: "event.audio.speech_detected"
+  noise_topic: "event.audio.noise_detected"
+  noise_counter_topic: "event.audio.noise_counter"
+  wake_topic: "event.audio.wakeup"
+  voice_stream_topic: "stream.audio.voice"
+  # 控制：是否当 audio_player 在播放时自动暂停捕获
+  auto_mute: true

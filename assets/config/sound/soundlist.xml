@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<List>
+    <Type Name="ANIMAL" Path="/.doly/sounds/animal/">
+        <Sound Id="BIRD_CHIRPS1" Path="budgie_chirps1.wav" Category="" />
+        <Sound Id="BIRD_CHIRPS2" Path="budgie_chirps2.wav" Category="" />
+        <Sound Id="BEAR" Path="bear.wav" Category="" />
+        <Sound Id="BEE" Path="bee.wav" Category="" />
+        <Sound Id="BIRD" Path="bird.wav" Category="" />
+        <Sound Id="CAT" Path="cat.wav" Category="" />
+        <Sound Id="CHICKEN" Path="chicken.wav" Category="" />
+        <Sound Id="CHIMPANZEE" Path="chimpanzee.wav" Category="" />
+        <Sound Id="COW" Path="cow.wav" Category="" />
+        <Sound Id="COYOTE" Path="coyote.wav" Category="" />
+        <Sound Id="CROW" Path="crow.wav" Category="" />
+        <Sound Id="DOG" Path="dog.wav" Category="" />
+        <Sound Id="DOLPHIN" Path="dolphin.wav" Category="" />
+        <Sound Id="DONKEY" Path="donkey.wav" Category="" />
+        <Sound Id="DUCK" Path="duck.wav" Category="" />
+        <Sound Id="ELEPHANT" Path="elephant.wav" Category="" />
+        <Sound Id="FROG" Path="frog.wav" Category="" />
+        <Sound Id="GIBBON" Path="gibbon.wav" Category="" />
+        <Sound Id="GOOSE" Path="goose.wav" Category="" />
+        <Sound Id="HORSE" Path="horse.wav" Category="" />
+        <Sound Id="KOOKABURRA" Path="kookaburra.wav" Category="" />
+        <Sound Id="LEOPARD" Path="leopard.wav" Category="" />
+        <Sound Id="LION" Path="lion.wav" Category="" />
+        <Sound Id="OWL" Path="owl.wav" Category="" />
+        <Sound Id="PIG" Path="pig.wav" Category="" />
+        <Sound Id="ROOSTER" Path="rooster.wav" Category="" />
+        <Sound Id="SHEEP" Path="sheep.wav" Category="" />
+        <Sound Id="SNAKE" Path="snake.wav" Category="" />
+        <Sound Id="TIGER" Path="tiger.wav" Category="" />
+        <Sound Id="WHALE" Path="whale.wav" Category="" />
+        <Sound Id="WOLF" Path="wolf.wav" Category="" />
+        <Sound Id="ZEBRA" Path="zebra.wav" Category="" />
+    </Type>
+    <Type Name="DOLY" Path="/.doly/sounds/sound/">
+        <Sound Id="ADMIRE (1)" Path="admire (1).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (2)" Path="admire (2).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (3)" Path="admire (3).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (4)" Path="admire (4).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (5)" Path="admire (5).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (6)" Path="admire (6).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (7)" Path="admire (7).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (8)" Path="admire (8).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (9)" Path="admire (9).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (10)" Path="admire (10).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (11)" Path="admire (11).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (12)" Path="admire (12).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (13)" Path="admire (13).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (14)" Path="admire (14).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (15)" Path="admire (15).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (16)" Path="admire (16).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (17)" Path="admire (17).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (18)" Path="admire (18).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (19)" Path="admire (19).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (20)" Path="admire (20).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (21)" Path="admire (21).wav" Category="ADMIRE" />
+        <Sound Id="ADMIRE (22)" Path="admire (22).wav" Category="ADMIRE" />
+        <Sound Id="AGREE (1)" Path="agree (1).wav" Category="AGREE" />
+        <Sound Id="AGREE (2)" Path="agree (2).wav" Category="AGREE" />
+        <Sound Id="AGREE (3)" Path="agree (3).wav" Category="AGREE" />
+        <Sound Id="AGREE (4)" Path="agree (4).wav" Category="AGREE" />
+        <Sound Id="AGREE (5)" Path="agree (5).wav" Category="AGREE" />
+        <Sound Id="AGREE (6)" Path="agree (6).wav" Category="AGREE" />
+        <Sound Id="AGREE (7)" Path="agree (7).wav" Category="AGREE" />
+        <Sound Id="AGREE (8)" Path="agree (8).wav" Category="AGREE" />
+        <Sound Id="AGREE (9)" Path="agree (9).wav" Category="AGREE" />
+        <Sound Id="AGREE (10)" Path="agree (10).wav" Category="AGREE" />
+        <Sound Id="AGREE (11)" Path="agree (11).wav" Category="AGREE" />
+        <Sound Id="AGREE (12)" Path="agree (12).wav" Category="AGREE" />
+        <Sound Id="AGREE (13)" Path="agree (13).wav" Category="AGREE" />
+        <Sound Id="AGREE (14)" Path="agree (14).wav" Category="AGREE" />
+        <Sound Id="AGREE (15)" Path="agree (15).wav" Category="AGREE" />
+        <Sound Id="ANGRY (1)" Path="angry (1).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (2)" Path="angry (2).wav" Category="AGREE" />
+        <Sound Id="ANGRY (3)" Path="angry (3).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (4)" Path="angry (4).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (5)" Path="angry (5).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (6)" Path="angry (6).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (7)" Path="angry (7).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (8)" Path="angry (8).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (9)" Path="angry (9).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (10)" Path="angry (10).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (11)" Path="angry (11).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (12)" Path="angry (12).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (13)" Path="angry (13).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (14)" Path="angry (14).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (15)" Path="angry (15).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (16)" Path="angry (16).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (17)" Path="angry (17).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (18)" Path="angry (18).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (19)" Path="angry (19).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (20)" Path="angry (20).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (21)" Path="angry (21).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (22)" Path="angry (22).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (23)" Path="angry (23).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (24)" Path="angry (24).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (25)" Path="angry (25).wav" Category="ANGRY" />
+        <Sound Id="ANGRY (26)" Path="angry (26).wav" Category="ANGRY" />
+        <Sound Id="ANNOY (1)" Path="annoy (1).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (2)" Path="annoy (2).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (3)" Path="annoy (3).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (4)" Path="annoy (4).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (5)" Path="annoy (5).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (6)" Path="annoy (6).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (7)" Path="annoy (7).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (8)" Path="annoy (8).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (9)" Path="annoy (9).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (10)" Path="annoy (10).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (11)" Path="annoy (11).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (12)" Path="annoy (12).wav" Category="ANNOY" />
+        <Sound Id="ANNOY (13)" Path="annoy (13).wav" Category="ANNOY" />
+        <Sound Id="ATTACK (1)" Path="attack (1).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (2)" Path="attack (2).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (3)" Path="attack (3).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (4)" Path="attack (4).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (5)" Path="attack (5).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (6)" Path="attack (6).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (7)" Path="attack (7).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (8)" Path="attack (8).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (9)" Path="attack (9).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (10)" Path="attack (10).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (11)" Path="attack (11).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (12)" Path="attack (12).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (13)" Path="attack (13).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (14)" Path="attack (14).wav" Category="ATTACK" />
+        <Sound Id="ATTACK (15)" Path="attack (15).wav" Category="ATTACK" />
+        <Sound Id="BURP (1)" Path="burp (1).wav" Category="BURP" />
+        <Sound Id="BURP (2)" Path="burp (2).wav" Category="BURP" />
+        <Sound Id="BURP (3)" Path="burp (3).wav" Category="BURP" />
+        <Sound Id="CALL (1)" Path="call (1).wav" Category="CALL" />
+        <Sound Id="CALL (2)" Path="call (2).wav" Category="CALL" />
+        <Sound Id="CALL (3)" Path="call (3).wav" Category="CALL" />
+        <Sound Id="CALL (4)" Path="call (4).wav" Category="CALL" />
+        <Sound Id="CALL (5)" Path="call (5).wav" Category="CALL" />
+        <Sound Id="CALL (6)" Path="call (6).wav" Category="CALL" />
+        <Sound Id="CALL (7)" Path="call (7).wav" Category="CALL" />
+        <Sound Id="CALL (8)" Path="call (8).wav" Category="CALL" />
+        <Sound Id="CALL (9)" Path="call (9).wav" Category="CALL" />
+        <Sound Id="CARRY (1)" Path="carry (1).wav" Category="CARRY" />
+        <Sound Id="CARRY (2)" Path="carry (2).wav" Category="CARRY" />
+        <Sound Id="CARRY (3)" Path="carry (3).wav" Category="CARRY" />
+        <Sound Id="CARRY (4)" Path="carry (4).wav" Category="CARRY" />
+        <Sound Id="CARRY (5)" Path="carry (5).wav" Category="CARRY" />
+        <Sound Id="CARRY (6)" Path="carry (6).wav" Category="CARRY" />
+        <Sound Id="CARRY (7)" Path="carry (7).wav" Category="CARRY" />
+        <Sound Id="CARRY (8)" Path="carry (8).wav" Category="CARRY" />
+        <Sound Id="CARRY (9)" Path="carry (9).wav" Category="CARRY" />
+        <Sound Id="CARRY (10)" Path="carry (10).wav" Category="CARRY" />
+        <Sound Id="CARRY (11)" Path="carry (11).wav" Category="CARRY" />
+        <Sound Id="CARRY (12)" Path="carry (12).wav" Category="CARRY" />
+        <Sound Id="CARRY (13)" Path="carry (13).wav" Category="CARRY" />
+        <Sound Id="CARRY (14)" Path="carry (14).wav" Category="CARRY" />
+        <Sound Id="CARRY (15)" Path="carry (15).wav" Category="CARRY" />
+        <Sound Id="CARRY (16)" Path="carry (16).wav" Category="CARRY" />
+        <Sound Id="CARRY (17)" Path="carry (17).wav" Category="CARRY" />
+        <Sound Id="CARRY (18)" Path="carry (18).wav" Category="CARRY" />
+        <Sound Id="CARRY (19)" Path="carry (19).wav" Category="CARRY" />
+        <Sound Id="COUGH (1)" Path="cough (1).wav" Category="COUGH" />
+        <Sound Id="COUGH (2)" Path="cough (2).wav" Category="COUGH" />
+        <Sound Id="COUGH (3)" Path="cough (3).wav" Category="COUGH" />
+        <Sound Id="COUGH (4)" Path="cough (4).wav" Category="COUGH" />
+        <Sound Id="CRY (1)" Path="cry (1).wav" Category="CRY" />
+        <Sound Id="CRY (2)" Path="cry (2).wav" Category="CRY" />
+        <Sound Id="CRY (3)" Path="cry (3).wav" Category="CRY" />
+        <Sound Id="CRY (4)" Path="cry (4).wav" Category="CRY" />
+        <Sound Id="CRY (5)" Path="cry (5).wav" Category="CRY" />
+        <Sound Id="DIE (1)" Path="die (1).wav" Category="DIE" />
+        <Sound Id="DIE (2)" Path="die (2).wav" Category="DIE" />
+        <Sound Id="DIE (3)" Path="die (3).wav" Category="DIE" />
+        <Sound Id="DIE (4)" Path="die (4).wav" Category="DIE" />
+        <Sound Id="DIE (5)" Path="die (5).wav" Category="DIE" />
+        <Sound Id="DIE (6)" Path="die (6).wav" Category="DIE" />
+        <Sound Id="DIE (7)" Path="die (7).wav" Category="DIE" />
+        <Sound Id="DIE (8)" Path="die (8).wav" Category="DIE" />
+        <Sound Id="DIE (9)" Path="die (9).wav" Category="DIE" />
+        <Sound Id="DISAGREE (1)" Path="disagree (1).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (2)" Path="disagree (2).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (3)" Path="disagree (3).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (4)" Path="disagree (4).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (5)" Path="disagree (5).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (6)" Path="disagree (6).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (7)" Path="disagree (7).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (8)" Path="disagree (8).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (9)" Path="disagree (9).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (10)" Path="disagree (10).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (11)" Path="disagree (11).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (12)" Path="disagree (12).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (13)" Path="disagree (13).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (14)" Path="disagree (14).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (15)" Path="disagree (15).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (16)" Path="disagree (16).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (17)" Path="disagree (17).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (18)" Path="disagree (18).wav" Category="DISAGREE" />
+        <Sound Id="DISAGREE (19)" Path="disagree (19).wav" Category="DISAGREE" />
+        <Sound Id="DISGUST (1)" Path="disgust (1).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (2)" Path="disgust (2).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (3)" Path="disgust (3).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (4)" Path="disgust (4).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (5)" Path="disgust (5).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (6)" Path="disgust (6).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (7)" Path="disgust (7).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (8)" Path="disgust (8).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (9)" Path="disgust (9).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (10)" Path="disgust (10).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (11)" Path="disgust (11).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (12)" Path="disgust (12).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (13)" Path="disgust (13).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (14)" Path="disgust (14).wav" Category="DISGUST" />
+        <Sound Id="DISGUST (15)" Path="disgust (15).wav" Category="DISGUST" />
+        <Sound Id="HAPPY (1)" Path="happy (1).wav" Category="HAPPY" />
+        <Sound Id="HAPPY (2)" Path="happy (2).wav" Category="HAPPY" />
+        <Sound Id="HAPPY (3)" Path="happy (3).wav" Category="HAPPY" />
+        <Sound Id="HAPPY (4)" Path="happy (4).wav" Category="HAPPY" />
+        <Sound Id="HURT (1)" Path="hurt (1).wav" Category="HURT" />
+        <Sound Id="HURT (2)" Path="hurt (2).wav" Category="HURT" />
+        <Sound Id="HURT (3)" Path="hurt (3).wav" Category="HURT" />
+        <Sound Id="HURT (4)" Path="hurt (4).wav" Category="HURT" />
+        <Sound Id="HURT (5)" Path="hurt (5).wav" Category="HURT" />
+        <Sound Id="HURT (6)" Path="hurt (6).wav" Category="HURT" />
+        <Sound Id="HURT (7)" Path="hurt (7).wav" Category="HURT" />
+        <Sound Id="HURT (8)" Path="hurt (8).wav" Category="HURT" />
+        <Sound Id="HURT (9)" Path="hurt (9).wav" Category="HURT" />
+        <Sound Id="HURT (10)" Path="hurt (10).wav" Category="HURT" />
+        <Sound Id="HURT (11)" Path="hurt (11).wav" Category="HURT" />
+        <Sound Id="HURT (12)" Path="hurt (12).wav" Category="HURT" />
+        <Sound Id="HURT (13)" Path="hurt (13).wav" Category="HURT" />
+        <Sound Id="HURT (14)" Path="hurt (14).wav" Category="HURT" />
+        <Sound Id="HURT (15)" Path="hurt (15).wav" Category="HURT" />
+        <Sound Id="HURT (16)" Path="hurt (16).wav" Category="HURT" />
+        <Sound Id="HURT (17)" Path="hurt (17).wav" Category="HURT" />
+        <Sound Id="HURT (18)" Path="hurt (18).wav" Category="HURT" />
+        <Sound Id="IDLE (1)" Path="idle (1).wav" Category="IDLE" />
+        <Sound Id="IDLE (2)" Path="idle (2).wav" Category="IDLE" />
+        <Sound Id="IDLE (3)" Path="idle (3).wav" Category="IDLE" />
+        <Sound Id="IDLE (4)" Path="idle (4).wav" Category="IDLE" />
+        <Sound Id="IDLE (5)" Path="idle (5).wav" Category="IDLE" />
+        <Sound Id="IDLE (6)" Path="idle (6).wav" Category="IDLE" />
+        <Sound Id="IDLE (7)" Path="idle (7).wav" Category="IDLE" />
+        <Sound Id="IDLE (8)" Path="idle (8).wav" Category="IDLE" />
+        <Sound Id="LAUGH (1)" Path="laugh (1).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (2)" Path="laugh (2).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (3)" Path="laugh (3).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (4)" Path="laugh (4).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (5)" Path="laugh (5).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (6)" Path="laugh (6).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (7)" Path="laugh (7).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (8)" Path="laugh (8).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (9)" Path="laugh (9).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (10)" Path="laugh (10).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (11)" Path="laugh (11).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (12)" Path="laugh (12).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (13)" Path="laugh (13).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (14)" Path="laugh (14).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (15)" Path="laugh (15).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (16)" Path="laugh (16).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (17)" Path="laugh (17).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (18)" Path="laugh (18).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (19)" Path="laugh (19).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (20)" Path="laugh (20).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (21)" Path="laugh (21).wav" Category="LAUGH" />
+        <Sound Id="LAUGH (22)" Path="laugh (22).wav" Category="LAUGH" />
+        <Sound Id="MISS (1)" Path="miss (1).wav" Category="MISS" />
+        <Sound Id="MISS (2)" Path="miss (2).wav" Category="MISS" />
+        <Sound Id="MISS (3)" Path="miss (3).wav" Category="MISS" />
+        <Sound Id="MISS (4)" Path="miss (4).wav" Category="MISS" />
+        <Sound Id="PROVOKE (1)" Path="provoke (1).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (2)" Path="provoke (2).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (3)" Path="provoke (3).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (4)" Path="provoke (4).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (5)" Path="provoke (5).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (6)" Path="provoke (6).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (7)" Path="provoke (7).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (8)" Path="provoke (8).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (9)" Path="provoke (9).wav" Category="PROVOKE" />
+        <Sound Id="PROVOKE (10)" Path="provoke (10).wav" Category="PROVOKE" />
+        <Sound Id="RELIEVE (1)" Path="relieve (1).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (2)" Path="relieve (2).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (3)" Path="relieve (3).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (4)" Path="relieve (4).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (5)" Path="relieve (5).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (6)" Path="relieve (6).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (7)" Path="relieve (7).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (8)" Path="relieve (8).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (9)" Path="relieve (9).wav" Category="RELIEVE" />
+        <Sound Id="RELIEVE (10)" Path="relieve (10).wav" Category="RELIEVE" />
+        <Sound Id="SAD (1)" Path="sad (1).wav" Category="SAD" />
+        <Sound Id="SAD (2)" Path="sad (2).wav" Category="SAD" />
+        <Sound Id="SAD (3)" Path="sad (3).wav" Category="SAD" />
+        <Sound Id="SAD (4)" Path="sad (4).wav" Category="SAD" />
+        <Sound Id="SAD (5)" Path="sad (5).wav" Category="SAD" />
+        <Sound Id="SAD (6)" Path="sad (6).wav" Category="SAD" />
+        <Sound Id="SAD (7)" Path="sad (7).wav" Category="SAD" />
+        <Sound Id="SAD (8)" Path="sad (8).wav" Category="SAD" />
+        <Sound Id="SAD (9)" Path="sad (9).wav" Category="SAD" />
+        <Sound Id="SAD (10)" Path="sad (10).wav" Category="SAD" />
+        <Sound Id="SAD (11)" Path="sad (11).wav" Category="SAD" />
+        <Sound Id="SAD (12)" Path="sad (12).wav" Category="SAD" />
+        <Sound Id="SAD (13)" Path="sad (13).wav" Category="SAD" />
+        <Sound Id="SAD (14)" Path="sad (14).wav" Category="SAD" />
+        <Sound Id="SAD (15)" Path="sad (15).wav" Category="SAD" />
+        <Sound Id="SAD (16)" Path="sad (16).wav" Category="SAD" />
+        <Sound Id="SAD (17)" Path="sad (17).wav" Category="SAD" />
+        <Sound Id="SAD (18)" Path="sad (18).wav" Category="SAD" />
+        <Sound Id="SAD (19)" Path="sad (19).wav" Category="SAD" />
+        <Sound Id="SAD (20)" Path="sad (20).wav" Category="SAD" />
+        <Sound Id="SHAKE (1)" Path="shake (1).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (2)" Path="shake (2).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (3)" Path="shake (3).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (4)" Path="shake (4).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (5)" Path="shake (5).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (6)" Path="shake (6).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (7)" Path="shake (7).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (8)" Path="shake (8).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (9)" Path="shake (9).wav" Category="SHAKE" />
+        <Sound Id="SHAKE (10)" Path="shake (10).wav" Category="SHAKE" />
+        <Sound Id="SHOCK (1)" Path="shock (1).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (2)" Path="shock (2).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (3)" Path="shock (3).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (4)" Path="shock (4).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (5)" Path="shock (5).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (6)" Path="shock (6).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (7)" Path="shock (7).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (8)" Path="shock (8).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (9)" Path="shock (9).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (10)" Path="shock (10).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (11)" Path="shock (11).wav" Category="SHOCK" />
+        <Sound Id="SHOCK (12)" Path="shock (12).wav" Category="SHOCK" />
+        <Sound Id="SICK (1)" Path="sick (1).wav" Category="SICK" />
+        <Sound Id="SICK (2)" Path="sick (2).wav" Category="SICK" />
+        <Sound Id="SICK (3)" Path="sick (3).wav" Category="SICK" />
+        <Sound Id="SICK (4)" Path="sick (4).wav" Category="SICK" />
+        <Sound Id="SICK (5)" Path="sick (5).wav" Category="SICK" />
+        <Sound Id="SLEEP (1)" Path="sleep (1).wav" Category="SLEEP" />
+        <Sound Id="SLEEP (2)" Path="sleep (2).wav" Category="SLEEP" />
+        <Sound Id="SNEEZE (1)" Path="sneeze (1).wav" Category="SNEEZE" />
+        <Sound Id="SNEEZE (2)" Path="sneeze (2).wav" Category="SNEEZE" />
+        <Sound Id="SNEEZE (3)" Path="sneeze (3).wav" Category="SNEEZE" />
+        <Sound Id="SNEEZE (4)" Path="sneeze (4).wav" Category="SNEEZE" />
+        <Sound Id="SNEEZE (5)" Path="sneeze (5).wav" Category="SNEEZE" />
+        <Sound Id="SNEEZE (6)" Path="sneeze (6).wav" Category="SNEEZE" />
+        <Sound Id="SNEEZE (7)" Path="sneeze (7).wav" Category="SNEEZE" />
+        <Sound Id="TALK (1)" Path="talk (1).wav" Category="TALK" />
+        <Sound Id="TALK (2)" Path="talk (2).wav" Category="TALK" />
+        <Sound Id="TALK (3)" Path="talk (3).wav" Category="TALK" />
+        <Sound Id="TALK (4)" Path="talk (4).wav" Category="TALK" />
+        <Sound Id="TALK (5)" Path="talk (5).wav" Category="TALK" />
+        <Sound Id="TALK (6)" Path="talk (6).wav" Category="TALK" />
+        <Sound Id="TALK (7)" Path="talk (7).wav" Category="TALK" />
+        <Sound Id="TALK (8)" Path="talk (8).wav" Category="TALK" />
+        <Sound Id="TALK (9)" Path="talk (9).wav" Category="TALK" />
+        <Sound Id="TALK (10)" Path="talk (10).wav" Category="TALK" />
+        <Sound Id="TALK (11)" Path="talk (11).wav" Category="TALK" />
+        <Sound Id="TALK (12)" Path="talk (12).wav" Category="TALK" />
+        <Sound Id="TALK (13)" Path="talk (13).wav" Category="TALK" />
+        <Sound Id="TALK (14)" Path="talk (14).wav" Category="TALK" />
+        <Sound Id="TALK (15)" Path="talk (15).wav" Category="TALK" />
+        <Sound Id="TALK (16)" Path="talk (16).wav" Category="TALK" />
+        <Sound Id="TALK (17)" Path="talk (17).wav" Category="TALK" />
+        <Sound Id="TALK (18)" Path="talk (18).wav" Category="TALK" />
+        <Sound Id="TALK (19)" Path="talk (19).wav" Category="TALK" />
+        <Sound Id="TALK (20)" Path="talk (20).wav" Category="TALK" />
+        <Sound Id="TALK (21)" Path="talk (21).wav" Category="TALK" />
+        <Sound Id="TALK (22)" Path="talk (22).wav" Category="TALK" />
+        <Sound Id="TALK (23)" Path="talk (23).wav" Category="TALK" />
+        <Sound Id="TALK (24)" Path="talk (24).wav" Category="TALK" />
+        <Sound Id="TALK (25)" Path="talk (25).wav" Category="TALK" />
+        <Sound Id="WALK (1)" Path="walk (1).wav" Category="WALK" />
+        <Sound Id="WALK (2)" Path="walk (2).wav" Category="WALK" />
+        <Sound Id="YAWN (1)" Path="yawn (1).wav" Category="YAWN" />
+        <Sound Id="YAWN (2)" Path="yawn (2).wav" Category="YAWN" />
+        <Sound Id="YAWN (3)" Path="yawn (3).wav" Category="YAWN" />
+        <Sound Id="YAWN (4)" Path="yawn (4).wav" Category="YAWN" />
+    </Type>
+    <Type Name="SFX" Path="/.doly/sounds/sfx/">
+        <Sound Id="KISS (1)" Path="kiss-(1).mp3" Category="" />
+        <Sound Id="KISS (2)" Path="kiss-(2).mp3" Category="" />
+        <Sound Id="KISS (3)" Path="kiss-(3).mp3" Category="" />
+        <Sound Id="ALARM (1)" Path="alarm (1).wav" Category="" />
+        <Sound Id="ALARM (2)" Path="alarm (2).wav" Category="" />
+        <Sound Id="ALARM (3)" Path="alarm (3).wav" Category="" />
+        <Sound Id="ALARM (4)" Path="alarm (4).wav" Category="" />
+        <Sound Id="ALARM (5)" Path="alarm (5).wav" Category="" />
+        <Sound Id="ALARM (6)" Path="alarm (6).wav" Category="" />
+        <Sound Id="BEACH" Path="beach.wav" Category="" />
+        <Sound Id="BUFF (1)" Path="buff (1).wav" Category="" />
+        <Sound Id="BUFF (2)" Path="buff (2).wav" Category="" />
+        <Sound Id="BUFF (3)" Path="buff (3).wav" Category="" />
+        <Sound Id="BUFF (4)" Path="buff (4).wav" Category="" />
+        <Sound Id="BUFF (5)" Path="buff (5).wav" Category="" />
+        <Sound Id="BUFF (6)" Path="buff (6).wav" Category="" />
+        <Sound Id="CAMERA CLICK" Path="camera click.wav" Category="" />
+        <Sound Id="CLICK" Path="click.wav" Category="" />
+        <Sound Id="CLOCK PUSH" Path="clock push.wav" Category="" />
+        <Sound Id="CLOCK TICK" Path="clock tick.wav" Category="" />
+        <Sound Id="COINS" Path="coins.wav" Category="" />
+        <Sound Id="COLLECT" Path="collect.wav" Category="" />
+        <Sound Id="DAMAGE" Path="damage.wav" Category="" />
+        <Sound Id="DEBUFF (1)" Path="debuff (1).wav" Category="" />
+        <Sound Id="DEBUFF (2)" Path="debuff (2).wav" Category="" />
+        <Sound Id="DEBUFF (3)" Path="debuff (3).wav" Category="" />
+        <Sound Id="DRUM ROLL (1)" Path="drum roll (1).wav" Category="" />
+        <Sound Id="DRUM ROLL (2)" Path="drum roll (2).wav" Category="" />
+        <Sound Id="DRUM ROLL (3)" Path="drum roll (3).wav" Category="" />
+        <Sound Id="DRUM ROLL (4)" Path="drum roll (4).wav" Category="" />
+        <Sound Id="ERROR (1)" Path="error (1).wav" Category="" />
+        <Sound Id="ERROR (2)" Path="error (2).wav" Category="" />
+        <Sound Id="ERROR (3)" Path="error (3).wav" Category="" />
+        <Sound Id="ERROR (4)" Path="error (4).wav" Category="" />
+        <Sound Id="ERROR (5)" Path="error (5).wav" Category="" />
+        <Sound Id="EXPLOSION (1)" Path="explosion (1).wav" Category="" />
+        <Sound Id="EXPLOSION (2)" Path="explosion (2).wav" Category="" />
+        <Sound Id="EXPLOSION (3)" Path="explosion (3).wav" Category="" />
+        <Sound Id="FIRE TRUCK (1)" Path="fire truck (1).wav" Category="" />
+        <Sound Id="FIRE TRUCK (2)" Path="fire truck (2).wav" Category="" />
+        <Sound Id="FIRE" Path="fire.wav" Category="" />
+        <Sound Id="FIREWORKS" Path="fireworks.wav" Category="" />
+        <Sound Id="GONG (1)" Path="gong (1).wav" Category="" />
+        <Sound Id="GONG (2)" Path="gong (2).wav" Category="" />
+        <Sound Id="GONG (3)" Path="gong (3).wav" Category="" />
+        <Sound Id="GUN SHOT" Path="gun shot.wav" Category="" />
+        <Sound Id="HINT" Path="hint.wav" Category="" />
+        <Sound Id="HMMM" Path="hmmm.wav" Category="" />
+        <Sound Id="LEVEL UP" Path="level up.wav" Category="" />
+        <Sound Id="LOST (1)" Path="lost (1).wav" Category="" />
+        <Sound Id="LOST (2)" Path="lost (2).wav" Category="" />
+        <Sound Id="LOST (3)" Path="lost (3).wav" Category="" />
+        <Sound Id="NOTIFICATION (1)" Path="notification (1).wav" Category="" />
+        <Sound Id="NOTIFICATION (2)" Path="notification (2).wav" Category="" />
+        <Sound Id="NOTIFICATION (3)" Path="notification (3).wav" Category="" />
+        <Sound Id="POLICE (1)" Path="police (1).wav" Category="" />
+        <Sound Id="POLICE (2)" Path="police (2).wav" Category="" />
+        <Sound Id="SIREN (1)" Path="siren (1).wav" Category="" />
+        <Sound Id="SIREN (2)" Path="siren (2).wav" Category="" />
+        <Sound Id="SLOT JACKPOT" Path="slot jackpot.wav" Category="" />
+        <Sound Id="SLOT LEVER" Path="slot lever.wav" Category="" />
+        <Sound Id="SLOT LOOSER" Path="slot looser.wav" Category="" />
+        <Sound Id="SLOT TURN" Path="slot turn.wav" Category="" />
+        <Sound Id="SLOT WINNER" Path="slot winner.wav" Category="" />
+        <Sound Id="SUCCESS (1)" Path="success (1).wav" Category="" />
+        <Sound Id="SUCCESS (2)" Path="success (2).wav" Category="" />
+        <Sound Id="SUCCESS (3)" Path="success (3).wav" Category="" />
+        <Sound Id="SWEEP (1)" Path="sweep (1).wav" Category="" />
+        <Sound Id="SWEEP (2)" Path="sweep (2).wav" Category="" />
+        <Sound Id="SWITCH" Path="switch.wav" Category="" />
+        <Sound Id="SWOOSH (1)" Path="swoosh (1).wav" Category="" />
+        <Sound Id="SWOOSH (2)" Path="swoosh (2).wav" Category="" />
+        <Sound Id="SWOOSH (3)" Path="swoosh (3).wav" Category="" />
+        <Sound Id="SWOOSH (4)" Path="swoosh (4).wav" Category="" />
+        <Sound Id="TELEPORT (1)" Path="teleport (1).wav" Category="" />
+        <Sound Id="TELEPORT (2)" Path="teleport (2).wav" Category="" />
+        <Sound Id="TELEPORT (3)" Path="teleport (3).wav" Category="" />
+        <Sound Id="TELEPORT (4)" Path="teleport (4).wav" Category="" />
+        <Sound Id="UNLOCK" Path="unlock.wav" Category="" />
+        <Sound Id="WIN (1)" Path="win (1).wav" Category="" />
+        <Sound Id="WIN (2)" Path="win (2).wav" Category="" />
+        <Sound Id="WIN (3)" Path="win (3).wav" Category="" />
+    </Type>
+    <Type Name="MUSIC" Path="/.doly/sounds/music/">
+        <Sound Id="BIRTHDAY" Path="birthday.wav" Category="" />
+        <Sound Id="SALSA" Path="salsa.wav" Category="" />
+    </Type>
+    <Type Name="GAME" Path="/.doly/sounds/game/">
+        <Sound Id="START" Path="game-start-317318.mp3" Category="" />
+        <Sound Id="START2" Path="game-start-6104.mp3" Category="" />
+        <Sound Id="SALSA" Path="salsa.wav" Category="" />
+    </Type>
+    <Type Name="WUW" Path="/.doly/sounds/wuw/">
+        <Sound Id="WUW_1" Path="wuw_1.wav" Category="" />
+        <Sound Id="WUW_2" Path="wuw_2.wav" Category="" />
+        <Sound Id="WUW_3" Path="wuw_3.wav" Category="" />
+        <Sound Id="WUW_4" Path="wuw_4.wav" Category="" />
+    </Type>
+</List>

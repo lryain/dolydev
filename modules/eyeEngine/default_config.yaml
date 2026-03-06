@@ -1,0 +1,133 @@
+# EyeEngine 默认配置文件
+# 此文件定义了 eyeEngine 的各项默认参数
+
+# 眼睛外观配置
+appearance:
+  # 虹膜主题 (CLASSIC, MODERN, SPACE, DIGI, ORBIT, GLOW, FOOD, MISC, SEASONAL, SYMBOL, CASINO, MATCH)
+  iris_theme: "CLASSIC"
+  
+  # 虹膜样式/颜色 (COLOR_BLUE, COLOR_GREEN, COLOR_BROWN, etc.)
+  iris_style: "COLOR_GOLD"
+  
+  # 左眼虹膜 (留空则使用全局配置)
+  left_iris_theme: ""
+  left_iris_style: ""
+  
+  # 右眼虹膜 (留空则使用全局配置)
+  right_iris_theme: ""
+  right_iris_style: ""
+  
+  # 眼睑配置
+  side_lid_id: 0        # 侧眼睑 ID (0 = 无)
+  top_lid_id: 0         # 上眼睑 ID (0 = 无)
+  bottom_lid_id: 0      # 下眼睑 ID (0 = 无)
+  
+  # 左右眼睑独立配置 (留空则使用全局)
+  left_lid_id: null
+  right_lid_id: null
+  
+  # 背景配置
+  background_type: "COLOR"      # COLOR 或 IMAGE
+  background_style: "COLOR_WHITE"  # 背景样式名称
+  
+  # 亮度 (0-10)
+  brightness: 8
+  left_brightness: null   # 留空则使用全局亮度
+  right_brightness: null
+
+# 默认表情 (可选，留空则不设置默认表情)
+default_expression: ""
+
+# 自动眨眼配置
+auto_blink:
+  enabled: true
+  # 眨眼间隔 (秒，随机范围)
+  interval_min: 5.0
+  interval_max: 15.0
+  # 眨眼动画列表 (动画名称: 权重)
+  # 将从 eyeanimations.xml 中选取指定的动画随机播放
+  animations:
+    "BLINK": 3
+    "BLINK SLOW": 1
+    "BLINK BIG": 1
+    
+
+# 自动表情轮播配置
+auto_expression_carousel:
+  enabled: false
+  # 表情列表 (从 animationlist.xml 中的行为名称)
+  expressions:
+    - "ANIMATION_HAPPY"
+    - "ANIMATION_BORED"
+    - "ANIMATION_ANGER"
+  # 每个表情持续时间 (秒)
+  duration: 5.0
+  # 表情之间的间隔 (秒)
+  interval: 5.0
+  # 是否随机顺序播放
+  random_order: true
+
+# 引擎性能配置
+performance:
+  # 默认 FPS
+  default_fps: 15
+  
+  # 序列文件默认播放 FPS (如 .seq 动画)
+  default_fps_seq: 15
+  
+  # 是否使用模拟驱动 (调试用)
+  use_mock: false
+
+# 视频流配置（FaceReco 推流）
+video_stream:
+  enabled: true
+  resource_id: "facereco_video"
+  instance_id: 0
+  target_lcd: "RIGHT"  # LEFT/RIGHT
+  fps: 10
+  timeout_ms: 100
+  display_mode: "overlay"   # overlay / exclusive
+  overlay_style: "pupil"     # full / pupil
+  pupil_radius_ratio: 0.25   # 瞳孔半径比例 (0.0-1.0)，仅在 overlay_style=pupil 时有效
+
+# ZMQ 服务配置
+zmq_service:
+  # 命令接收端点 (REQ-REP 模式)
+  command_endpoint: "ipc:///tmp/doly_eye_cmd.sock"
+  
+  # 事件发布端点 (PUB-SUB 模式)
+  event_endpoint: "ipc:///tmp/doly_eye_event.sock"
+  
+  # Widget 服务事件发布端点 (用于 LCD 互斥订阅)
+  widget_pub_endpoint: "ipc:///tmp/doly_widget_pub.sock"
+  
+  # ZMQ 超时 (毫秒)
+  timeout_ms: 5000
+  # 是否启用调试命令（如 debug_fail）
+  debug_commands: true
+
+# 任务优先级配置
+task_priority:
+  # 启用优先级管理
+  enabled: true
+  
+  # 默认优先级级别
+  default_priority: 5
+  
+  # 最高优先级
+  max_priority: 10
+  
+  # 最低优先级
+  min_priority: 1
+
+# 被动模式：启用后引擎仅响应外部命令，不会执行任何主动逻辑（自动眨眼、表情轮播、默认表情等）
+passive_mode:
+  enabled: false
+
+# 动画自动复位配置
+auto_reset:
+  enabled: true           # 播放完成后是否自动复位到默认状态
+  delay_ms: 10000          # 播放结束后等待的毫秒数，再执行复位
+  expression: ""          # 复位使用的默认表情（留空则使用初始静态状态刷新）
+  restore_passive: true   # 复位后恢复被动/自主模式的状态
+  auto_reset_background: true # 建议增加此配置，如果为 False，则背景不复位

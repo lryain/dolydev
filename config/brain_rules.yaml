@@ -1,0 +1,334 @@
+# Doly 决策引擎规则配置
+# 版本: 1.0
+# 描述: 定义决策引擎的规则，根据条件触发对应的动作
+
+# ===== 规则语法说明 =====
+# condition: 条件表达式，支持 AND, OR, IN, ==, !=, >, <, >=, <=
+# action: 触发的动作名称
+# priority: 优先级 (数字越大越优先)
+# enabled: 是否启用
+
+# ===== 状态转换规则 =====
+state_transition_rules:
+  # 唤醒规则 - idle -> activated
+  - name: "idle_to_activated"
+    description: "待机状态收到唤醒命令，进入交互状态"
+    condition:
+      state: "idle"
+      command_in: ["wakeup_detected", "cmd_iHelloDoly", "cmd_iHeyDoly"]
+    action: "transition_to_activated"
+    priority: 100
+    enabled: true
+    
+  # 休眠规则 - activated -> sleeping
+  - name: "activated_to_sleeping"
+    description: "交互状态收到休眠命令，进入休眠状态"
+    condition:
+      state: "activated"
+      command_in: ["cmd_iShutup", "cmd_GoodbyeDoly", "cmd_iSleep"]
+    action: "transition_to_sleeping"
+    priority: 95
+    enabled: true
+    
+  # 从休眠唤醒 - sleeping -> activated
+  - name: "sleeping_to_activated"
+    description: "休眠状态收到唤醒命令，进入交互状态"
+    condition:
+      state: "sleeping"
+      command_in: ["wakeup_detected", "cmd_iHelloDoly", "cmd_iHeyDoly"]
+    action: "transition_to_activated"
+    priority: 100
+    enabled: true
+    
+  # 超时回退 - activated -> idle
+  - name: "activated_timeout"
+    description: "交互状态超时，回到待机状态"
+    condition:
+      state: "activated"
+      event: "timeout"
+    action: "transition_to_idle"
+    priority: 50
+    enabled: true
+
+# ===== 命令响应规则 =====
+command_rules:
+  # 报时命令
+  - name: "tell_time"
+    description: "收到报时命令，执行报时技能"
+    condition:
+      state_in: ["activated", "idle"]  # 待机和交互状态都可响应
+      command_in: ["cmd_ActTime", "cmd_iWhatTime"]
+    action: "skill_tell_time"
+    priority: 80
+    enabled: true
+    
+  # 定时器命令
+  - name: "set_timer"
+    description: "收到定时器命令，设置定时器"
+    condition:
+      state: "activated"
+      command_in: ["cmd_ActTimer", "cmd_iSetTimer"]
+    action: "skill_set_timer"
+    priority: 80
+    enabled: true
+    
+  # 前进命令
+  - name: "move_forward"
+    description: "收到前进命令，控制履带前进"
+    condition:
+      state: "activated"
+      command_in: ["cmd_ActForward", "cmd_iGoForward"]
+    action: "drive_forward"
+    priority: 70
+    enabled: true
+    
+  # 后退命令
+  - name: "move_backward"
+    description: "收到后退命令，控制履带后退"
+    condition:
+      state: "activated"
+      command_in: ["cmd_ActBackward", "cmd_iGoBack"]
+    action: "drive_backward"
+    priority: 70
+    enabled: true
+    
+  # 左转命令
+  - name: "turn_left"
+    description: "收到左转命令"
+    condition:
+      state: "activated"
+      command_in: ["cmd_ActLeft", "cmd_iTurnLeft"]
+    action: "drive_turn_left"
+    priority: 70
+    enabled: true
+    
+  # 右转命令
+  - name: "turn_right"
+    description: "收到右转命令"
+    condition:
+      state: "activated"
+      command_in: ["cmd_ActRight", "cmd_iTurnRight"]
+    action: "drive_turn_right"
+    priority: 70
+    enabled: true
+    
+  # 停止命令
+  - name: "stop"
+    description: "收到停止命令，停止所有动作"
+    condition:
+      command_in: ["cmd_ActStop", "cmd_iStop"]
+    action: "stop_all"
+    priority: 90
+    enabled: true
+    
+  # 挥手命令
+  - name: "wave_hand"
+    description: "收到挥手命令"
+    condition:
+      state: "activated"
+      command_in: ["cmd_ActWave", "cmd_iWaveHand"]
+    action: "skill_wave_hand"
+    priority: 75
+    enabled: true
+
+# ===== 感知响应规则 =====
+perception_rules:
+  # 悬崖检测
+  - name: "cliff_detected"
+    description: "检测到悬崖，紧急停止并后退"
+    condition:
+      sensor: "cliff"
+      value: true
+    action: "emergency_stop_backward"
+    priority: 200  # 最高优先级
+    enabled: true
+    
+  # 障碍物检测
+  - name: "obstacle_detected"
+    description: "检测到近距离障碍物，停止前进"
+    condition:
+      sensor: "tof"
+      value_lt: 100  # 距离小于100mm
+    action: "stop_forward"
+    priority: 150
+    enabled: true
+    
+  # 触摸响应 - 左眼
+  - name: "touch_left_eye"
+    description: "左眼被触摸"
+    condition:
+      state: "activated"
+      sensor: "touch_left"
+      value: true
+    action: "respond_touch_left"
+    priority: 60
+    enabled: true
+    
+  # 触摸响应 - 右眼
+  - name: "touch_right_eye"
+    description: "右眼被触摸"
+    condition:
+      state: "activated"
+      sensor: "touch_right"
+      value: true
+    action: "respond_touch_right"
+    priority: 60
+    enabled: true
+
+# ===== 情绪触发规则 =====
+emotion_rules:
+  # 被唤醒时开心
+  - name: "happy_on_wakeup"
+    description: "被唤醒时感到开心"
+    condition:
+      event: "wakeup"
+    action: "emotion_happy"
+    intensity: 0.8
+    priority: 40
+    enabled: true
+    
+  # 被打断时不高兴
+  - name: "annoyed_on_interrupt"
+    description: "任务被打断时感到不高兴"
+    condition:
+      event: "task_interrupted"
+    action: "emotion_annoyed"
+    intensity: 0.6
+    priority: 40
+    enabled: true
+    
+  # 待机太久感到无聊
+  - name: "bored_on_idle"
+    description: "待机太久感到无聊"
+    condition:
+      state: "idle"
+      state_duration_gt: 120  # 待机超过2分钟
+    action: "emotion_bored"
+    intensity: 0.5
+    priority: 30
+    enabled: true
+
+# ===== 随机行为规则 =====
+random_behavior_rules:
+  # 待机时随机动作
+  - name: "idle_random_action"
+    description: "待机时随机执行小动作"
+    condition:
+      state: "idle"
+      random_chance: 0.1  # 10%概率
+      cooldown: 30        # 冷却30秒
+    action: "random_idle_action"
+    priority: 10
+    enabled: true
+    
+  # 交互时眨眼
+  - name: "activated_blink"
+    description: "交互时偶尔眨眼"
+    condition:
+      state: "activated"
+      random_chance: 0.2
+      cooldown: 5
+    action: "blink"
+    priority: 5
+    enabled: true
+
+# ===== 动作定义 =====
+# 这些动作名称会被 SkillCenter 或相应模块处理
+actions:
+  transition_to_activated:
+    type: "state_transition"
+    target_state: "activated"
+    
+  transition_to_sleeping:
+    type: "state_transition"
+    target_state: "sleeping"
+    
+  transition_to_idle:
+    type: "state_transition"
+    target_state: "idle"
+    
+  skill_tell_time:
+    type: "skill"
+    skill_name: "tell_time"
+    
+  skill_set_timer:
+    type: "skill"
+    skill_name: "set_timer"
+    params:
+      duration: 60  # 默认1分钟
+      
+  skill_wave_hand:
+    type: "skill"
+    skill_name: "wave_hand"
+    
+  drive_forward:
+    type: "drive"
+    command: "move"
+    params:
+      speed_left: 0.3
+      speed_right: 0.3
+      duration: 1.0
+      
+  drive_backward:
+    type: "drive"
+    command: "move"
+    params:
+      speed_left: -0.3
+      speed_right: -0.3
+      duration: 1.0
+      
+  drive_turn_left:
+    type: "drive"
+    command: "move"
+    params:
+      speed_left: -0.2
+      speed_right: 0.2
+      duration: 0.5
+      
+  drive_turn_right:
+    type: "drive"
+    command: "move"
+    params:
+      speed_left: 0.2
+      speed_right: -0.2
+      duration: 0.5
+      
+  stop_all:
+    type: "composite"
+    actions:
+      - type: "drive"
+        command: "stop"
+      - type: "skill"
+        skill_name: "stop_action"
+        
+  emergency_stop_backward:
+    type: "composite"
+    actions:
+      - type: "drive"
+        command: "stop"
+      - type: "drive"
+        command: "move"
+        params:
+          speed_left: -0.3
+          speed_right: -0.3
+          duration: 0.5
+      - type: "audio"
+        sound: "sfx_error_1"
+        
+  emotion_happy:
+    type: "emotion"
+    emotion: "happy"
+    
+  emotion_annoyed:
+    type: "emotion"
+    emotion: "annoyed"
+    
+  emotion_bored:
+    type: "emotion"
+    emotion: "bored"
+    
+  blink:
+    type: "eye"
+    command: "blink"
+    params:
+      count: 1

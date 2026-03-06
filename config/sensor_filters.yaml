@@ -1,0 +1,175 @@
+# 传感器滤波配置
+# 用于消除传感器数据毛刺、噪声，提供稳定的状态估计
+
+# ============================================================
+# 全局采样率控制
+# ============================================================
+sampling:
+  tof_hz: 20           # TOF 距离传感器采样率 (0=不限制)
+  imu_ahrs_hz: 50      # IMU 姿态数据采样率
+  imu_gesture_hz: 100  # IMU 手势事件采样率
+  touch_hz: 100        # 触摸传感器采样率
+  cliff_hz: 50         # 悬崖传感器采样率
+  power_hz: 5          # 电源监测采样率
+
+# ============================================================
+# TOF 距离传感器滤波配置
+# ============================================================
+tof:
+  # 左侧 TOF
+  left:
+    # 滤波器链（按顺序执行）
+    filters:
+      # 1. 中值滤波 - 去除脉冲毛刺
+      - type: median
+        window_size: 5
+        
+      # 2. 一阶低通滤波 - 平滑数据
+      - type: lowpass
+        alpha: 0.3        # 平滑系数 (0.1=强平滑, 0.7=弱平滑)
+    
+    # 异常值检测
+    outlier_detection:
+      enabled: true
+      invalid_value: 255.0         # TOF 无效值标记
+      max_change_mm: 200.0         # 单次最大变化 200mm
+      min_valid_mm: 0.0            # 最小有效距离
+      max_valid_mm: 2000.0         # 最大有效距离
+      use_previous: true           # 异常时使用上次有效值
+  
+  # 右侧 TOF（配置同左侧）
+  right:
+    filters:
+      - type: median
+        window_size: 5
+      - type: lowpass
+        alpha: 0.3
+    outlier_detection:
+      enabled: true
+      invalid_value: 255.0
+      max_change_mm: 200.0
+      min_valid_mm: 0.0
+      max_valid_mm: 2000.0
+      use_previous: true
+
+# ============================================================
+# IMU 传感器滤波配置
+# ============================================================
+imu:
+  # AHRS 姿态数据（roll, pitch, yaw）
+  ahrs:
+    # Roll 横滚角滤波
+    roll:
+      type: kalman              # 卡尔曼滤波器（最优估计）
+      Q: 0.01                   # 过程噪声（姿态变化速度）
+      R: 0.25                   # 测量噪声（传感器噪声 ~0.5°）
+      initial_P: 1.0            # 初始误差协方差
+    
+    # Pitch 俯仰角滤波
+    pitch:
+      type: kalman
+      Q: 0.01
+      R: 0.25
+      initial_P: 1.0
+    
+    # Yaw 偏航角滤波
+    yaw:
+      type: kalman
+      Q: 0.01
+      R: 0.25
+      initial_P: 1.0
+    
+    # 姿态角异常检测
+    outlier_detection:
+      enabled: true
+      max_change_deg: 30.0      # 单次最大变化 30°
+      min_valid_deg: -180.0
+      max_valid_deg: 180.0
+      use_previous: true
+  
+  # 手势事件去重
+  gesture:
+    debounce_ms: 200            # 手势去重时间（同一手势200ms内只触发一次）
+    valid_gestures:             # 有效手势列表
+      - "Nod"                   # 点头
+      - "Shake"                 # 摇头
+      - "Swing"                 # 摆动
+      - "Walk"                  # 行走
+
+# ============================================================
+# 电源监测滤波配置
+# ============================================================
+power:
+  # 电压滤波
+  voltage:
+    type: moving_average        # 移动平均（强力平滑）
+    window_size: 20             # 窗口大小 20 样本
+    
+    outlier_detection:
+      enabled: true
+      min_valid_v: 3.0          # 最小有效电压 3V
+      max_valid_v: 5.5          # 最大有效电压 5.5V
+      max_change_v: 0.5         # 单次最大变化 0.5V
+      use_previous: true
+  
+  # 电流滤波
+  current:
+    filters:
+      # 1. 中值滤波 - 去除电流尖峰
+      - type: median
+        window_size: 5
+      
+      # 2. 移动平均 - 平滑电流波动
+      - type: moving_average
+        window_size: 10
+    
+    outlier_detection:
+      enabled: true
+      min_valid_a: 0.0          # 最小有效电流 0A
+      max_valid_a: 3.0          # 最大有效电流 3A
+      max_spike_a: 2.0          # 超过 2A 的尖峰直接剔除
+      use_previous: true
+
+# ============================================================
+# 触摸传感器去抖配置
+# ============================================================
+touch:
+  # 去抖窗口配置
+  debounce_window_ms: 50        # 去抖时间窗口 50ms
+  min_stable_samples: 3         # 最少稳定采样次数（连续3次相同才确认状态变化）
+  
+  # 手势识别参数
+  gesture_recognition:
+    tap_max_duration_ms: 200    # 单击最大持续时间
+    double_tap_interval_ms: 300 # 双击间隔时间
+    long_press_duration_ms: 800 # 长按触发时间
+
+# ============================================================
+# 悬崖传感器去抖配置
+# ============================================================
+cliff:
+  # 去抖窗口配置
+  debounce_window_ms: 30        # 去抖时间窗口 30ms
+  min_stable_samples: 5         # 最少稳定采样次数
+  
+  # 模式识别参数
+  pattern_recognition:
+    stable_threshold: 5         # 稳定模式阈值
+    cliff_threshold: 100        # 悬崖模式阈值
+    line_diff_max: 20           # 线检测最大差值
+
+# ============================================================
+# 调试配置
+# ============================================================
+debug:
+  # 是否打印滤波器状态
+  print_filter_stats: false
+  
+  # 是否打印异常值检测结果
+  print_outlier_detection: false
+  
+  # 是否打印采样率统计
+  print_sample_rate_stats: false
+  
+  # 统计打印间隔（秒）
+  stats_interval_sec: 10

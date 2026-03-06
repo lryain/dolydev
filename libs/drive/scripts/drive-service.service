@@ -1,0 +1,19 @@
+[Unit]
+Description=Drive service for Doly
+After=network.target syslog.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/dolydev/libs/drive
+ExecStart=/usr/local/bin/drive_service
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Restart=on-failure
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+User=pi
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+# Factory test Python dependencies
+# for python3.9 RPi.GPIO==0.7.0
+RPi.GPIO
+adafruit-circuitpython-pca9685
+adafruit-circuitpython-motor
+adafruit-extended-bus
+adafruit-circuitpython-vl6180x
+adafruit-circuitpython-busdevice
+adafruit-circuitpython-lsm6ds
+
+# ws2812
+paho-mqtt
+rpi-ws281x
+PyYAML
+
+# WebSocket support
+websockets>=12.0
+
+# sudo apt install -y jq
+numpy
+

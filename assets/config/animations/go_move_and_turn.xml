@@ -1,0 +1,55 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="sound">
+        <field name="type_id">DOLY</field>
+        <field name="name">AGREE (10)</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">BLINK L</field>
+        <field name="start">0</field>
+    </block>
+
+    <!-- 前进 2秒 -->
+    <block type="drive_forward">
+        <field name="start">1</field>
+        <field name="speed">20</field>
+        <field name="duration">2</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">1000</field>
+        <field name="start">1</field>
+    </block>
+    <!-- 后退 2秒 -->
+      <block type="drive_backward">
+        <field name="start">1</field>
+        <field name="speed">20</field>
+        <field name="duration">4</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">1000</field>
+        <field name="start">1</field>
+    </block>
+    <!-- 左转 2秒 -->
+    <block type="drive_rotate_left">
+        <!-- <field name="driveRotate">90</field> -->
+        <field name="isCenter">FALSE</field>
+        <field name="start">1</field>
+        <field name="speed">20</field>
+        <field name="duration">2</field>
+    </block>
+    <!-- 右转 2秒 -->
+    <block type="delay_ms">
+        <field name="delay_ms">1000</field>
+        <field name="start">1</field>
+    </block>
+    <block type="drive_rotate_right">
+        <!-- <field name="driveRotate">90</field> -->
+        <field name="isCenter">FALSE</field>
+        <field name="start">1</field>
+        <field name="speed">20</field>
+        <field name="duration">2</field>
+    </block>
+
+</xml>

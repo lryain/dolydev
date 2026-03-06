@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnimationList>
+	<Category name="SPRITE_FRUIT" max="1">
+		<!-- Special animation group, Happy not accept {min} value-->
+		<AnimationBlocks level="1" file="fruits_1.xml"/>
+	</Category>
+	<Category name="ANIMATION_HAPPY" max="1">
+		<!-- Special animation group, Happy not accept {min} value-->
+		<AnimationBlocks level="1" file="happy_1.xml"/>
+		<AnimationBlocks level="1" file="happy_2.xml"/>
+		<AnimationBlocks level="1" file="happy_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_ANGER" max="3">
+		<!-- Special animation group, Anger not accept {min} value-->
+		<AnimationBlocks level="1" file="angry1_1.xml"/>
+		<AnimationBlocks level="1" file="angry1_2.xml"/>
+		<AnimationBlocks level="1" file="angry1_3.xml"/>
+		<AnimationBlocks level="1" file="angry1_4.xml"/>
+		<AnimationBlocks level="2" file="angry2_1.xml"/>
+		<AnimationBlocks level="2" file="angry2_2.xml"/>
+		<AnimationBlocks level="2" file="angry2_3.xml"/>
+		<AnimationBlocks level="3" file="angry3_1.xml"/>
+		<AnimationBlocks level="3" file="angry3_2.xml"/>
+		<AnimationBlocks level="3" file="angry3_3.xml"/>
+		<AnimationBlocks level="3" file="angry3_4.xml"/>
+		<AnimationBlocks level="3" file="angry3_5.xml"/>
+	</Category>
+	<Category name="ANIMATION_BUGGED" max="1">
+		<AnimationBlocks level="1" file="bugged.xml"/>
+	</Category>
+	<Category name="ANIMATION_EXCITED" max="1">
+		<AnimationBlocks level="1" file="excited_1.xml"/>
+	</Category>
+	<Category name="ANIMATION_USER_DRIVE" max="1">
+		<AnimationBlocks level="1" file="user_drive.xml"/>
+	</Category>
+	<Category name="ANIMATION_WAKE_WORD" max="1">
+		<AnimationBlocks level="1" file="wake_word.xml"/>
+	</Category>
+	<Category name="ANIMATION_LISTEN_FAIL" max="1">
+		<AnimationBlocks level="1" file="miss_1.xml"/>
+		<AnimationBlocks level="1" file="miss_2.xml"/>
+		<AnimationBlocks level="1" file="miss_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_COMPLIMENT" max="1">
+		<AnimationBlocks level="1" file="compliment_1.xml"/>
+		<AnimationBlocks level="1" file="compliment_2.xml"/>
+		<AnimationBlocks level="1" file="compliment_3.xml"/>
+		<AnimationBlocks level="1" file="compliment_4.xml"/>
+		<AnimationBlocks level="1" file="compliment_5.xml"/>
+	</Category>
+	<Category name="ANIMATION_RUDENESS" max="1">
+		<AnimationBlocks level="1" file="rudeness_1.xml"/>
+		<AnimationBlocks level="1" file="rudeness_2.xml"/>
+		<AnimationBlocks level="1" file="rudeness_3.xml"/>
+		<AnimationBlocks level="1" file="rudeness_4.xml"/>
+		<AnimationBlocks level="1" file="rudeness_5.xml"/>
+		<AnimationBlocks level="1" file="rudeness_6.xml"/>
+		<AnimationBlocks level="1" file="rudeness_7.xml"/>
+	</Category>
+	<Category name="ANIMATION_BADROBOT" max="1">
+		<AnimationBlocks level="1" file="bad_robot_1.xml"/>
+	</Category>
+	<Category name="ANIMATION_GO_LEFT" max="1">
+		<AnimationBlocks level="1" file="go_left.xml"/>
+	</Category>
+	<Category name="ANIMATION_GO_RIGHT" max="1">
+		<AnimationBlocks level="1" file="go_right.xml"/>
+	</Category>
+	<Category name="ANIMATION_GO_FORWARD" max="1">
+		<AnimationBlocks level="1" file="go_forward.xml"/>
+	</Category>
+	<Category name="ANIMATION_GO_FORWARD_STEP" max="1">
+		<AnimationBlocks level="1" file="go_forward_step.xml"/>
+	</Category>
+	<Category name="ANIMATION_GO_BACK" max="1">
+		<AnimationBlocks level="1" file="go_back.xml"/>
+	</Category>
+	<Category name="ANIMATION_TURN_BACK_LEFT" max="1">
+		<AnimationBlocks level="1" file="turn_back_left.xml"/>
+	</Category>
+	<Category name="ANIMATION_TURN_BACK_RIGHT" max="1">
+		<AnimationBlocks level="1" file="turn_back_right.xml"/>
+	</Category>
+	<Category name="ANIMATION_FIST_READY" max="1" min="-1">
+		<AnimationBlocks level="1" file="fist_ready.xml"/>
+		<AnimationBlocks level="-1" file="fist_ready_angry.xml"/>
+	</Category>
+	<Category name="ANIMATION_FIST_BUMP" max="1" min="-1">
+		<AnimationBlocks level="1" file="fist_bump.xml"/>
+		<AnimationBlocks level="-1" file="fist_bump_angry.xml"/>
+	</Category>
+	<Category name="ANIMATION_HIGH_FIVE_READY" max="1" min="-1">
+		<AnimationBlocks level="1" file="high_five_ready.xml"/>
+		<AnimationBlocks level="-1" file="five_ready_angry.xml"/>
+	</Category>
+	<Category name="ANIMATION_HIGH_FIVE" max="1" min="-1">
+		<AnimationBlocks level="1" file="high_five.xml"/>
+		<AnimationBlocks level="-1" file="five_angry.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_FRONT" max="1">
+		<AnimationBlocks level="1" file="gap_f.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_FRONT_LEFT" max="1">
+		<AnimationBlocks level="1" file="gap_fl.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_FRONT_RIGHT" max="1">
+		<AnimationBlocks level="1" file="gap_fr.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_BACK" max="1">
+		<AnimationBlocks level="1" file="gap_b.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_BACK_LEFT" max="1">
+		<AnimationBlocks level="1" file="gap_l.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_BACK_RIGHT" max="1">
+		<AnimationBlocks level="1" file="gap_r.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_LEFT" max="1">
+		<AnimationBlocks level="1" file="gap_l.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_RIGHT" max="1">
+		<AnimationBlocks level="1" file="gap_r.xml"/>
+	</Category>
+	<Category name="ANIMATION_GAP_ALL" max="1">
+		<AnimationBlocks level="1" file="gap_all.xml"/>
+	</Category>
+	<Category name="ANIMATION_EDGE_FRONT" max="1">
+		<AnimationBlocks level="1" file="edge_fb.xml"/>
+	</Category>
+	<Category name="ANIMATION_EDGE_BACK" max="1">
+		<AnimationBlocks level="1" file="edge_fb.xml"/>
+	</Category>
+	<Category name="ANIMATION_EDGE_LEFT" max="1">
+		<AnimationBlocks level="1" file="edge_l.xml"/>
+	</Category>
+	<Category name="ANIMATION_EDGE_RIGHT" max="1">
+		<AnimationBlocks level="1" file="edge_r.xml"/>
+	</Category>
+	<Category name="ANIMATION_SAD" max="1">
+		<AnimationBlocks level="1" file="sad_1.xml"/>
+		<AnimationBlocks level="1" file="sad_2.xml"/>
+	</Category>
+	<Category name="ANIMATION_TIMER" max="1">
+		<AnimationBlocks level="1" file="alarm.xml"/>
+	</Category>
+	<Category name="ANIMATION_WEATHER" max="1">
+		<AnimationBlocks level="1" file="weather.xml"/>
+	</Category>
+	<Category name="ANIMATION_PETTING" max="3">
+		<AnimationBlocks level="1" file="petting1.xml"/>
+		<AnimationBlocks level="2" file="petting2.xml"/>
+		<AnimationBlocks level="3" file="petting3.xml"/>
+	</Category>
+	<Category name="ANIMATION_ANNOY" max="2">
+		<AnimationBlocks level="1" file="annoy1.xml"/>
+		<AnimationBlocks level="2" file="annoy2.xml"/>
+	</Category>
+	<Category name="ANIMATION_ANNOY_LEFT" max="2">
+		<AnimationBlocks level="1" file="annoy1_l.xml"/>
+		<AnimationBlocks level="2" file="annoy2_l.xml"/>
+	</Category>
+	<Category name="ANIMATION_ANNOY_RIGHT" max="2">
+		<AnimationBlocks level="1" file="annoy1_r.xml"/>
+		<AnimationBlocks level="2" file="annoy2_r.xml"/>
+	</Category>
+	<Category name="ANIMATION_SHOCK_FRONT" max="3">
+		<AnimationBlocks level="1" file="shock_bf_1.xml"/>
+		<AnimationBlocks level="2" file="shock_bf_2.xml"/>
+		<AnimationBlocks level="3" file="shock_bf_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_SHOCK_BACK" max="3">
+		<AnimationBlocks level="1" file="shock_bf_1.xml"/>
+		<AnimationBlocks level="2" file="shock_bf_2.xml"/>
+		<AnimationBlocks level="3" file="shock_bf_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_SHOCK_LEFT" max="3">
+		<AnimationBlocks level="1" file="shock_l_1.xml"/>
+		<AnimationBlocks level="2" file="shock_lr_2.xml"/>
+		<AnimationBlocks level="3" file="shock_l_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_SHOCK_RIGHT" max="3">
+		<AnimationBlocks level="1" file="shock_r_1.xml"/>
+		<AnimationBlocks level="2" file="shock_lr_2.xml"/>
+		<AnimationBlocks level="3" file="shock_r_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_SHOCK_UP" max="3">
+		<AnimationBlocks level="1" file="shock_ud_1.xml"/>
+		<AnimationBlocks level="2" file="shock_ud_2.xml"/>
+		<AnimationBlocks level="3" file="shock_ud_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_SHOCK_DOWN" max="3">
+		<AnimationBlocks level="1" file="shock_ud_1.xml"/>
+		<AnimationBlocks level="2" file="shock_ud_2.xml"/>
+		<AnimationBlocks level="3" file="shock_ud_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_PHOTO" max="1">
+		<AnimationBlocks level="1" file="photo.xml"/>
+	</Category>
+	<Category name="ANIMATION_LED_COLOR" max="1">
+		<AnimationBlocks level="1" file="led_color.xml"/>
+	</Category>
+	<Category name="ANIMATION_EYE_COLOR" max="1">
+		<AnimationBlocks level="1" file="eye_color.xml"/>
+	</Category>
+	<Category name="ANIMATION_HAND_UP" max="1">
+		<AnimationBlocks level="1" file="hand_up.xml"/>
+	</Category>
+	<Category name="ANIMATION_HAND_UP_LEFT" max="1">
+		<AnimationBlocks level="1" file="hand_up_l.xml"/>
+	</Category>
+	<Category name="ANIMATION_HAND_UP_RIGHT" max="1">
+		<AnimationBlocks level="1" file="hand_up_r.xml"/>
+	</Category>
+	<Category name="ANIMATION_HAND_DOWN" max="1">
+		<AnimationBlocks level="1" file="hand_down.xml"/>
+	</Category>
+	<Category name="ANIMATION_HAND_DOWN_LEFT" max="1">
+		<AnimationBlocks level="1" file="hand_down_l.xml"/>
+	</Category>
+	<Category name="ANIMATION_HAND_DOWN_RIGHT" max="1">
+		<AnimationBlocks level="1" file="hand_down_r.xml"/>
+	</Category>
+	<Category name="ANIMATION_SLEEP" max="1" min="-1">
+		<AnimationBlocks level="1" file="sleep_2.xml"/>
+		<AnimationBlocks level="-1" file="wakeup.xml"/>
+	</Category>
+	<Category name="ANIMATION_SLEEPY_END" max="1">
+		<AnimationBlocks level="1" file="sleepy_end.xml"/>
+	</Category>
+	<Category name="ANIMATION_CRY" max="1">
+		<AnimationBlocks level="1" file="cry_1.xml"/>
+		<AnimationBlocks level="1" file="cry_2.xml"/>
+		<AnimationBlocks level="1" file="cry_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_AT_HOME" max="1">
+		<AnimationBlocks level="1" file="at_home.xml"/>
+	</Category>
+	<Category name="ANIMATION_CONFUSE" max="1">
+		<AnimationBlocks level="1" file="confuse.xml"/>
+		<AnimationBlocks level="1" file="confuse_2.xml"/>
+	</Category>
+	<Category name="ANIMATION_BORED" max="1">
+		<AnimationBlocks level="1" file="bored.xml"/>
+		<AnimationBlocks level="1" file="bored_1.xml"/>
+		<AnimationBlocks level="1" file="bored_2.xml"/>
+	</Category>
+	<Category name="ANIMATION_REGISTER_FAIL" max="1">
+		<AnimationBlocks level="1" file="sad_1.xml"/>
+	</Category>
+	<Category name="ANIMATION_REGISTER_DONE" max="1">
+		<AnimationBlocks level="1" file="register_done.xml"/>
+	</Category>
+	<Category name="ANIMATION_REGISTER_REJECT" max="1">
+		<AnimationBlocks level="1" file="register_reject.xml"/>
+	</Category>
+	<Category name="ANIMATION_SPEAK" max="1">
+		<AnimationBlocks level="1" file="speak_1.xml"/>
+		<AnimationBlocks level="1" file="speak_2.xml"/>
+		<AnimationBlocks level="1" file="speak_3.xml"/>
+		<AnimationBlocks level="1" file="speak_4.xml"/>
+	</Category>
+	<Category name="ANIMATION_LOVE" max="1">
+		<AnimationBlocks level="1" file="love_1.xml"/>
+	</Category>
+	<Category name="ANIMATION_WIN" max="1">
+		<AnimationBlocks level="1" file="doly_win_1.xml"/>
+	</Category>
+	<Category name="ANIMATION_LOST" max="1">
+		<AnimationBlocks level="1" file="doly_lost_1.xml"/>
+	</Category>
+	<Category name="ANIMATION_MEDITATE" max="1">
+		<AnimationBlocks level="1" file="meditate.xml"/>
+	</Category>
+	<!-- give a chance to fail 1/3 -->
+	<Category name="ANIMATION_SALSA" max="1">
+		<AnimationBlocks level="1" file="salsa.xml"/>
+		<AnimationBlocks level="1" file="salsa.xml"/>
+		<AnimationBlocks level="1" file="salsa_fail.xml"/>
+	</Category>
+	<Category name="ANIMATION_WORKOUT" max="1">
+		<AnimationBlocks level="1" file="workout.xml"/>
+	</Category>
+	<Category name="ANIMATION_SNEEZE" max="1">
+		<AnimationBlocks level="1" file="sneeze.xml"/>
+	</Category>
+	<Category name="ANIMATION_FUN" max="1">
+		<AnimationBlocks level="1" file="roll_around.xml"/>
+		<AnimationBlocks level="1" file="twist.xml"/>
+		<AnimationBlocks level="1" file="rock.xml"/>
+	</Category>
+	<Category name="ANIMATION_FEAR" max="1">
+		<AnimationBlocks level="1" file="fear_1.xml"/>
+		<AnimationBlocks level="1" file="fear_2.xml"/>
+		<AnimationBlocks level="1" file="fear_3.xml"/>
+	</Category>
+	<Category name="ANIMATION_LEAVE" max="1">
+		<AnimationBlocks level="1" file="leave_home.xml"/>
+	</Category>
+</AnimationList>

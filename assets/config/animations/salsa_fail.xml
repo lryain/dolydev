@@ -1,0 +1,306 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+    <block type="start_animation"></block>
+    <block type="arm_set_angle">
+        <field name="angle">110</field>
+        <field name="side">2</field>
+        <field name="start">1</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#ffcc00</field>
+        <field name="side">2</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">SUNGLASS</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">1500</field>
+        <field name="start">0</field>
+    </block>
+    <block type="led_animation">
+        <field name="start">1</field>
+        <statement name="led_right">
+            <block type="led_animation_color">
+                <field name="color_main">#ffcc00</field>
+                <field name="led_time">500</field>
+                <field name="color_fade">#000000</field>
+            </block>
+        </statement>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">SUNGLASS UPR</field>
+        <field name="start">1</field>
+    </block>
+    <block type="repeat">
+        <field name="times">2</field>
+        <field name="start">1</field>
+        <statement name="repeat_statement">
+            <block type="arm_set_angle">
+                <field name="angle">120</field>
+                <field name="side">2</field>
+                <field name="start">1</field>
+                <field name="speed">100</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">110</field>
+                <field name="side">2</field>
+                <field name="start">1</field>
+                <field name="speed">100</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#ffcc00</field>
+                        <field name="led_time">500</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">500</field>
+                <field name="start">1</field>
+            </block>
+        </statement>
+    </block>
+    <block type="arm_set_angle">
+        <field name="angle">120</field>
+        <field name="side">2</field>
+        <field name="start">1</field>
+        <field name="speed">100</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="arm_set_angle">
+        <field name="angle">110</field>
+        <field name="side">2</field>
+        <field name="start">1</field>
+        <field name="speed">100</field>
+        <field name="brake">0</field>
+    </block>
+    <block type="led">
+        <field name="color_main">#ffcc00</field>
+        <field name="side">2</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">300</field>
+        <field name="start">1</field>
+    </block>
+    <block type="sound">
+        <field name="type_id">MUSIC</field>
+        <field name="name">SALSA</field>
+        <field name="start">1</field>
+        <statement name="complete_statement">
+            <block type="led_animation">
+                <field name="start">1</field>
+                <statement name="led_left">
+                    <block type="led_animation_color">
+                        <field name="color_main">#000000</field>
+                        <field name="led_time">1000</field>
+                    </block>
+                </statement>
+                <statement name="led_right">
+                    <block type="led_animation_color">
+                        <field name="color_main">#ffcc00</field>
+                        <field name="led_time">1000</field>
+                        <field name="color_fade">#000000</field>
+                    </block>
+                </statement>
+            </block>
+            <block type="arm_set_angle">
+                <field name="angle">0</field>
+                <field name="side">0</field>
+                <field name="start">1</field>
+            </block>
+        </statement>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">SUNGLASS LR</field>
+        <field name="start">0</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">1000</field>
+        <field name="start">0</field>
+    </block>
+    <block type="repeat">
+        <field name="times">2</field>
+        <field name="start">1</field>
+        <statement name="repeat_statement">
+            <block type="drive_rotate_right">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_rotate_left">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">1</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">250</field>
+                <field name="start">1</field>
+            </block>
+            <block type="drive_rotate_left">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_rotate_right">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">1</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">250</field>
+                <field name="start">1</field>
+            </block>
+        </statement>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">SUNGLASS LR</field>
+        <field name="start">1</field>
+    </block>
+    <block type="repeat">
+        <field name="times">3</field>
+        <field name="start">0</field>
+        <statement name="repeat_statement">
+            <block type="drive_rotate_right">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_rotate_left">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">1</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">250</field>
+                <field name="start">1</field>
+            </block>
+            <block type="drive_rotate_left">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_rotate_right">
+                <field name="driveRotate">3</field>
+                <field name="isCenter">TRUE</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">1</field>
+            </block>
+            <block type="drive_distance">
+                <field name="distance">5</field>
+                <field name="start">1</field>
+                <field name="speed">1</field>
+                <field name="accel">20</field>
+                <field name="brake">0</field>
+                <field name="direction">0</field>
+            </block>
+            <block type="delay_ms">
+                <field name="delay_ms">250</field>
+                <field name="start">1</field>
+            </block>
+        </statement>
+    </block>
+    <block type="eye_animations">
+        <field name="category">INTERNAL</field>
+        <field name="animation">SUNGLASS</field>
+        <field name="start">1</field>
+    </block>
+    <block type="delay_ms">
+        <field name="delay_ms">1000</field>
+        <field name="start">1</field>
+    </block>
+    <block type="eye_animations">
+        <field name="category">MISC</field>
+        <field name="animation">BLINK L</field>
+        <field name="start">1</field>
+    </block>
+</xml>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<List>
+    <Sprite_Type name="FRUIT">
+        <Sprite style="APPLE" left="/.doly/images/casino/apple.png" />
+        <Sprite style="FRUITS" left="/.doly/images/casino/apple.png" right="/.doly/images/casino/banana.png"/>
+        <Sprite style="CHERRY" left="/.doly/images/casino/cherries.png" />
+    </Sprite_Type>
+</List>

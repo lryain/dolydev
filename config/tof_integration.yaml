@@ -1,0 +1,222 @@
+# TOF传感器集成配置
+tof_integration:
+  enabled: false
+  hardware_available: true  # 是否有真实硬件，false时使用模拟
+
+  # 数据获取配置
+  data_acquisition:
+    background_read_frequency: 30  # Hz，后台读取频率
+    cache_ttl_ms: 50  # 缓存TTL（毫秒）
+    max_read_errors: 10  # 最大连续错误数
+
+  # 避障检测配置
+  obstacle_detection:
+    enabled: true
+    emergency_distance: 30  # mm，紧急距离阈值
+    warning_distance: 150    # mm，警告距离阈值
+    cooldown_ms: 1000       # 事件冷却时间（毫秒）
+
+  # 手势识别配置
+  gesture_recognition:
+    enabled: true
+    window_size: 8          # 历史数据窗口大小（约533ms @ 15Hz）
+    min_change: 50          # mm，最小手势变化幅度
+    cooldown_ms: 3000       # 手势事件冷却时间（毫秒）- 防止过度触发
+    
+    # 新增手势类型配置
+    gesture_types:
+      # 挥手（任意方向）：快速接近后远离
+      wave:
+        enabled: true
+        min_duration_ms: 300    # 最小手势时长
+        max_duration_ms: 2000   # 最大手势时长
+        min_amplitude: 50       # 最小振幅(mm)
+        cooldown_ms: 2000       # 挥手冷却时间
+      
+      # 接近（阻挡）：双手同时快速接近
+      approach:
+        enabled: true
+        min_duration_ms: 300    # 最小接近时长
+        min_amplitude: 80       # 最小接近距离变化
+        cooldown_ms: 2000       # 接近冷却时间
+      
+      # 缓慢接近手势（主人手缓慢靠近）→ Doly后退躲避
+      # 检测: 双手都被挡(<150mm)且距离持续减小>400ms
+      # 执行: go_back_step.xml
+      slow_approach:
+        enabled: false          # 禁用缓慢接近手势
+        min_hold_time_ms: 400   # 最少保持时长
+        max_distance: 120       # 检测距离阈值(mm)
+        min_distance_change: 15 # 最小距离变化(mm)
+        cooldown_ms: 3000       # 冷却时间（避免连续触发）
+        
+      # 缓慢远离手势（主人手缓慢远离）→ Doly前进跟随  
+      # 检测: 双手都被挡(<150mm)且距离持续增加>400ms
+      # 执行: go_forward_step.xml
+      slow_retreat:
+        enabled: false          # 禁用缓慢远离手势
+        min_hold_time_ms: 400   # 最少保持时长
+        max_distance: 120       # 检测距离阈值(mm)
+        min_distance_change: 15 # 最小距离变化(mm)
+        cooldown_ms: 3000       # 冷却时间（避免连续触发）
+      
+      # 手移开事件（基础事件）：手从Doly前方移开
+      # 检测: 距离持续超过阈值>min_duration_ms
+      # 用途: 退出手势互动状态
+      removed:
+        enabled: true
+        distance_threshold: 250  # 超过此距离认为手移开(mm)
+        min_duration_ms: 800    # 持续时间(毫秒)
+        cooldown_ms: 2000        # 冷却时间
+        cooldown_ms: 3000       # 冷却时间（避免连续触发）
+
+  # 光照传感器配置（VL6180X ALS）
+  ambient_light:
+    enabled: false
+    read_frequency: 1       # Hz，光照读取频率（1秒一次）
+    als_gain: 1             # ALS增益：1, 2, 3, 4, 5, 10, 20, 40
+    brightness_thresholds:
+      very_dark: 10         # < 10 Lux
+      dark: 50              # < 50 Lux
+      normal: 200           # < 200 Lux
+      bright: 500           # < 500 Lux
+      very_bright: 1000     # >= 1000 Lux
+
+  # 状态感知行为配置
+  state_behaviors:
+    idle:
+      obstacle_response: "audio_only"     # 静止时仅音频提醒
+      gesture_response: "full_animation"  # 手势响应完整动画
+    moving:
+      obstacle_response: "stop_and_warn"  # 移动时停止并警告
+      gesture_response: "simple_response" # 简化手势响应
+    exploring:
+      obstacle_response: "avoidance_behavior"  # 探索时执行避障
+      gesture_response: "pause_and_respond"    # 暂停探索并响应
+
+  # 手势->动画映射（状态感知）
+  # 可根据daemon state (IDLE/MOVING/EXPLORING等) 使用不同的映射
+  gesture_behaviors:
+    # 左侧挥手手势
+    wave_left:
+      IDLE:
+        action: "play_animation"
+        animation: "hand_up_l.xml"
+        priority: "normal"
+      EXPLORING:
+        action: "play_animation"
+        animation: "happy_1.xml"
+        priority: "low"
+      ANY:
+        action: "play_animation"
+        animation: "hand_up_l.xml"
+        priority: "normal"
+    
+    # 右侧挥手手势
+    wave_right:
+      IDLE:
+        action: "play_animation"
+        animation: "hand_up_r.xml"
+        priority: "normal"
+      EXPLORING:
+        action: "play_animation"
+        animation: "happy_1.xml"
+        priority: "low"
+      ANY:
+        action: "play_animation"
+        animation: "hand_up_r.xml"
+        priority: "normal"
+    
+    # 双手接近手势
+    approach_both:
+      IDLE:
+        action: "play_animation"
+        animation: "happy_1.xml"
+        priority: "normal"
+      EXPLORING:
+        action: "play_animation_category"
+        category: "greeting"
+        level: 1
+        priority: "low"
+      ANY:
+        action: "play_animation"
+        animation: "happy_1.xml"
+        priority: "normal"
+    
+    # 缓慢接近手势（主人手缓慢靠近）→ Doly后退躲避
+    slow_approach:
+      IDLE:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "high"
+      EXPLORING:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "high"
+      ANY:
+        action: "play_animation"
+        animation: "go_back_step.xml"
+        priority: "high"
+    
+    # 缓慢远离手势（主人手缓慢远离）→ Doly前进跟随
+    slow_retreat:
+      IDLE:
+        action: "play_animation"
+        animation: "go_forward_step.xml"
+        priority: "high"
+      EXPLORING:
+        action: "play_animation"
+        animation: "go_forward_step.xml"
+        priority: "normal"
+      ANY:
+        action: "play_animation"
+        animation: "go_forward_step.xml"
+        priority: "normal"
+
+  # 避障行为配置
+  avoidance_behaviors:
+    emergency_left:
+      - action: "emergency_stop"
+      - action: "turn_right"
+        angle: 45
+      - action: "play_sound"
+        sound: "obstacle_warning"
+    
+    emergency_right:
+      - action: "emergency_stop"
+      - action: "turn_left" 
+        angle: 45
+      - action: "play_sound"
+        sound: "obstacle_warning"
+    
+    emergency_both:
+      - action: "emergency_stop"
+      - action: "move_backward"
+        distance: 150
+      - action: "play_sound"
+        sound: "obstacle_alert"
+    
+    warning_left:
+      - action: "reduce_speed"
+        factor: 0.6
+      - action: "play_sound"
+        sound: "proximity_beep"
+    
+    warning_right:
+      - action: "reduce_speed"
+        factor: 0.6
+      - action: "play_sound"
+        sound: "proximity_beep"
+
+# ZMQ配置
+zmq_config:
+  tof_events_port: 5566      # TOF事件发布端口
+  tof_command_port: 5567     # TOF命令接收端口
+
+# 调试配置
+debug:
+  log_all_readings: false     # 是否记录所有读取数据
+  log_events_only: true      # 仅记录事件
+  performance_stats: true    # 性能统计
+  mock_obstacle_simulation: false  # 模拟障碍物测试
+  mock_gesture_simulation: false   # 模拟手势测试

@@ -1,0 +1,272 @@
+# Doly 全局系统配置
+# 版本: 1.0
+# 描述: 配置Doly的全局参数，包括状态管理、唤醒/休眠、任务和AI模型等
+
+# ===== 基础设置 =====
+system:
+  name: "Doly"
+  version: "1.0.0"
+  debug: true
+  log_level: "DEBUG"  # DEBUG, INFO, WARNING, ERROR
+
+# ===== 唤醒与交互设置 =====
+wakeup:
+  # 交互模式: single (单次录音后退出激活), multi (多轮对话模式)
+  mode: "single"
+  
+  # 是否需要唤醒命令才进入交互状态
+  require_wakeup: true
+  
+  # 唤醒命令列表 (匹配 event.audio.xxx 的命令名)
+  wakeup_commands:
+    - "wakeup_detected"
+    - "cmd_iHelloDoly"
+    - "cmd_iHeyDoly"
+  
+  # 休眠命令列表
+  sleep_commands:
+    - "cmd_iShutup"
+    - "cmd_GoodbyeDoly"
+    - "cmd_iSleep"
+  
+  # 交互状态超时时间 (秒)
+  interaction_timeout: 300
+  
+  # 收到命令后是否TTS播报
+  tts_announce_command: false
+  
+  # ASR 录音音效
+  asr_record_start_sound: "record_start"  # 开始录音时播放
+  asr_record_end_sound: "record_end"      # 结束录音时播放
+
+# ===== 串口命令配置 =====
+serial:
+  enabled: true
+  enable_commands: true           # 是否让 101 条固定命令进入 Pipeline
+  wakeup_commands:
+    - "wakeup_detected"
+    - "cmd_iHelloDoly"
+    - "cmd_iHeyDoly"
+  interrupt_commands:
+    - "cmd_iInterrupt"
+
+# ===== 任务配置 =====
+tasks:
+  # 任务列表及其属性
+  studying:
+    description: "学习任务，专注模式"
+    interruptible: false          # 不可随意打断
+    interrupt_wakeup_count: 2     # 需要2次唤醒命令才能打断
+    interrupt_complaint: "我在学习呢，别打扰我啦~"
+    emotion: "focused"
+    
+  fitness:
+    description: "健身任务，运动模式"
+    interruptible: false
+    interrupt_wakeup_count: 2
+    interrupt_complaint: "正在锻炼，等我做完这组~"
+    emotion: "energetic"
+    
+  playing:
+    description: "游戏任务，娱乐模式"
+    interruptible: true           # 可随时打断
+    interrupt_wakeup_count: 1
+    emotion: "playful"
+    
+  relaxing:
+    description: "休闲任务，放松模式"
+    interruptible: true
+    interrupt_wakeup_count: 1
+    emotion: "calm"
+
+# ===== 状态配置 =====
+states:
+  idle:
+    description: "待机状态 - 多莉平和无聊地待机，偶尔会伸个懒腰，打个哈欠，眨眨眼，发出无聊的声音"
+    timeout: 0                    # 0表示无超时
+    next_state_on_timeout: null
+    behavior:
+      eye:
+        eyelid_close: 0.3         # 眼睛半闭
+        pupil_size: 0.9           # 瞳孔正常
+        blink_rate: 0.5           # 眨眼频率较低
+      backlight: 0.5              # 屏幕亮度中等
+      led:
+        color: [255, 255, 255]    # 白色
+        effect: "breathing"       # 呼吸灯效
+      random_actions:             # 随机动作
+        - "yawn"                  # 打哈欠
+        - "stretch"               # 伸懒腰
+        - "blink_slow"            # 慢眨眼
+      random_sounds:
+        - "sfx_hmmm"              # 无聊的声音
+        
+  activated:
+    description: "交互状态 - 多莉被唤醒后进入交互状态，眼睛变得明亮有神，准备好与用户互动"
+    timeout: 300                  # 5分钟超时
+    next_state_on_timeout: "idle"
+    behavior:
+      eye:
+        eyelid_close: 0.0         # 眼睛睁大
+        pupil_size: 0.7           # 瞳孔微微收缩
+        blink_rate: 1.0           # 正常眨眼频率
+      backlight: 0.8              # 屏幕亮度较高
+      led:
+        color: [0, 255, 100]      # 明亮的绿色
+        effect: "solid"           # 常亮
+      entry_action: "wakeup"      # 进入时执行唤醒动作
+      
+  sleeping:
+    description: "休眠状态 - 多莉进入休眠状态，眼睛缓缓闭上，进入深度休息状态"
+    timeout: 0
+    next_state_on_timeout: null
+    behavior:
+      eye:
+        eyelid_close: 0.95        # 眼睛几乎闭合
+        pupil_size: 1.0
+        blink_rate: 0.1           # 极少眨眼
+      backlight: 0.1              # 屏幕亮度最低
+      led:
+        color: [255, 140, 0]      # 柔和的橙色
+        effect: "breathing"       # 呼吸灯效
+      random_sounds:
+        - "effect_sleeping"       # 轻微呼吸声
+        
+  exploring:
+    description: "探索状态 - 多莉进入探索状态，眼睛会变得活跃，偶尔会发出探索的声音"
+    timeout: 600                  # 10分钟超时
+    next_state_on_timeout: "idle"
+    behavior:
+      eye:
+        eyelid_close: 0.0
+        pupil_size: 0.6           # 瞳孔略大，好奇
+        blink_rate: 1.2           # 眨眼频率略高
+      backlight: 0.6
+      led:
+        color: [255, 165, 0]      # 明亮的橘色
+        effect: "chase"           # 追逐灯效
+      random_actions:
+        - "look_around"           # 四处张望
+        - "curious_tilt"          # 好奇地歪头
+        
+  charging:
+    description: "充电状态 - 多莉进入充电状态，眼睛会变得柔和"
+    timeout: 0
+    next_state_on_timeout: null
+    behavior:
+      eye:
+        eyelid_close: 0.2
+        pupil_size: 0.9
+        blink_rate: 0.3
+      backlight: 0.2              # 屏幕亮度最低
+      led:
+        color: [255, 200, 50]     # 温暖的黄色
+        effect: "pulse"           # 脉冲灯效
+      random_sounds:
+        - "effect_nop"            # 充电声音
+
+# ===== ASR 配置 =====
+asr:
+  enabled: false
+  engine: "kaldi"                # baidu | kaldi | none
+  sample_rate: 16000
+  # 录音参数
+  save_path: "/tmp/doly_asr_input.wav"
+  max_duration: 8.0              # 最大录音时长 (秒)
+  silence_duration: 1.2          # 静音检测截断时长 (秒)
+  silence_threshold: 2000        # 静音阈值 (0-32767)
+  baidu:
+    app_id: ""
+    api_key: ""
+    api_secret: ""
+  kaldi:
+    model_path: "/home/pi/dev/dolydev/libs/model"
+    max_cpu_percent: 65
+
+# ===== TTS 配置 =====
+tts:
+  enabled: true
+  engine: "edge"              # edge | eyengine | youdao | baidu | sougou | espeak | kaldi
+  eyengine:
+    emotion_enabled: true
+
+# ===== LLM AI 大模型配置 =====
+llm:
+  enabled: true
+  provider: "xunfei"              # xunfei | openai | local
+  timeout: 12.0
+  # 系统提示词
+  system_prompt: |
+    你是Doly，一个可爱的桌面机器人。你有大大的眼睛，两只灵活的手臂，
+    和履带底盘可以在桌面上移动。你的性格活泼可爱，喜欢和人互动。
+    回答要简短有趣，带点俏皮。
+
+# ===== 对话管理配置 =====
+dialog:
+  enabled: false
+  session_timeout: 10
+  allow_interrupt_during_tts: true
+
+# ===== Pipeline 配置 =====
+pipeline:
+  # 模块启用和优先级 (数字越小优先级越高)
+  modules:
+    state_machine:
+      enabled: true
+      priority: 10
+    rule_engine:
+      enabled: true
+      priority: 20
+    emotion_core:
+      enabled: false
+      priority: 30
+    skill_center:
+      enabled: true
+      priority: 40
+    nlu_manager:
+      enabled: true              # 暂不启用
+      priority: 50
+    ai_model:
+      enabled: false              # 暂不启用
+      priority: 60
+
+# ===== 音频提示配置 =====
+
+audio_prompts:
+  # 配置录音前/后是否播放提示音以及使用的 alias 名称（从 config/audio_player.yaml 的 alias_paths 中选择）
+  # 对应libs/demo/modules/asr_manager.py 的 _listen_loop
+  record_audio_prompts:
+    enabled: true                # 是否启用录音提示音
+    record_start_alias: "record_start"  # 录音开始提示音 alias
+    record_end_alias: "record_end"      # 录音结束提示音 alias
+
+# ===== 日志配置 =====
+logging:
+  level: "DEBUG"             # 全局日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  enable_console: true      # 是否输出到终端
+  enable_file: false         # 是否保存到文件
+  log_dir: "logs"           # 日志目录
+
+  # 模块级日志控制 (可覆盖全局设置)
+  modules:
+    BrainMain:
+      level: "DEBUG"
+      enabled: true
+    ASRManager:
+      level: "INFO"
+      enabled: true
+    NLUManager:
+      level: "DEBUG"
+      enabled: false
+    AudioModule:
+      level: "WARNING"
+      enabled: true
+    SerialModule:
+      level: "INFO"
+      enabled: true
+
+  # 第三方库日志等级屏蔽 (例如屏蔽 urllib3 或 ZMQ 的过多 DEBUG 信息)
+  libraries:
+    urllib3: "WARNING"
+    zmq: "WARNING"
+    requests: "WARNING"

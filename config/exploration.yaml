@@ -1,0 +1,133 @@
+# Doly 探索模式配置
+# 控制自主巡航行为、避障策略和传感器响应
+
+exploration:
+  # ===== 传感器事件处理开关（用于调试） =====
+  # 当为false时，对应的传感器事件不会触发避障行为
+  sensor_event_handling:
+    cliff_event_enabled: true     # 悬崖传感器事件是否触发避障（与sensor_event_mapping冲突时关闭此项）
+    obstacle_event_enabled: true  # TOF障碍物事件是否触发避障（与sensor_event_mapping冲突时关闭此项）
+    battery_event_enabled: false    # 电池事件是否触发停止探索
+  
+  # ===== 基础巡航参数 =====
+  cruise:
+    enabled: true
+    default_speed: 0.13          # 默认巡航速度 (0.0-1.0)
+    turn_speed: 0.2             # 转向速度（略降，避免打滑）
+    move_duration_min: 0.2      # 单次直行最小时长 (秒)
+    move_duration_max: 1.0      # 单次直行最大时长 (秒)
+    turn_angle_min: 30          # 最小转向角度 (度)
+    turn_angle_max: 60          # 最大转向角度 (度)
+    pause_duration_min: 3.0     # 停顿最小时长 (秒)
+    pause_duration_max: 15.0     # 停顿最大时长 (秒)
+    pause_probability: 0.58     # 停顿概率 (略升，给传感器更稳的窗口)
+  
+  # ===== 悬崖传感器避障 =====
+  cliff:
+    enabled: true
+    brake_time: 0.5             # 刹车时间 (秒)
+    reverse_distance: 30.0      # 后退距离 (cm)
+    reverse_speed: 0.6          # 后退速度
+    
+    # 4个悬崖传感器策略
+    # IRS_FL: 前左悬崖
+    front_left:
+      action: "turn_right"      # 先后退，再右转避开左侧悬崖
+      turn_angle: 180
+      reverse_first: true       # 先后退
+    
+    # IRS_FR: 前右悬崖
+    front_right:
+      action: "turn_left"       # 先后退，再左转避开右侧悬崖
+      turn_angle: 180
+      reverse_first: true
+    
+    # IRS_BL: 后左悬崖
+    back_left:
+      action: "forward_turn_right"  # 前进并右转，远离左后悬崖
+      turn_angle: 180
+      reverse_first: false      # 不后退，前进！
+    
+    # IRS_BR: 后右悬崖
+    back_right:
+      action: "forward_turn_left"   # 前进并左转，远离右后悬崖
+      turn_angle: 180
+      reverse_first: false      # 不后退，前进！
+    
+    # 同时检测到多个悬崖
+    multiple_detected:
+      action: "reverse_180"     # 后退并180度转向
+      reverse_distance: 15.0
+      turn_angle: 180
+  
+  # ===== ToF 障碍物检测 =====
+  obstacle:
+    enabled: true
+    
+    # 距离阈值 (mm)
+    threshold_stop: 100         # 紧急停止距离
+    threshold_slow: 200         # 减速距离
+    threshold_turn: 300         # 开始转向距离
+    
+    # 左右ToF差异处理
+    left_blocked:
+      action: "turn_right"
+      turn_angle: 60
+    
+    right_blocked:
+      action: "turn_left"
+      turn_angle: 60
+    
+    both_blocked:
+      action: "reverse_turn"    # 后退并转向
+      reverse_distance: 15.0
+      turn_angle: 120
+    
+    # 障碍物响应延迟（避免频繁触发）
+    response_cooldown: 1.0      # 秒
+  
+  # ===== IMU 姿态监测 =====
+  imu:
+    enabled: true               # 暂时禁用，后续可开启
+    
+    # 倾斜检测
+    tilt:
+      threshold_roll: 30.0      # Roll 倾斜阈值 (度)
+      threshold_pitch: 30.0     # Pitch 倾斜阈值 (度)
+      action: "stop_and_alert"  # 倾斜时停止并发出警报
+    
+    # 震动/碰撞检测
+    collision:
+      accel_threshold: 20.0     # 加速度阈值 (m/s²)
+      action: "reverse_quickly" # 快速后退
+  
+  # ===== 探索行为策略 =====
+  behavior:
+    # 随机探索
+    random_exploration:
+      enabled: true
+      change_direction_probability: 0.2  # 每次循环随机改变方向的概率
+    
+    # 墙壁跟随（暂未实现）
+    wall_following:
+      enabled: false
+      preferred_side: "right"   # 优先跟随右墙
+      target_distance: 150      # 目标距离 (mm)
+    
+    # 区域覆盖（暂未实现）
+    area_coverage:
+      enabled: false
+      grid_size: 50             # 网格大小 (cm)
+  
+  # ===== 安全限制 =====
+  safety:
+    max_continuous_run_time: 300  # 最大连续巡航时间 (秒)，超时自动返回 IDLE
+    battery_threshold: 20.0       # 低电量阈值 (%)，低于此值停止探索
+    temperature_threshold: 60.0   # 温度阈值 (℃)，超过停止
+  
+  # ===== 日志和调试 =====
+  debug:
+    enabled: false
+    log_sensor_data: false      # 是否记录传感器原始数据
+    log_decisions: true         # 是否记录决策过程
+    simulation_mode: false      # 模拟模式（无硬件时测试）

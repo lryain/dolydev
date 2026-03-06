@@ -1,0 +1,452 @@
+# 意图到动作映射配置
+# 用于 TaskEngine 将用户意图转换为具体的动作任务
+
+intents:
+  # ==================== 问候类 ====================
+  greeting:
+    keywords:
+      - 你好
+      - 早上好
+      - 晚上好
+      - 嗨
+      - hello
+      - hi
+      - 早
+      - 晚安
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: happy
+    response_template: "主人好~"
+    priority: 5
+  
+  farewell:
+    keywords:
+      - 再见
+      - 拜拜
+      - bye
+      - 走了
+      - 88
+    actions:
+      - type: play_animation
+        params:
+          name: wave_hand
+    response_template: "再见~"
+    priority: 5
+  
+  # ==================== 定时器类 ====================
+  set_timer:
+    keywords:
+      - 定时
+      - 闹钟
+      - 提醒
+      - 分钟后
+      - 叫我
+    regex: "(?P<duration_min>\\d+)\\s*分钟后?(?:提醒|叫)我?(?P<message>.*)?"
+    required_entities:
+      - duration_min
+    optional_entities:
+      - message
+    actions:
+      - type: set_timer
+        params_from_entities:
+          duration_min: duration_min
+          message: message
+    response_template: "好的，{duration_min}分钟后提醒你"
+    priority: 7
+  
+  cancel_timer:
+    keywords:
+      - 取消定时
+      - 取消闹钟
+      - 别提醒了
+    actions:
+      - type: cancel_timer
+        params: {}
+    response_template: "好的，已取消"
+    priority: 7
+  
+  # ==================== 时间查询 ====================
+  query_time:
+    keywords:
+      - 几点
+      - 时间
+      - 现在
+      - 什么时候
+    actions:
+      - type: query_time
+        params: {}
+    response_template: "现在是{time_description}"
+    priority: 5
+  
+  # ==================== 音乐播放 ====================
+  play_music:
+    keywords:
+      - 放音乐
+      - 播放音乐
+      - 来点音乐
+      - 唱歌
+    actions:
+      - type: play_audio
+        params:
+          type: music
+          name: random
+    response_template: "好的~"
+    priority: 5
+  
+  stop_music:
+    keywords:
+      - 停止音乐
+      - 别放了
+      - 安静
+    actions:
+      - type: stop_audio
+        params: {}
+    response_template: "好的~"
+    priority: 6
+  
+  # ==================== 移动控制 ====================
+  move_forward:
+    keywords:
+      - 向前
+      - 前进
+      - 往前走
+      - 走
+    actions:
+      - type: move
+        params:
+          direction: forward
+          duration_ms: 1000
+    response_template: "好的~"
+    priority: 6
+  
+  move_backward:
+    keywords:
+      - 向后
+      - 后退
+      - 往后走
+      - 退
+    actions:
+      - type: move
+        params:
+          direction: backward
+          duration_ms: 1000
+    response_template: "好的~"
+    priority: 6
+  
+  turn_left:
+    keywords:
+      - 向左
+      - 左转
+      - 转左
+    actions:
+      - type: move
+        params:
+          direction: left
+          duration_ms: 500
+    response_template: "好的~"
+    priority: 6
+  
+  turn_right:
+    keywords:
+      - 向右
+      - 右转
+      - 转右
+    actions:
+      - type: move
+        params:
+          direction: right
+          duration_ms: 500
+    response_template: "好的~"
+    priority: 6
+  
+  stop_moving:
+    keywords:
+      - 停
+      - 站住
+      - 别动
+    actions:
+      - type: move
+        params:
+          direction: stop
+          duration_ms: 0
+    response_template: "好的~"
+    priority: 8
+  
+  spin:
+    keywords:
+      - 转圈
+      - 转个圈
+      - 旋转
+    actions:
+      - type: move
+        params:
+          direction: right
+          duration_ms: 2000
+    response_template: "转圈圈~"
+    priority: 5
+  
+  # ==================== 手臂控制 ====================
+  raise_left_arm:
+    keywords:
+      - 抬左手
+      - 举左手
+      - 左手抬起
+    actions:
+      - type: move_arm
+        params:
+          side: left
+          position: up
+    response_template: "好的~"
+    priority: 6
+  
+  raise_right_arm:
+    keywords:
+      - 抬右手
+      - 举右手
+      - 右手抬起
+    actions:
+      - type: move_arm
+        params:
+          side: right
+          position: up
+    response_template: "好的~"
+    priority: 6
+  
+  lower_arms:
+    keywords:
+      - 放下手
+      - 手放下
+    actions:
+      - type: move_arm
+        params:
+          side: left
+          position: down
+      - type: move_arm
+        params:
+          side: right
+          position: down
+    response_template: "好的~"
+    priority: 6
+  
+  wave_hand:
+    keywords:
+      - 挥手
+      - 招手
+      - 打招呼
+    actions:
+      - type: play_animation
+        params:
+          name: wave_hand
+    response_template: "你好呀~"
+    priority: 5
+  
+  # ==================== 表情控制 ====================
+  expression_happy:
+    keywords:
+      - 笑一个
+      - 开心
+      - 高兴
+      - 笑
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: happy
+    response_template: "嘿嘿~"
+    priority: 5
+  
+  expression_sad:
+    keywords:
+      - 难过
+      - 悲伤
+      - 伤心
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: sad
+    response_template: "呜..."
+    priority: 5
+  
+  expression_angry:
+    keywords:
+      - 生气
+      - 愤怒
+      - 发火
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: angry
+    response_template: "哼！"
+    priority: 5
+  
+  expression_surprised:
+    keywords:
+      - 惊讶
+      - 吃惊
+      - 震惊
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: surprised
+    response_template: "哇！"
+    priority: 5
+  
+  expression_thinking:
+    keywords:
+      - 思考
+      - 想一想
+      - 想想
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: thinking
+    response_template: "嗯..."
+    priority: 5
+  
+  expression_sleepy:
+    keywords:
+      - 困了
+      - 想睡
+      - 睡觉
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: sleepy
+    response_template: "困..."
+    priority: 5
+  
+  make_face:
+    keywords:
+      - 做鬼脸
+      - 搞怪
+      - 调皮
+    actions:
+      - type: play_expression
+        params:
+          category: EXPRESSION
+          name: silly
+    response_template: "略略略~"
+    priority: 5
+  
+  # ==================== 眼睛颜色 ====================
+  eye_color_blue:
+    keywords:
+      - 眼睛变蓝
+      - 蓝色眼睛
+    actions:
+      - type: set_eye_color
+        params:
+          color: blue
+    response_template: "好的~"
+    priority: 5
+  
+  eye_color_red:
+    keywords:
+      - 眼睛变红
+      - 红色眼睛
+    actions:
+      - type: set_eye_color
+        params:
+          color: red
+    response_template: "好的~"
+    priority: 5
+  
+  eye_color_green:
+    keywords:
+      - 眼睛变绿
+      - 绿色眼睛
+    actions:
+      - type: set_eye_color
+        params:
+          color: green
+    response_template: "好的~"
+    priority: 5
+  
+  # ==================== LED 灯效 ====================
+  led_rainbow:
+    keywords:
+      - 彩虹灯
+      - 彩虹色
+    actions:
+      - type: led_effect
+        params:
+          effect: rainbow
+          speed: 50
+    response_template: "彩虹出来啦~"
+    priority: 5
+  
+  led_breathe:
+    keywords:
+      - 呼吸灯
+    actions:
+      - type: led_effect
+        params:
+          effect: breathe
+          color: "#00FF00"
+    response_template: "好的~"
+    priority: 5
+  
+  led_off:
+    keywords:
+      - 关灯
+      - 灯关掉
+    actions:
+      - type: led_effect
+        params:
+          effect: off
+    response_template: "好的~"
+    priority: 5
+  
+  # ==================== 拍照/识别（占位） ====================
+  take_photo:
+    keywords:
+      - 拍照
+      - 拍张照
+      - 照相
+    actions:
+      - type: nlu_fallback
+        params:
+          intent: take_photo
+          note: "功能待实现"
+    response_template: "这个功能还在开发中哦~"
+    priority: 5
+  
+  face_recognition:
+    keywords:
+      - 看看我是谁
+      - 认识我吗
+      - 我是谁
+    actions:
+      - type: nlu_fallback
+        params:
+          intent: face_recognition
+          note: "功能待实现"
+    response_template: "这个功能还在开发中哦~"
+    priority: 5
+  
+  # ==================== 语言学习（占位） ====================
+  language_practice:
+    keywords:
+      - 练习英语
+      - 学英语
+      - 口语练习
+    actions:
+      - type: nlu_fallback
+        params:
+          intent: language_practice
+          note: "功能待实现"
+    response_template: "这个功能还在开发中哦~"
+    priority: 5
+
+# 全局设置
+settings:
+  default_priority: 5
+  similarity_threshold: 0.6
+  enable_fuzzy_match: true
