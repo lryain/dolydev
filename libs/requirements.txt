@@ -10,7 +10,7 @@ adafruit-circuitpython-lsm6ds
 
 # ws2812
 paho-mqtt
-rpi-ws281x
+# rpi-ws281x
 PyYAML
 
 # WebSocket support

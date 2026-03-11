@@ -149,19 +149,19 @@ alias_paths:
   piano_re: piano/re.mp3
   piano_si: piano/si.mp3
   piano_sol: piano/sol.mp3
-  sfx_alarm_1: sfx/alarm-(1).wav
-  sfx_alarm_2: sfx/alarm-(2).wav
-  sfx_alarm_3: sfx/alarm-(3).wav
-  sfx_alarm_4: sfx/alarm-(4).wav
-  sfx_alarm_5: sfx/alarm-(5).wav
-  sfx_alarm_6: sfx/alarm-(6).wav
+  sfx_alarm_1: sfx/alarm (1).wav
+  sfx_alarm_2: sfx/alarm (2).wav
+  sfx_alarm_3: sfx/alarm (3).wav
+  sfx_alarm_4: sfx/alarm (4).wav
+  sfx_alarm_5: sfx/alarm (5).wav
+  sfx_alarm_6: sfx/alarm (6).wav
   sfx_beach: sfx/beach.wav
-  sfx_buff_1: sfx/buff-(1).wav
-  sfx_buff_2: sfx/buff-(2).wav
-  sfx_buff_3: sfx/buff-(3).wav
-  sfx_buff_4: sfx/buff-(4).wav
-  sfx_buff_5: sfx/buff-(5).wav
-  sfx_buff_6: sfx/buff-(6).wav
+  sfx_buff_1: sfx/buff (1).wav
+  sfx_buff_2: sfx/buff (2).wav
+  sfx_buff_3: sfx/buff (3).wav
+  sfx_buff_4: sfx/buff (4).wav
+  sfx_buff_5: sfx/buff (5).wav
+  sfx_buff_6: sfx/buff (6).wav
   sfx_camera_click: sfx/camera-click.wav
   sfx_click: sfx/click.wav
   sfx_clock_push: sfx/clock-push.wav
@@ -169,68 +169,68 @@ alias_paths:
   sfx_coins: sfx/coins.wav
   sfx_collect: sfx/collect.wav
   sfx_damage: sfx/damage.wav
-  sfx_debuff_1: sfx/debuff-(1).wav
-  sfx_debuff_2: sfx/debuff-(2).wav
-  sfx_debuff_3: sfx/debuff-(3).wav
-  sfx_drum_roll_1: sfx/drum-roll-(1).wav
-  sfx_drum_roll_2: sfx/drum-roll-(2).wav
-  sfx_drum_roll_3: sfx/drum-roll-(3).wav
-  sfx_drum_roll_4: sfx/drum-roll-(4).wav
-  sfx_error_1: sfx/error-(1).wav
-  sfx_error_2: sfx/error-(2).wav
-  sfx_error_3: sfx/error-(3).wav
-  sfx_error_4: sfx/error-(4).wav
-  sfx_error_5: sfx/error-(5).wav
-  sfx_explosion_1: sfx/explosion-(1).wav
-  sfx_explosion_2: sfx/explosion-(2).wav
-  sfx_explosion_3: sfx/explosion-(3).wav
+  sfx_debuff_1: sfx/debuff (1).wav
+  sfx_debuff_2: sfx/debuff (2).wav
+  sfx_debuff_3: sfx/debuff (3).wav
+  sfx_drum_roll_1: sfx/drum-roll (1).wav
+  sfx_drum_roll_2: sfx/drum-roll (2).wav
+  sfx_drum_roll_3: sfx/drum-roll (3).wav
+  sfx_drum_roll_4: sfx/drum-roll (4).wav
+  sfx_error_1: sfx/error (1).wav
+  sfx_error_2: sfx/error (2).wav
+  sfx_error_3: sfx/error (3).wav
+  sfx_error_4: sfx/error (4).wav
+  sfx_error_5: sfx/error (5).wav
+  sfx_explosion_1: sfx/explosion (1).wav
+  sfx_explosion_2: sfx/explosion (2).wav
+  sfx_explosion_3: sfx/explosion (3).wav
   sfx_fire: sfx/fire.wav
-  sfx_fire_truck_1: sfx/fire-truck-(1).wav
-  sfx_fire_truck_2: sfx/fire-truck-(2).wav
+  sfx_fire_truck_1: sfx/fire-truck (1).wav
+  sfx_fire_truck_2: sfx/fire-truck (2).wav
   sfx_fireworks: sfx/fireworks.wav
-  sfx_gong_1: sfx/gong-(1).wav
-  sfx_gong_2: sfx/gong-(2).wav
-  sfx_gong_3: sfx/gong-(3).wav
+  sfx_gong_1: sfx/gong (1).wav
+  sfx_gong_2: sfx/gong (2).wav
+  sfx_gong_3: sfx/gong (3).wav
   sfx_gun_shot: sfx/gun-shot.wav
   sfx_hint: sfx/hint.wav
   sfx_hmmm: sfx/hmmm.wav
-  sfx_kiss_1: sfx/kiss-(1).mp3
-  sfx_kiss_2: sfx/kiss-(2).mp3
-  sfx_kiss_3: sfx/kiss-(3).mp3
+  sfx_kiss_1: sfx/kiss (1).mp3
+  sfx_kiss_2: sfx/kiss (2).mp3
+  sfx_kiss_3: sfx/kiss (3).mp3
   sfx_level_up: sfx/level-up.wav
-  sfx_lost_1: sfx/lost-(1).wav
-  sfx_lost_2: sfx/lost-(2).wav
-  sfx_lost_3: sfx/lost-(3).wav
-  sfx_notification_1: sfx/notification-(1).wav
-  sfx_notification_2: sfx/notification-(2).wav
-  sfx_notification_3: sfx/notification-(3).wav
-  sfx_police_1: sfx/police-(1).wav
-  sfx_police_2: sfx/police-(2).wav
-  sfx_siren_1: sfx/siren-(1).wav
-  sfx_siren_2: sfx/siren-(2).wav
+  sfx_lost_1: sfx/lost (1).wav
+  sfx_lost_2: sfx/lost (2).wav
+  sfx_lost_3: sfx/lost (3).wav
+  sfx_notification_1: sfx/notification (1).wav
+  sfx_notification_2: sfx/notification (2).wav
+  sfx_notification_3: sfx/notification (3).wav
+  sfx_police_1: sfx/police (1).wav
+  sfx_police_2: sfx/police (2).wav
+  sfx_siren_1: sfx/siren (1).wav
+  sfx_siren_2: sfx/siren (2).wav
   sfx_slot_jackpot: sfx/slot-jackpot.wav
   sfx_slot_lever: sfx/slot-lever.wav
   sfx_slot_looser: sfx/slot-looser.wav
   sfx_slot_turn: sfx/slot-turn.wav
   sfx_slot_winner: sfx/slot-winner.wav
-  sfx_success_1: sfx/success-(1).wav
-  sfx_success_2: sfx/success-(2).wav
-  sfx_success_3: sfx/success-(3).wav
-  sfx_sweep_1: sfx/sweep-(1).wav
-  sfx_sweep_2: sfx/sweep-(2).wav
+  sfx_success_1: sfx/success (1).wav
+  sfx_success_2: sfx/success (2).wav
+  sfx_success_3: sfx/success (3).wav
+  sfx_sweep_1: sfx/sweep (1).wav
+  sfx_sweep_2: sfx/sweep (2).wav
   sfx_switch: sfx/switch.wav
-  sfx_swoosh_1: sfx/swoosh-(1).wav
-  sfx_swoosh_2: sfx/swoosh-(2).wav
-  sfx_swoosh_3: sfx/swoosh-(3).wav
-  sfx_swoosh_4: sfx/swoosh-(4).wav
-  sfx_teleport_1: sfx/teleport-(1).wav
-  sfx_teleport_2: sfx/teleport-(2).wav
-  sfx_teleport_3: sfx/teleport-(3).wav
-  sfx_teleport_4: sfx/teleport-(4).wav
+  sfx_swoosh_1: sfx/swoosh (1).wav
+  sfx_swoosh_2: sfx/swoosh (2).wav
+  sfx_swoosh_3: sfx/swoosh (3).wav
+  sfx_swoosh_4: sfx/swoosh (4).wav
+  sfx_teleport_1: sfx/teleport (1).wav
+  sfx_teleport_2: sfx/teleport (2).wav
+  sfx_teleport_3: sfx/teleport (3).wav
+  sfx_teleport_4: sfx/teleport (4).wav
   sfx_unlock: sfx/unlock.wav
-  sfx_win_1: sfx/win-(1).wav
-  sfx_win_2: sfx/win-(2).wav
-  sfx_win_3: sfx/win-(3).wav
+  sfx_win_1: sfx/win (1).wav
+  sfx_win_2: sfx/win (2).wav
+  sfx_win_3: sfx/win (3).wav
   sound_admire_1: sound/admire-(1).wav
   sound_admire_10: sound/admire-(10).wav
   sound_admire_11: sound/admire-(11).wav

@@ -4,6 +4,9 @@
 logs
 libs/FaceReco/videos
 libs/FaceReco/captures
+libs/audio_player/src
+libs/audio_player/include
+libs/audio_player/apps
 venv/
 ENV/
 .env/

@@ -1,4 +1,6 @@
-# 播放功能测试
+# 快速开始 - 重复播放功能测试
+
+## ⚡ 5分钟快速测试
 
 ### Step 1: 启动音频播放服务
 
@@ -115,4 +117,27 @@ ps aux | grep audio_player_service
 cat ~/dolydev/config/audio_player.yaml | grep device
 ```
 
+### 问题 3: Debug 日志看不到
+**解决**: 检查 stdout/stderr 重定向
+- 确保 audio_player_service 在前台运行（不要用 & 后台运行）
+- 或检查系统日志
+
+## 📚 相关文档
+
+- 完整设计文档: `libs/audio_player/docs/zmq_command_design.md`
+- 实现总结: `docs/important/audio_repeat_implementation.md`
+- 服务代码: `libs/audio_player/src/audio_player_service.cpp`
+
+## ✅ 功能检查清单
+
+- [x] 编译成功（无编译错误）
+- [x] 向后兼容（单次播放仍为默认）
+- [x] repeat_count 模式（支持间隔）
+- [x] repeat_duration 模式（支持时长限制）
+- [x] Debug 日志（实时显示播放进度）
+- [x] 停止控制（支持随时停止）
+
+---
+
+**运维提示**: 若要在生产环境部署为 systemd 服务，参考 `install/doly-webserver.service` 的配置方式。
 

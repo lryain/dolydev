@@ -28,3 +28,7 @@ ReadWritePaths=/home/pi/dolydev/data/logs /home/pi/dolydev/config /tmp
 # 资源限制
 MemoryMax=50M
 CPUQuota=10%
+
+[Install]
+WantedBy=multi-user.target
+

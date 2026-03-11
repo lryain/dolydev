@@ -27,8 +27,8 @@ appearance:
   right_lid_id: null
   
   # 背景配置
-  background_type: "COLOR"      # COLOR 或 IMAGE
-  background_style: "COLOR_WHITE"  # 背景样式名称
+  background_type: "IMAGE"      # COLOR 或 IMAGE
+  background_style: "RETRO2"  # 背景样式名称
   
   # 亮度 (0-10)
   brightness: 8
