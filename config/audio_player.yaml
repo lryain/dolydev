@@ -5,7 +5,7 @@ status_topic: status.audio.playback
 stream_endpoint: ipc:///tmp/doly_audio_player_stream.sock
 stream_buffer_ms: 2000
 ducking_level: 0.35
-max_concurrent_sounds: 6
+max_concurrent_sounds: 3
 alias_paths:
   animal_bear: animal/bear.wav
   animal_bee: animal/bee.wav

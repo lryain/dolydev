@@ -5,12 +5,13 @@ sock.connect('ipc:///tmp/doly_audio_player_cmd.sock')
 # 测试音频条目：使用字典形式指定 alias 或 uri
 paths = [
     {"alias": "all"},
+    # {"uri": "/home/pi/Musics/ghsy-光辉岁月.flac"},
+    # {"uri": "/.doly/sounds/music/AlanWalker-Faded.mp3"},
     # {"alias": "mp3_aw_faded"},
     # {"alias": "bless"},
     # {"uri": "/home/pi/dolydev/assets/music/nature.mp3"},
     # {"uri": "/home/pi/dolydev/assets/testing/voice/voice.wav"},
     # {"uri": "/home/pi/dolydev/assets/sounds/error.mp3"},
-    # /home/pi/dolydev/assets/sounds/music/AlanWalker-Faded.mp3
     # {"uri": "/home/pi/dolydev/assets/sounds/music/AlanWalker-Faded.mp3"},
     # {"uri": "/home/pi/dolydev/assets/lose_funny_retro_video-game-80925.mp3"}
 ]

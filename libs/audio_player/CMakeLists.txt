@@ -19,7 +19,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../capture_control ${CMAKE_BINARY_D
 set(SOURCES
     src/audio_player_service.cpp
     src/config.cpp
-    ../miniaudio/miniaudio.c
+    ../../3rd/miniaudio/miniaudio.c
 )
 
 add_library(audio_player STATIC ${SOURCES})
@@ -27,7 +27,7 @@ add_library(audio_player STATIC ${SOURCES})
 target_include_directories(audio_player
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/../miniaudio
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../3rd/miniaudio
     PRIVATE
         ${ZMQ_INCLUDE_DIRS}
 )
