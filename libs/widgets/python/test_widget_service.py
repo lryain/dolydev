@@ -10,7 +10,6 @@ Widget Service 测试脚本
 测试列表:
     clock_show    - 显示时钟
     clock_hide    - 隐藏时钟
-    clock_chime   - 触发整点报时
     timer_start   - 启动倒计时
     timer_pause   - 暂停定时器
     timer_resume  - 恢复定时器
@@ -139,25 +138,15 @@ def test_timer_show(time: int = 5000):
         }
     })
 
-def test_clock_chime():
-    """测试整点报时"""
-    print("\n=== 测试: 整点报时 ===")
-    send_command("cmd.widget.clock.chime", {
-        "action": "chime_now",
-        "language": "zh"
-    })
-
-
-def test_timer_start(duration_sec: int = 3):
+def test_timer_start(duration_sec: int = 10):
     """测试启动定时器"""
-    print(f"\n=== 测试: 启动倒计时 {time}秒 ===")
+    print(f"\n=== 测试: 启动倒计时 {duration_sec}秒 ===")
     send_command("cmd.widget.timer.start", {
         "action": "start",
         "widget_id": "timer",
         "mode": "countdown",
-        "timeout_ms": 6000,  # 1秒后自动隐藏
         "duration_sec": duration_sec,
-        # "auto_hide": True, # 无效
+        "timeout_ms": 3000,  # 1秒后自动隐藏
         "slot": "both",
         "style": {
             "digit_color": [255, 180, 0],
@@ -213,7 +202,7 @@ def test_all():
     # test_clock_hide()
     # time.sleep(2)
     
-    test_timer_start(5)
+    # test_timer_start(5)
     # test_timer_hide()
     # test_timer_show()
 
@@ -234,22 +223,32 @@ def test_all():
 TESTS = {
     "clock_show": test_clock_show,
     "clock_hide": test_clock_hide,
-    # "clock_chime": test_clock_chime,
     "timer_start": test_timer_start,
-    # "timer_pause": test_timer_pause,
-    # "timer_resume": test_timer_resume,
-    # "timer_stop": test_timer_stop,
+    "timer_pause": test_timer_pause,
+    "timer_resume": test_timer_resume,
+    "timer_stop": test_timer_stop,
     "subscribe": lambda: subscribe_events(30),
     "all": test_all,
 }
 
 
 if __name__ == "__main__":
-    test_name = sys.argv[1] if len(sys.argv) > 1 else "all"
-    
+    args = sys.argv[1:]
+    test_name = args[0] if len(args) >= 1 else "all"
+
     if test_name not in TESTS:
         print(f"未知测试: {test_name}")
         print(f"可用测试: {', '.join(TESTS.keys())}")
         sys.exit(1)
-    
-    TESTS[test_name]()
+
+    func = TESTS[test_name]
+    extra_args = args[1:]
+    # 尝试把额外参数转换为 int（用于秒数等）
+    conv_args = []
+    for a in extra_args:
+        try:
+            conv_args.append(int(a))
+        except ValueError:
+            conv_args.append(a)
+
+    func(*conv_args)

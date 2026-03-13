@@ -162,20 +162,20 @@ alias_paths:
   sfx_buff_4: sfx/buff (4).wav
   sfx_buff_5: sfx/buff (5).wav
   sfx_buff_6: sfx/buff (6).wav
-  sfx_camera_click: sfx/camera-click.wav
+  sfx_camera_click: sfx/camera click.wav
   sfx_click: sfx/click.wav
-  sfx_clock_push: sfx/clock-push.wav
-  sfx_clock_tick: sfx/clock-tick.wav
+  sfx_clock_push: sfx/clock push.wav
+  sfx_clock_tick: sfx/clock tick.wav
   sfx_coins: sfx/coins.wav
   sfx_collect: sfx/collect.wav
   sfx_damage: sfx/damage.wav
   sfx_debuff_1: sfx/debuff (1).wav
   sfx_debuff_2: sfx/debuff (2).wav
   sfx_debuff_3: sfx/debuff (3).wav
-  sfx_drum_roll_1: sfx/drum-roll (1).wav
-  sfx_drum_roll_2: sfx/drum-roll (2).wav
-  sfx_drum_roll_3: sfx/drum-roll (3).wav
-  sfx_drum_roll_4: sfx/drum-roll (4).wav
+  sfx_drum_roll_1: sfx/drum roll (1).wav
+  sfx_drum_roll_2: sfx/drum roll (2).wav
+  sfx_drum_roll_3: sfx/drum roll (3).wav
+  sfx_drum_roll_4: sfx/drum roll (4).wav
   sfx_error_1: sfx/error (1).wav
   sfx_error_2: sfx/error (2).wav
   sfx_error_3: sfx/error (3).wav
@@ -185,19 +185,19 @@ alias_paths:
   sfx_explosion_2: sfx/explosion (2).wav
   sfx_explosion_3: sfx/explosion (3).wav
   sfx_fire: sfx/fire.wav
-  sfx_fire_truck_1: sfx/fire-truck (1).wav
-  sfx_fire_truck_2: sfx/fire-truck (2).wav
+  sfx_fire_truck_1: sfx/fire truck (1).wav
+  sfx_fire_truck_2: sfx/fire truck (2).wav
   sfx_fireworks: sfx/fireworks.wav
   sfx_gong_1: sfx/gong (1).wav
   sfx_gong_2: sfx/gong (2).wav
   sfx_gong_3: sfx/gong (3).wav
-  sfx_gun_shot: sfx/gun-shot.wav
+  sfx_gun_shot: sfx/gun shot.wav
   sfx_hint: sfx/hint.wav
   sfx_hmmm: sfx/hmmm.wav
   sfx_kiss_1: sfx/kiss (1).mp3
   sfx_kiss_2: sfx/kiss (2).mp3
   sfx_kiss_3: sfx/kiss (3).mp3
-  sfx_level_up: sfx/level-up.wav
+  sfx_level_up: sfx/level up.wav
   sfx_lost_1: sfx/lost (1).wav
   sfx_lost_2: sfx/lost (2).wav
   sfx_lost_3: sfx/lost (3).wav
@@ -208,11 +208,11 @@ alias_paths:
   sfx_police_2: sfx/police (2).wav
   sfx_siren_1: sfx/siren (1).wav
   sfx_siren_2: sfx/siren (2).wav
-  sfx_slot_jackpot: sfx/slot-jackpot.wav
-  sfx_slot_lever: sfx/slot-lever.wav
-  sfx_slot_looser: sfx/slot-looser.wav
-  sfx_slot_turn: sfx/slot-turn.wav
-  sfx_slot_winner: sfx/slot-winner.wav
+  sfx_slot_jackpot: sfx/slot jackpot.wav
+  sfx_slot_lever: sfx/slot lever.wav
+  sfx_slot_looser: sfx/slot looser.wav
+  sfx_slot_turn: sfx/slot turn.wav
+  sfx_slot_winner: sfx/slot winner.wav
   sfx_success_1: sfx/success (1).wav
   sfx_success_2: sfx/success (2).wav
   sfx_success_3: sfx/success (3).wav

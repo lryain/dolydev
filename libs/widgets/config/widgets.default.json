@@ -39,7 +39,7 @@
       "announce_template_24h_en": "The time is {HH} {MM}",
       "announce_template_12h_en": "The time is {HH} {MM} in the {period}",
       "tts": {
-        "engine": "edge_tts",
+        "engine": "espeak_ng",
         "espeak_ng": {
           "command": "espeak-ng -v zh '{text}' >/dev/null 2>&1"
         },
@@ -47,11 +47,11 @@
           "transport": "zmq",
           "endpoint": "ipc:///tmp/doly_tts_req.sock",
           "client_bin": "python3 /home/pi/dev/dolydev/libs/tts/tts-server/edge_tts_client.py",
-          "voice1": "zh-CN-XiaoyiNeural",
-          "voice": "zh-CN-shaanxi-XiaoniNeural",
-          "pitch": "+60Hz",
-          "rate": "-20%",
-          "volume": "+60%",
+          "voice": "zh-CN-XiaoyiNeural",
+          "voice1": "zh-CN-shaanxi-XiaoniNeural",
+          "pitch": "+40Hz",
+          "rate": "-10%",
+          "volume": "+0%",
           "format": "wav",
           "play": true,
           "play_mode": "audio_player",
@@ -82,7 +82,7 @@
     "mode": "countdown",
     "duration_sec": 10,
     "auto_hide": true,
-    "timer_timeout": 8000,
+    "timer_timeout": 3000,
     "auto_start": false,
     "auto_show_remaining_sec": 10,
     "position": {
@@ -92,7 +92,7 @@
     },
     "style": {
       "font_size": 60,
-      "color": {"r": 255, "g": 232, "b": 125, "a": 255},
+      "color": {"r": 0, "g": 232, "b": 125, "a": 255},
       "warning_color": {"r": 255, "g": 82, "b": 82, "a": 255},
       "background": {"r": 0, "g": 0, "b": 0, "a": 180},
       "digit_scale_percent": 75
@@ -100,8 +100,8 @@
     "audio": {
       "enabled": true,
       "tick_sound_en": true,
-      "timeup_sound_en": true,
-      "alarm_sound_en": false,
+      "timeup_sound_en": false,
+      "alarm_sound_en": true,
       "speak_last_sec_en": false,
       "speak_last_sec_start": 5,
       "tick_topic": "event.eye.timer.tick",
