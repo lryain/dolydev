@@ -1,0 +1,44 @@
+# TOF 传感器配置
+tof:
+  i2c_bus: 6
+  left_address: 0x29
+  right_address: 0x30
+  left_enable_pin: 64
+  setup_marker: /tmp/tof_demo_setup_done
+  calibration_marker: /tmp/tof_calibration_setup_done
+  lux_calibration_marker: /tmp/tof_lux_calibration_done
+  
+  # 测量设置
+  # 0: 1x, 1: 1.25x, 2: 1.67x, 3: 2.5x, 4: 5x, 5: 10x, 6: 20x, 7: 40x
+  als_gain_left: 6
+  als_gain_right: 6
+  default_sample_interval: 0.03
+  max_valid_distance_mm: 200
+
+  # 避障巡航策略参数 (tof_cruise)
+  cruise:
+    obstacle_mm: 120           # 触发避障的距离阀值
+    diff_threshold_mm: 40      # 左右间距差阀值。小于此值认为是对正障碍，执行后退。
+    forward_speed_percent: 50  # 前进速度百分比
+    turn_speed_percent: 50     # 转向速度百分比
+    backward_speed_percent: 30 # 后退速度百分比
+    turn_duration_ms: 350      # 转向持续时间
+    backward_duration_ms: 500  # 后退持续时间
+    loop_delay_ms: 10          # 循环采集延迟
+    reverse_direction: false   # 电机反向
+
+  # 校准设置 (tof_calibration)
+  calibration:
+    target_mm_left: 80.0
+    target_mm_right: 80.0
+    samples: 32
+    interval_seconds: 0.05
+
+  # 环境光校准设置 (tof_alts_cal)
+  als_calibration:
+    interval_seconds: 1.0
+    gain_left: 7
+    gain_right: 7
+    samples: 32
+    sample_interval_seconds: 0.05
+

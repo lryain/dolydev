@@ -1,0 +1,38 @@
+tof_service:
+  bind_endpoint: tcp://127.0.0.1:5568
+  poll_timeout_ms: 100
+  idle_close_ms: 1500
+  cache_ttl_ms: 60
+  log_level: INFO
+  mock_mode: false
+  auto_setup: true
+
+  tof:
+    enabled: true
+    i2c_bus: 6
+    left_address: 41
+    right_address: 48
+    left_enable_pin: 64
+    setup_marker: /tmp/tof_demo_setup_done
+    offset_file: /home/pi/dolydev/libs/tof/data/tof_offsets.json
+    en_ctl_binary: /home/pi/dolydev/libs/tof/build/tof_en_ctl
+    read_lux_by_default: false
+    als_gain: 40
+    obstacle_threshold_mm: 150
+
+  imu:
+    enabled: true
+    shared_state_name: /doly_shared_state
+    timeout_ms: 1500
+
+  mock:
+    tof:
+      left_mm: 118
+      right_mm: 121
+      obstacle_threshold_mm: 150
+      lux_left: 42.0
+      lux_right: 44.0
+    imu:
+      roll: 0.0
+      pitch: 0.0
+      yaw: 179.2

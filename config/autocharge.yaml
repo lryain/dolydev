@@ -1,0 +1,143 @@
+autocharge:
+  marker:
+    id: 23
+    size_m: 0.12
+
+  camera:
+    width: 800
+    height: 600
+    framerate: 15
+    frame_timeout_ms: 1200
+
+  display:
+    enable_lcd: true
+    lcd_side: right
+    brightness: 8
+    dump_dir: ""
+    debug_view:
+      preview_enabled: true
+      canvas_size: 240
+      preview_height: 118
+      panel_top: 118
+      background_color: "#1c1816"
+      panel_color: "#121212"
+      header_color: "#785000"
+      marker_box:
+        enabled: true
+        color: "#00ff00"
+        thickness: 6
+      marker_center:
+        enabled: true
+        color: "#00dcff"
+        radius: 8
+      center_line:
+        enabled: true
+        color: "#ffb400"
+        thickness: 3
+      phase:
+        enabled: true
+        x: 10
+        y: 140
+        scale: 0.68
+        thickness: 2
+        outline: 5
+        color: "#ffffff"
+      action:
+        enabled: true
+        x: 10
+        y: 168
+        scale: 0.75
+        thickness: 2
+        outline: 5
+        color: "#00dcff"
+      metrics:
+        enabled: true
+        x: 10
+        y: 193
+        scale: 0.50
+        thickness: 1
+        outline: 4
+        color: "#ebebeb"
+      power:
+        enabled: true
+        x: 10
+        y: 214
+        scale: 0.50
+        thickness: 1
+        outline: 4
+        color: "#ffd778"
+      tof:
+        enabled: true
+        x: 10
+        y: 232
+        scale: 0.48
+        thickness: 1
+        outline: 4
+        color: "#b4e6ff"
+      reason:
+        enabled: true
+        x: 10
+        y: 238
+        scale: 0.34
+        thickness: 1
+        outline: 3
+        color: "#dcdcdc"
+
+  drive:
+    enable_drive: true
+    search_rotate_speed: 38
+    align_rotate_speed: 28
+    forward_speed: 30
+    reverse_speed: 20
+    rotate_compensation_scale: 1.0
+    rotate_compensation_offset_deg: 0.0
+
+  docking:
+    max_frames: 1200
+    align_threshold: 0.10
+    near_align_threshold: 0.22
+    rotate_gain_deg: 28.0
+    near_rotate_gain_deg: 18.0
+    max_rotate_deg: 18.0
+    near_max_rotate_deg: 4.0
+    search_rotate_deg: 10.0
+    final_dock_distance_m: 0.24
+    verify_distance_m: 0.16
+    close_area_ratio: 0.42
+    verify_area_ratio: 0.62
+    min_forward_step_mm: 25.0
+    max_forward_step_mm: 40.0
+    approach_gain: 0.40
+    tof_align_trigger_distance_m: 0.35
+    tof_balance_rotate_gain_deg: 0.12
+    tof_max_rotate_deg: 6.0
+    tof_balance_tolerance_mm: 12
+    tof_stable_cycles: 2
+    align_stable_cycles: 2
+    approach_stable_cycles: 2
+    reacquire_rotate_deg: 4.0
+    reacquire_max_cycles: 6
+    rotate_to_reverse_deg: 180.0
+    reverse_step_mm: 20.0
+    reverse_contact_distance_mm: 180.0
+    reverse_verify_cycles: 4
+    retry_escape_distance_mm: 80.0
+    max_retry_count: 3
+
+  charging:
+    detect_current_a: 0.02
+    detect_voltage_v: 4.0
+    detect_max_current_a: 5.0
+    confirm_cycles: 3
+
+  sensors:
+    shared_state_timeout_ms: 1500
+    tof_cpp:
+      enabled: true
+      i2c_bus: 6
+      left_address: 0x29
+      right_address: 0x30
+      continuous_period_ms: 20
+      read_timeout_ms: 200
+      left_offset_mm: 14
+      right_offset_mm: 93
