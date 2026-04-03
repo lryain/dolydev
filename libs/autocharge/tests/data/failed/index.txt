@@ -1,3 +1,0 @@
-Collected failed autocharge marker detection samples
-Source: /tmp/autocharge_debug
-Count: 33
