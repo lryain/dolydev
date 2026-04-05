@@ -2,13 +2,13 @@
 # Ignore Python virtualenvs (including the top-level .venv)
 .venv/
 logs
+*.d
 .github
 libs/drive/docs/dev
 libs/autocharge
 libs/autocharge-videook
-3rd/vl6180_pi/src
-3rd/vl6180_pi/include
-3rd/vl6180_pi/docs
+3rd/vl6180_pi
+tmp
 libs/tofpy
 libs/drive/include
 libs/drive/src
