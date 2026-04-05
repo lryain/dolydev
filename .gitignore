@@ -3,9 +3,12 @@
 .venv/
 logs
 .github
+libs/drive/docs/dev
 libs/autocharge
 libs/autocharge-videook
-3rd/vl6180_pi
+3rd/vl6180_pi/src
+3rd/vl6180_pi/include
+3rd/vl6180_pi/docs
 libs/tofpy
 libs/drive/include
 libs/drive/src
