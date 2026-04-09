@@ -10,26 +10,23 @@
         <field name="animation">BLINK</field>
         <field name="start">0</field>
     </block>
-    <!-- 前进 10cm -->
+    <!-- 前进 5cm -->
     <block type="drive_distance">
         <field name="distance">5</field>
         <field name="start">1</field>
-        <field name="speed">20</field>
+        <field name="speed">30</field>
         <field name="accel">0</field>
         <field name="brake">0</field>
         <field name="direction">0</field>
     </block>
+    <!-- <block type="drive_distance">
+        <field name="distance">5</field>
+        <field name="start">0</field>
+        <field name="speed">20</field>
+        <field name="direction">0</field>
+    </block> -->
     <block type="delay_ms">
         <field name="delay_ms">1000</field>
         <field name="start">1</field>
-    </block>
-    <!-- 后退 10cm -->
-    <block type="drive_distance">
-        <field name="distance">10</field>
-        <field name="start">1</field>
-        <field name="speed">20</field>
-        <field name="accel">0</field>
-        <field name="brake">0</field>
-        <field name="direction">1</field>
     </block>
 </xml>

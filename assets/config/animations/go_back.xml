@@ -12,8 +12,8 @@
     </block>
     <block type="drive_backward">
         <field name="start">1</field>
-        <field name="speed">20</field>
-        <field name="duration">4</field>
+        <field name="speed">30</field>
+        <field name="duration">1</field>
     </block>
     <block type="delay_ms">
         <field name="delay_ms">1000</field>

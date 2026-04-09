@@ -275,7 +275,6 @@
 	<!-- give a chance to fail 1/3 -->
 	<Category name="ANIMATION_SALSA" max="1">
 		<AnimationBlocks level="1" file="salsa.xml"/>
-		<AnimationBlocks level="1" file="salsa.xml"/>
 		<AnimationBlocks level="1" file="salsa_fail.xml"/>
 	</Category>
 	<Category name="ANIMATION_WORKOUT" max="1">

@@ -63,31 +63,31 @@
             <block type="drive_rotate_right">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_rotate_left">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">1</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">0</field>
@@ -99,31 +99,31 @@
             <block type="drive_rotate_left">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_rotate_right">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">1</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">0</field>
@@ -146,31 +146,31 @@
             <block type="drive_rotate_right">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_rotate_left">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">1</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">0</field>
@@ -182,31 +182,31 @@
             <block type="drive_rotate_left">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_rotate_right">
                 <field name="driveRotate">3</field>
                 <field name="isCenter">TRUE</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">1</field>
             </block>
             <block type="drive_distance">
                 <field name="distance">5</field>
-                <field name="start">1</field>
-                <field name="speed">1</field>
+                <field name="start">0</field>
+                <field name="speed">30</field>
                 <field name="accel">20</field>
                 <field name="brake">0</field>
                 <field name="direction">0</field>

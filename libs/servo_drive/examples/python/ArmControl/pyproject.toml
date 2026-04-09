@@ -1,0 +1,20 @@
+[build-system]
+requires = ["scikit-build-core>=0.8", "pybind11>=2.12"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "doly-arm-control"
+version = "0.1.0"
+description = "Python bindings for DOLY ArmControl"
+requires-python = ">=3.9"
+license = { text = "Proprietary - Non-Commercial Use Only" }
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: C++",
+  "Operating System :: POSIX :: Linux",
+]
+
+[tool.scikit-build]
+cmake.source-dir = "source"
+wheel.packages = []

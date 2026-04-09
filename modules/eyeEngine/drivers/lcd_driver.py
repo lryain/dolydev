@@ -12,7 +12,7 @@ QQ: 47129927@qq.com
 """
 
 import ctypes
-from ctypes import c_int8, c_uint8, c_int, c_void_p, POINTER, Structure, byref, cast
+from ctypes import c_bool, c_int8, c_uint8, c_int, c_void_p, POINTER, Structure, byref, cast
 import logging
 import threading
 from pathlib import Path
@@ -67,6 +67,7 @@ class LcdDriver(ILcdDriver):
     _f_write_lcd = None
     _f_color_fill = None
     _f_buffer_from_rgb = None
+    _f_buffer_from_rgb_uses_mirror_flag = False
 
     def __init__(self, lib_path: Optional[str] = None, side: LcdSide = LcdSide.LEFT):
         """
@@ -161,6 +162,19 @@ class LcdDriver(ILcdDriver):
             raise LcdDriverError(f"无法加载 LCD 库: {e}")
         except Exception as e:
             raise LcdDriverError(f"LCD 初始化失败: {e}")
+
+    @staticmethod
+    def _get_symbol(lib, *candidates):
+        """兼容不同版本 libLcdControl.so 的导出符号。"""
+        last_error = None
+        for name in candidates:
+            try:
+                return getattr(lib, name)
+            except AttributeError as exc:
+                last_error = exc
+        if last_error is None:
+            raise AttributeError("未提供可解析的符号名")
+        raise last_error
     
     def _setup_functions(self) -> None:
         """设置 C 函数签名 (处理 C++ mangled 符号)"""
@@ -176,8 +190,12 @@ class LcdDriver(ILcdDriver):
             LcdDriver._f_init.argtypes = [c_uint8]
             LcdDriver._f_init.restype = c_int8
             
-            # 对应 LcdControl::release()
-            LcdDriver._f_release = getattr(lib, "_ZN10LcdControl7releaseEv")
+            # 兼容旧版 LcdControl::release() 与新版 LcdControl::dispose()
+            LcdDriver._f_release = self._get_symbol(
+                lib,
+                "_ZN10LcdControl7releaseEv",
+                "_ZN10LcdControl7disposeEv",
+            )
             LcdDriver._f_release.argtypes = []
             LcdDriver._f_release.restype = c_int8
             
@@ -194,11 +212,17 @@ class LcdDriver(ILcdDriver):
             # 对应 LcdControl::LcdColorFill(LcdSide, uint8_t r, uint8_t g, uint8_t b)
             LcdDriver._f_color_fill = getattr(lib, "_ZN10LcdControl12LcdColorFillE7LcdSidehhh")
             LcdDriver._f_color_fill.argtypes = [c_uint8, c_uint8, c_uint8, c_uint8]
-            LcdDriver._f_color_fill.restype = c_int8
+            LcdDriver._f_color_fill.restype = None
 
-            # 对应 LcdControl::LcdBufferFrom24Bit(unsigned char*, unsigned char*)
-            LcdDriver._f_buffer_from_rgb = getattr(lib, "_ZN10LcdControl18LcdBufferFrom24BitEPhS0_")
-            LcdDriver._f_buffer_from_rgb.argtypes = [POINTER(c_uint8), POINTER(c_uint8)]
+            # 兼容旧版 LcdBufferFrom24Bit(output, input) 与新版 toLcdBuffer(output, input, mirror)
+            try:
+                LcdDriver._f_buffer_from_rgb = getattr(lib, "_ZN10LcdControl18LcdBufferFrom24BitEPhS0_")
+                LcdDriver._f_buffer_from_rgb.argtypes = [POINTER(c_uint8), POINTER(c_uint8)]
+                LcdDriver._f_buffer_from_rgb_uses_mirror_flag = False
+            except AttributeError:
+                LcdDriver._f_buffer_from_rgb = getattr(lib, "_ZN10LcdControl11toLcdBufferEPhS0_b")
+                LcdDriver._f_buffer_from_rgb.argtypes = [POINTER(c_uint8), POINTER(c_uint8), c_bool]
+                LcdDriver._f_buffer_from_rgb_uses_mirror_flag = True
             LcdDriver._f_buffer_from_rgb.restype = None
 
         except AttributeError as e:
@@ -249,7 +273,10 @@ class LcdDriver(ILcdDriver):
             ctypes.memmove(self._rgb_buffer, frame_data, min(len(frame_data), len(self._rgb_buffer)))
             
             # 2. 调用库函数将 RGB888 转换为 LCD 专用格式 (12bit/18bit)
-            LcdDriver._f_buffer_from_rgb(self._buffer, self._rgb_buffer)
+            if LcdDriver._f_buffer_from_rgb_uses_mirror_flag:
+                LcdDriver._f_buffer_from_rgb(self._buffer, self._rgb_buffer, False)
+            else:
+                LcdDriver._f_buffer_from_rgb(self._buffer, self._rgb_buffer)
             
             # 3. 准备 LcdData 结构并写入 LCD
             side_val = 0 if self._side == LcdSide.LEFT else 1
@@ -295,9 +322,8 @@ class LcdDriver(ILcdDriver):
         try:
             side_val = 0 if self._side == LcdSide.LEFT else 1
             print(f"-----> Filling color on side {side_val}: R={r}, G={g}, B={b}")
-            # 注意：某些版本的底层库可能不需要 side_val 在这里，但根据 mangled name 它有 4 个参数
-            result = LcdDriver._f_color_fill(side_val, int(r), int(g), int(b))
-            return result == 0
+            LcdDriver._f_color_fill(side_val, int(r), int(g), int(b))
+            return True
         except Exception as e:
             logger.error(f"LCD 填充失败: {e}")
             return False
@@ -323,6 +349,7 @@ class LcdDriver(ILcdDriver):
                     LcdDriver._f_write_lcd = None
                     LcdDriver._f_color_fill = None
                     LcdDriver._f_buffer_from_rgb = None
+                    LcdDriver._f_buffer_from_rgb_uses_mirror_flag = False
                 
         self._active = False
         self._buffer = None

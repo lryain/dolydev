@@ -50,7 +50,7 @@ mappings:
   # ===== 动作/娱乐类 =====
   cmd_ActDance:
     action: play_animation
-    animation: bad_robot_1.xml
+    animation: salsa.xml
     priority: normal
     category: action
     

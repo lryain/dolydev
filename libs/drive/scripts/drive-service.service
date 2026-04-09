@@ -8,6 +8,7 @@ Type=simple
 WorkingDirectory=/home/pi/dolydev/libs/drive
 ExecStart=/usr/local/bin/drive_service
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=LD_LIBRARY_PATH=/home/pi/DOLY-DIY/SDK/lib:/home/pi/dolydev/libs/Doly/libs:/usr/local/lib
 Restart=on-failure
 RestartSec=2
 StandardOutput=journal

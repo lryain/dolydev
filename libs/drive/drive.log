@@ -1,0 +1,110 @@
+[ExtIOService] ======================================
+[ExtIOService] Initializing Drive Service...
+[ExtIOService] Version: 3.0
+[ExtIOService] ======================================
+[ExtIOService] [1/5] Loading configuration...
+[ExtIOService] Checking: /home/pi/dolydev/config/pca9535.yaml -> FOUND
+[Config] ✅ Loaded from YAML: /home/pi/dolydev/config/pca9535.yaml
+[ExtIOService] ✅ Config loaded from: /home/pi/dolydev/config/pca9535.yaml
+[ExtIOService]   - PCA9535 Hardware Defaults:
+[ExtIOService]     * servo_left_default=TRUE
+[ExtIOService]     * servo_right_default=TRUE
+[ExtIOService]     * tof_default=TRUE
+[ExtIOService]     * cliff_default=TRUE
+[ExtIOService]   - Servo Configuration (P1.3):
+[ExtIOService]     * left: angle=5° autohold=Y duration=3000ms
+[ExtIOService]     * right: angle=5° autohold=Y duration=3000ms
+[ExtIOService]   - Sensor Receiver Config:
+[ExtIOService]     * TOF: enabled=Y debug=N
+[ExtIOService]     * AHRS: enabled=Y debug=N
+[ExtIOService]     * Gesture: enabled=Y debug=N
+[ExtIOService] [1/5] Initializing shared memory...
+[ExtIOService] ✅ Shared memory OK: 0xd014feed, Version: 2
+[ExtIOService] [2/5] Initializing ZeroMQ bus...
+[ExtIOService] ✅ ZeroMQ bus started
+[ExtIOService] [3/5] Initializing PCA9535 hardware service...
+[ExtIOService] Config Summary: servo_left=ON, servo_right=ON, tof=ON, cliff=ON
+[PCA9535 Service] Using provided v2 config
+[PCA9535 Service] Touch config: single[50-800]ms, double_interval=500ms, long_press=1000ms
+[PCA9535 Service] Cliff config: window=100ms, stable_max_edges=2, line_min_edges=5, cliff_duty_threshold=60%
+[PCA9535 HAL] Failed to request input
+[PCA9535 HAL] cleanup -> enable_cliff...
+[PCA9535 Service] HAL init failed
+[ExtIOService] ERROR: Cannot initialize hardware service
+[ExtIOService] WARNING: Failed to initialize hardware service, continuing in mock mode
+[PCA9535 Service] auto_configure_tof enabled
+[ExtIOService] [TOF] set_tof_address request bus=6 from=0x29 -> right=0x30 left=0x29 force=false
+[ExtIOService] [TOF] marker exists, verifying current bus addresses...
+[ExtIOService] [TOF] probe(check) left=0x29 => OK | right=0x30 => OK
+[ExtIOService] [TOF] addresses already configured correctly, skip
+[ExtIOService] [4/5] Initializing controllers...
+[ServoController] Initializing with P1.3 Smooth Startup support...
+[ServoController] Loaded config: L_off=0 R_off=0
+[ServoController] SetAutoHold: ch=LEFT enabled=true duration=3000ms
+[ServoController] SetAutoHold: ch=RIGHT enabled=true duration=3000ms
+[ExtIOService] Servos initialized at L=5 R=5
+[LedController] Initializing PWM channels for RGB LEDs...
+[LedController] ✓ Initialized (PWM6-11 using Gpio API @ 50Hz)
+[ExtIOService] ✓ Applied default LED effect from config: (r=255, g=255, b=255, sequence=grb, brightness=200, offsets=-60,0,0)
+[MotorController] Left compensation: 1.2
+[MotorController] Right compensation: 1.2
+[MotorController] Initializing...
+*** Error Failed to issue GPIO_GET_LINEEVENT_IOCTL 
+[2026-04-08 22:36:23.922] [warning] LSM6DSR: whoamI failed, retrying...
+[MotorController] initialized=YES left_comp=1.2 right_comp=1.2
+[ExtIOService] ✅ Controllers ready
+[ExtIOService] [5/5] Initializing control receiver...
+[22:36:23] [ZmqControlReceiver] Initialized (not yet started)
+[[22:36:23] [ZmqControlReceiver] Started, PULL endpoint: ipc:///tmp/doly_control.sock
+[ExtIOService] ✅ Control receiver ready (non-blocking queue mode)
+22:36:23] [ZmqControlReceiver] Receiver loop started
+[Pca9535OvosBridge] Started (subscribing to io.pca9535.control.* on independent SUB socket)
+[ExtIOService] [5.5/5] Starting sensor subscriber...
+[ExtIOService] ✅ Sensor subscriber started (TOF, IMU, Power)
+[Pca9535OvosBridge] Subscriber thread started, listening for control commands...
+[ExtIOService] [SENSOR] TOF subscriber thread started
+[ExtIOService] ✅ Command executor threads started
+[ExtIOService] ======================================
+[ExtIOService] Drive Service READY!
+[ExtIOService] ======================================
+[ExtIOService] Service running, press Ctrl+C to stop...
+[ExtIOService] [Motor Executor] Thread started ts=1775658983955
+[ExtIOService] [LED Executor] Thread started ts=1775658983955
+[ExtIOService] [Servo Executor] Thread started ts=1775658983955
+[ExtIOService] [SENSOR] Power subscriber thread started
+[ExtIOService] [SENSOR] IMU subscriber thread started
+[22:36:26] [ZmqControlReceiver] Received command: io.pca9535.control | {"action": "motor_turn_left", "speed": 0.3, "duration": 2.0}
+enqueue_command - topic: io.pca9535.control cmd: {"action":"motor_turn_left","duration":2.0,"speed":0.3}
+[ExtIOService] [Motor Queue] Enqueued (1): motor_turn_left ts=1775658986388
+[ExtIOService] [Motor Executor] Start exec ts=1775658986388 action=motor_turn_left
+[ExtIOService] [Motor Executor] ✓ Executing: turn_left speed=0.3 dur=2s
+[MotorController] setSpeeds left=-0.30 (comp=-0.36 pc=36) right=0.30 (comp=0.36 pc=36) duration=2.00s
+[ExtIOService] [Motor Executor] Done exec ts=1775658986390 action=motor_turn_left
+[22:36:29] [ZmqControlReceiver] Received command: io.pca9535.control | {"action": "motor_turn_right", "speed": 0.3, "duration": 2.0}
+enqueue_command - topic: io.pca9535.control cmd: {"action":"motor_turn_right","duration":2.0,"speed":0.3}
+[ExtIOService] [Motor Queue] Enqueued (1): motor_turn_right ts=1775658989889
+[ExtIOService] [Motor Executor] Start exec ts=1775658989889 action=motor_turn_right
+[ExtIOService] [Motor Executor] ✓ Executing: turn_right speed=0.3 dur=2s
+[MotorController] setSpeeds left=0.30 (comp=0.36 pc=36) right=-0.30 (comp=-0.36 pc=36) duration=2.00s
+[ExtIOService] [Motor Executor] Done exec ts=1775658989890 action=motor_turn_right
+[22:36:33] [ZmqControlReceiver] Received command: io.pca9535.control | {"action": "motor_stop"}
+enqueue_command - topic: io.pca9535.control cmd: {"action":"motor_stop"}
+[ExtIOService] [Motor Queue] Enqueued (1): motor_stop ts=1775658993390
+[ExtIOService] [Motor Executor] Start exec ts=1775658993391 action=motor_stop
+[ExtIOService] [Motor Executor] ✓ Executing: stop
+[ExtIOService] [Motor Executor] Done exec ts=1775658993392 action=motor_stop
+[ExtIOService] Received signal 15 (Terminated), shutting down...
+[ExtIOService] Shutting down Drive Service...
+[ExtIOService] [LED Executor] Thread stopped
+[ExtIOService] [Motor Executor] Thread stopped
+[ExtIOService] [Servo Executor] Thread stopped
+[ExtIOService] ✅ Command executor threads stopped
+[ExtIOService] [SENSOR] TOF subscriber stopped
+[ExtIOService] [SENSOR] Power subscriber stopped
+[ExtIOService] [SENSOR] IMU subscriber stopped
+[ExtIOService] ✅ Sensor subscriber stopped
+[22:36:35] [ZmqControlReceiver] Receiver loop stopped
+[22:36:35] [ZmqControlReceiver] Stopped
+[22:36:35] [ZmqControlReceiver] Destroyed
+[Pca9535OvosBridge] Subscriber thread stopped
+[Pca9535OvosBridge] Stopped

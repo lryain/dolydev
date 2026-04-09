@@ -9,6 +9,9 @@ libs/autocharge
 libs/autocharge-videook
 3rd/vl6180_pi
 tmp
+assets/config/animations2
+docs/需求.md
+modules/animation_system/docs/dev
 libs/tofpy
 libs/drive/include
 libs/drive/src
@@ -60,3 +63,4 @@ Thumbs.db
 
 # End
 **/.log
+docs/需求.md
