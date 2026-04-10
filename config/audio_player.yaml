@@ -194,9 +194,9 @@ alias_paths:
   sfx_gun_shot: sfx/gun shot.wav
   sfx_hint: sfx/hint.wav
   sfx_hmmm: sfx/hmmm.wav
-  sfx_kiss_1: sfx/kiss (1).mp3
-  sfx_kiss_2: sfx/kiss (2).mp3
-  sfx_kiss_3: sfx/kiss (3).mp3
+  sfx_kiss_1: sfx/kiss-(1).mp3
+  sfx_kiss_2: sfx/kiss-(2).mp3
+  sfx_kiss_3: sfx/kiss-(3).mp3
   sfx_level_up: sfx/level up.wav
   sfx_lost_1: sfx/lost (1).wav
   sfx_lost_2: sfx/lost (2).wav

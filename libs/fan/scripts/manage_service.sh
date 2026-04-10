@@ -1,6 +1,5 @@
 #!/bin/bash
-
-# Fan Control Service Management Script (Final Fix)
+# Fan Control Service Management Script (merged: build/run/deploy)
 set -e
 
 SERVICE_NAME="fan-control"
@@ -11,7 +10,7 @@ PROJECT_ROOT="$SCRIPT_DIR/.."
 BUILD_DIR="$PROJECT_ROOT/build"
 SERVICE_BINARY="$BUILD_DIR/fan_service"
 SERVICE_FILE_PATH="$SCRIPT_DIR/$SERVICE_FILE"
-CONFIG_FILE="/home/pi/dolydev/config/fan_config.txt"
+CONFIG_FILE="/home/pi/dolydev/config/fan_config.yaml"
 LOG_DIR="/home/pi/dolydev/data/logs"
 
 # Colors
@@ -28,7 +27,12 @@ print_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
 build_service() {
     print_status "Building service..."
-    "$SCRIPT_DIR/build_service.sh"
+    mkdir -p "$BUILD_DIR"
+    pushd "$BUILD_DIR" >/dev/null
+    cmake ..
+    make -j$(nproc)
+    popd >/dev/null
+    print_success "Build completed"
 }
 
 redeploy_service() {
@@ -38,11 +42,11 @@ redeploy_service() {
     # Update systemd service file
     sudo cp "$SERVICE_FILE_PATH" "$SERVICE_PATH"
     sudo systemctl daemon-reload
-    
+
     # Restart
     print_status "Restarting $SERVICE_NAME"
     sudo systemctl restart "$SERVICE_NAME"
-    
+
     sleep 2
     if sudo systemctl is-active --quiet "$SERVICE_NAME"; then
         print_success "Redeploy succeeded"
@@ -54,7 +58,6 @@ redeploy_service() {
     fi
 }
 
-# Copy existing binary and restart without rebuilding
 deploy_service() {
     print_status "Deploying service (skip build)..."
     if [ ! -f "$SERVICE_BINARY" ]; then
@@ -62,15 +65,12 @@ deploy_service() {
         exit 1
     fi
 
-    # determine installation target; default to /usr/local/bin
     TARGET_BIN="/usr/local/bin/$(basename "$SERVICE_BINARY")"
     if [ -f "$SERVICE_FILE_PATH" ]; then
         ES_LINE=$(grep -E "^ExecStart=" "$SERVICE_FILE_PATH" || true)
         if [ -n "$ES_LINE" ]; then
             ES_VAL=${ES_LINE#ExecStart=}
-            # only override if the path differs from the current service binary
             ES_FIRST=$(echo "$ES_VAL" | awk '{print $1}')
-            # canonicalize for comparison
             SB_REAL=$(readlink -f "$SERVICE_BINARY" || echo "$SERVICE_BINARY")
             EF_REAL=$(readlink -f "$ES_FIRST" || echo "$ES_FIRST")
             if [ "$EF_REAL" != "$SB_REAL" ]; then
@@ -85,7 +85,6 @@ deploy_service() {
         sleep 1
     fi
 
-    # update systemd service file
     sudo cp "$SERVICE_FILE_PATH" "$SERVICE_PATH"
     sudo systemctl daemon-reload
 
@@ -106,6 +105,15 @@ deploy_service() {
     fi
 }
 
+run_service_console() {
+    echo "Starting Fan Service in foreground (console mode)..."
+    # clear old socket
+    rm -f /tmp/doly_fan_zmq.sock 2>/dev/null || true
+    export LD_LIBRARY_PATH=/home/pi/DOLY-DIY/SDK/lib:/usr/local/lib:/usr/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
+    echo "Configuration: $CONFIG_FILE"
+    "$SERVICE_BINARY" --console --bus-endpoint ipc:///tmp/doly_fan_zmq.sock -c "$CONFIG_FILE"
+}
+
 show_status() {
     echo
     echo "=== Service Status ==="
@@ -119,6 +127,7 @@ case "${1:-help}" in
     build) build_service ;;
     redeploy) redeploy_service ;;
     deploy) deploy_service ;;
+    run) run_service_console ;;
     status) show_status ;;
     start) sudo systemctl start "$SERVICE_NAME"; show_status ;;
     stop) sudo systemctl stop "$SERVICE_NAME"; print_status "Stopped" ;;
@@ -138,6 +147,6 @@ case "${1:-help}" in
         print_status "Installed"
         ;;
     help|--help|-h|*)
-        echo "Usage: $0 {build|redeploy|deploy|status|start|stop|restart|logs|install|uninstall}"
+        echo "Usage: $0 {build|redeploy|deploy|run|status|start|stop|restart|logs|install|uninstall}"
         ;;
 esac

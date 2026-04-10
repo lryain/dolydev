@@ -16,7 +16,7 @@
     <block type="sound">
         <field name="type_id">SFX</field>
         <field name="delay_ms">100</field>
-        <field name="name">KISS_1</field>
+        <field name="name">sfx_kiss_1</field>
         <field name="start">0</field>
     </block>
     <block type="led_animation">

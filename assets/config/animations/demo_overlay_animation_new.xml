@@ -16,12 +16,12 @@
     </block>
     
     <!-- 演示2: 眼睛背景设置 -->
-    <block type="eye_background">
+    <!-- <block type="eye_background">
         <field name="type">IMAGE</field>
         <field name="style">RETRO1</field>
         <field name="eye_side">2</field>
         <field name="start">0</field>
-    </block>
+    </block> -->
     
     <!-- 演示3: 眼睛动画 -->
     <block type="eye_animations">

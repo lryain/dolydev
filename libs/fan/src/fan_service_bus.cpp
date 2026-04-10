@@ -19,6 +19,7 @@
 #include <mutex>
 #include <zmq.hpp>
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 
 using json = nlohmann::json;
 
@@ -413,7 +414,24 @@ static void fanSpeedPublishThread(const std::string endpoint, std::ostream* log)
 
 class Config {
 public:
+    // Support both legacy text format and new YAML format. YAML keys match the legacy
+    // parameter names without trailing colon (e.g. "pwm_min", "fan_start_temp").
     static std::vector<uint16_t> loadPwmValues(const std::string& configFile) {
+        if (isYamlFile(configFile)) {
+            try {
+                YAML::Node root = YAML::LoadFile(configFile);
+                if (root["pwm_values"] && root["pwm_values"].IsSequence()) {
+                    std::vector<uint16_t> vals;
+                    for (auto n : root["pwm_values"]) {
+                        if (n.IsScalar()) vals.push_back(n.as<uint16_t>());
+                    }
+                    return vals;
+                }
+            } catch (const std::exception& e) {
+                std::cerr << "YAML parse error (pwm_values): " << e.what() << std::endl;
+            }
+        }
+        // Fallback to legacy line-based parser (numeric lines at file head)
         std::vector<uint16_t> values;
         std::ifstream file(configFile);
         if (!file.is_open()) {
@@ -425,121 +443,61 @@ public:
         while (std::getline(file, line)) {
             if (line.empty()) continue;
             if (line[0] == '#') {
-                if (line.find("# Temperature config") != std::string::npos) {
-                    inPwmSection = false;
-                }
+                if (line.find("# Temperature config") != std::string::npos) inPwmSection = false;
                 continue;
             }
             if (!inPwmSection) continue;
             try {
-                uint16_t value = std::stoi(line);
-                values.push_back(value);
-            } catch (const std::exception& e) {
-                // Ignore non-numeric lines
+                uint16_t v = static_cast<uint16_t>(std::stoi(line));
+                values.push_back(v);
+            } catch (...) {
             }
         }
         return values;
     }
 
-    static int loadFanStartTemp(const std::string& configFile) {
-        return loadIntParam(configFile, "fan_start_temp:");
-    }
+    static int loadFanStartTemp(const std::string& configFile) { return loadIntParam(configFile, "fan_start_temp:"); }
+    static int loadFanStopTemp(const std::string& configFile) { return loadIntParam(configFile, "fan_stop_temp:"); }
+    static int loadPwmMin(const std::string& configFile) { return loadIntParam(configFile, "pwm_min:"); }
+    static int loadPwmMax(const std::string& configFile) { return loadIntParam(configFile, "pwm_max:"); }
+    static int loadTempMin(const std::string& configFile) { return loadIntParam(configFile, "temp_min:"); }
+    static int loadTempMax(const std::string& configFile) { return loadIntParam(configFile, "temp_max:"); }
 
-    static int loadFanStopTemp(const std::string& configFile) {
-        return loadIntParam(configFile, "fan_stop_temp:");
-    }
+    // Mode-specific
+    static int loadModeQuietPwmMin(const std::string& configFile) { return loadIntParam(configFile, "mode_quiet_pwm_min:"); }
+    static int loadModeQuietPwmMax(const std::string& configFile) { return loadIntParam(configFile, "mode_quiet_pwm_max:"); }
+    static int loadModeNormalPwmMin(const std::string& configFile) { return loadIntParam(configFile, "mode_normal_pwm_min:"); }
+    static int loadModeNormalPwmMax(const std::string& configFile) { return loadIntParam(configFile, "mode_normal_pwm_max:"); }
+    static int loadModePerformancePwmMin(const std::string& configFile) { return loadIntParam(configFile, "mode_performance_pwm_min:"); }
+    static int loadModePerformancePwmMax(const std::string& configFile) { return loadIntParam(configFile, "mode_performance_pwm_max:"); }
 
-    static int loadPwmMin(const std::string& configFile) {
-        return loadIntParam(configFile, "pwm_min:");
-    }
+    static int loadForceOnStagnation(const std::string& configFile) { return loadIntParam(configFile, "force_on_stagnation:"); }
+    static int loadForceDurationSec(const std::string& configFile) { return loadIntParam(configFile, "force_duration_sec:"); }
+    static int loadStagnationCheckIntervalSec(const std::string& configFile) { return loadIntParam(configFile, "stagnation_check_interval_sec:"); }
+    static double loadStagnationTempDropThreshold(const std::string& configFile) { return loadFloatParam(configFile, "stagnation_temp_drop_threshold:"); }
+    static int loadStagnationForceCooldownSec(const std::string& configFile) { return loadIntParam(configFile, "stagnation_force_cooldown_sec:"); }
 
-    static int loadPwmMax(const std::string& configFile) {
-        return loadIntParam(configFile, "pwm_max:");
-    }
+    static int loadEnableLogging(const std::string& configFile) { return loadIntParam(configFile, "enable_logging:"); }
+    static int loadPublishFanSpeed(const std::string& configFile) { return loadIntParam(configFile, "publish_fan_speed:"); }
+    static int loadPublishFanSpeedInterval(const std::string& configFile) { return loadIntParam(configFile, "publish_fan_speed_interval_sec:"); }
+    static int loadColdStartDuration(const std::string& configFile) { return loadIntParam(configFile, "cold_start_duration_sec:"); }
 
-    static int loadTempMin(const std::string& configFile) {
-        return loadIntParam(configFile, "temp_min:");
-    }
-
-    static int loadTempMax(const std::string& configFile) {
-        return loadIntParam(configFile, "temp_max:");
-    }
-
-    // 加载模式-specific PWM 值
-    static int loadModeQuietPwmMin(const std::string& configFile) {
-        return loadIntParam(configFile, "mode_quiet_pwm_min:");
-    }
-
-    static int loadModeQuietPwmMax(const std::string& configFile) {
-        return loadIntParam(configFile, "mode_quiet_pwm_max:");
-    }
-
-    static int loadModeNormalPwmMin(const std::string& configFile) {
-        return loadIntParam(configFile, "mode_normal_pwm_min:");
-    }
-
-    static int loadModeNormalPwmMax(const std::string& configFile) {
-        return loadIntParam(configFile, "mode_normal_pwm_max:");
-    }
-
-    static int loadModePerformancePwmMin(const std::string& configFile) {
-        return loadIntParam(configFile, "mode_performance_pwm_min:");
-    }
-
-    static int loadModePerformancePwmMax(const std::string& configFile) {
-        return loadIntParam(configFile, "mode_performance_pwm_max:");
-    }
-
-    // 新增：加载是否启用温度停滞强制最大 PWM（1=启用, 0=禁用）
-    static int loadForceOnStagnation(const std::string& configFile) {
-        return loadIntParam(configFile, "force_on_stagnation:");
-    }
-
-    // 强制最大 PWM 的最长持续时间（秒）
-    static int loadForceDurationSec(const std::string& configFile) {
-        return loadIntParam(configFile, "force_duration_sec:");
-    }
-
-    // 检测温度是否停滞的间隔（秒）
-    static int loadStagnationCheckIntervalSec(const std::string& configFile) {
-        return loadIntParam(configFile, "stagnation_check_interval_sec:");
-    }
-
-    // 停滞判断使用的温度下降阈值（小于该值视为未明显下降），浮点
-    static double loadStagnationTempDropThreshold(const std::string& configFile) {
-        return loadFloatParam(configFile, "stagnation_temp_drop_threshold:");
-    }
-
-    // 强制结束后再次触发强制的冷却时间（秒），用于避免频繁启停
-    static int loadStagnationForceCooldownSec(const std::string& configFile) {
-        return loadIntParam(configFile, "stagnation_force_cooldown_sec:");
-    }
-
-    // 日志开关（0=默认不打印, 1=打印）
-    static int loadEnableLogging(const std::string& configFile) {
-        return loadIntParam(configFile, "enable_logging:");
-    }
-
-    // 是否发布风扇速度到 ZMQ 以及发送间隔（秒）
-    static int loadPublishFanSpeed(const std::string& configFile) {
-        return loadIntParam(configFile, "publish_fan_speed:");
-    }
-
-    static int loadPublishFanSpeedInterval(const std::string& configFile) {
-        return loadIntParam(configFile, "publish_fan_speed_interval_sec:");
-    }
-
-    // 冷启动时长（秒），在服务启动后以最大 PWM 保持运行该时长后进入正常调速
-    static int loadColdStartDuration(const std::string& configFile) {
-        return loadIntParam(configFile, "cold_start_duration_sec:");
-    }
+    // 新增 enable_zmq 支持
+    static int loadEnableZmq(const std::string& configFile) { return loadIntParam(configFile, "enable_zmq:"); }
 
     static double loadFloatParam(const std::string& configFile, const std::string& param) {
-        std::ifstream file(configFile);
-        if (!file.is_open()) {
-            std::cerr << "Failed to open config file: " << configFile << std::endl;
-            return 0.0;
+        std::string key = param;
+        if (!key.empty() && key.back() == ':') key.pop_back();
+        if (isYamlFile(configFile)) {
+            try {
+                YAML::Node root = YAML::LoadFile(configFile);
+                if (root && root[key]) return root[key].as<double>();
+            } catch (const std::exception& e) {
+                std::cerr << "YAML parse error (float): " << e.what() << std::endl;
+            }
         }
+        std::ifstream file(configFile);
+        if (!file.is_open()) return 0.0;
         std::string line;
         while (std::getline(file, line)) {
             size_t first = line.find_first_not_of(" \t\r\n");
@@ -549,19 +507,22 @@ public:
                 size_t pos = line.find(":");
                 if (pos != std::string::npos) {
                     std::string valueStr = line.substr(pos + 1);
-                    try {
-                        return std::stod(valueStr);
-                    } catch (const std::exception& e) {
-                        std::cerr << "Invalid " << param << " value in config: " << valueStr << std::endl;
-                    }
+                    try { return std::stod(valueStr); } catch (...) {}
                 }
             }
         }
         return 0.0;
     }
 
-    // 检查参数是否在配置文件中存在（用于区分显式设置为0和未设置）
     static bool paramExists(const std::string& configFile, const std::string& param) {
+        std::string key = param;
+        if (!key.empty() && key.back() == ':') key.pop_back();
+        if (isYamlFile(configFile)) {
+            try {
+                YAML::Node root = YAML::LoadFile(configFile);
+                if (root && root[key]) return true;
+            } catch (...) {}
+        }
         std::ifstream file(configFile);
         if (!file.is_open()) return false;
         std::string line;
@@ -575,7 +536,25 @@ public:
     }
 
 private:
+    static bool isYamlFile(const std::string& path) {
+        if (path.size() < 5) return false;
+        auto pos = path.rfind('.');
+        if (pos == std::string::npos) return false;
+        std::string ext = path.substr(pos);
+        return (ext == ".yaml" || ext == ".yml");
+    }
+
     static int loadIntParam(const std::string& configFile, const std::string& param) {
+        std::string key = param;
+        if (!key.empty() && key.back() == ':') key.pop_back();
+        if (isYamlFile(configFile)) {
+            try {
+                YAML::Node root = YAML::LoadFile(configFile);
+                if (root && root[key]) return root[key].as<int>();
+            } catch (const std::exception& e) {
+                std::cerr << "YAML parse error (int): " << e.what() << std::endl;
+            }
+        }
         std::ifstream file(configFile);
         if (!file.is_open()) {
             std::cerr << "Failed to open config file: " << configFile << std::endl;
@@ -583,7 +562,6 @@ private:
         }
         std::string line;
         while (std::getline(file, line)) {
-            // 忽略注释行（以 # 开头）和空行
             size_t first = line.find_first_not_of(" \t\r\n");
             if (first == std::string::npos) continue;
             if (line[first] == '#') continue;
@@ -591,11 +569,7 @@ private:
                 size_t pos = line.find(":");
                 if (pos != std::string::npos) {
                     std::string valueStr = line.substr(pos + 1);
-                    try {
-                        return std::stoi(valueStr);
-                    } catch (const std::exception& e) {
-                        std::cerr << "Invalid " << param << " value in config: " << valueStr << std::endl;
-                    }
+                    try { return std::stoi(valueStr); } catch (...) {}
                 }
             }
         }
@@ -719,7 +693,7 @@ int runFanService(int argc, char** argv) {
     signal(SIGHUP, signalHandler);
 
     // 默认配置文件可以通过 -c / --config 指定
-    std::string configFile = configFileArg.empty() ? std::string("/home/pi/dolydev/config/fan_config.txt") : configFileArg;
+    std::string configFile = configFileArg.empty() ? std::string("/home/pi/dolydev/config/fan_config.yaml") : configFileArg;
 
     // 默认不写文件，仅在 --log-file/-f 提供时写入日志文件
     std::string logFile;
@@ -763,9 +737,8 @@ int runFanService(int argc, char** argv) {
         log = &std::cout;
     }
 
-    // Start ZMQ threads (command subscriber + status publisher)
-    std::thread zmq_cmd_thread(commandThread, busEndpoint, log);
-    std::thread zmq_status_thread(statusThread, busEndpoint, 5000 /*ms*/, log);
+    // ZMQ threads (command subscriber + status publisher) will be started
+    // conditionally after loading configuration (respecting enable_zmq)
 
     (*log) << "=== Fan Temperature Control Service Started ===" << std::endl;
     (*log) << "Config file: " << configFile << std::endl;
@@ -848,10 +821,27 @@ int runFanService(int argc, char** argv) {
         log = &nullStream;
     }
 
-    // 启动 fan speed 发布线程
-    g_publish_fan_speed_enabled.store(cfg_publish_fan_speed);
-    if (cfg_publish_fan_speed_interval > 0) g_publish_fan_speed_interval_sec.store(cfg_publish_fan_speed_interval);
-    std::thread fan_speed_thread(fanSpeedPublishThread, busEndpoint, log);
+    // Decide whether to enable ZMQ-related threads based on config
+    int cfg_enable_zmq = Config::loadEnableZmq(configFile);
+    if (!Config::paramExists(configFile, "enable_zmq:")) cfg_enable_zmq = 1; // default enabled
+
+    std::thread zmq_cmd_thread;
+    std::thread zmq_status_thread;
+    std::thread fan_speed_thread;
+
+    if (cfg_enable_zmq) {
+        // 启动 fan speed 发布线程
+        g_publish_fan_speed_enabled.store(cfg_publish_fan_speed);
+        if (cfg_publish_fan_speed_interval > 0) g_publish_fan_speed_interval_sec.store(cfg_publish_fan_speed_interval);
+        fan_speed_thread = std::thread(fanSpeedPublishThread, busEndpoint, log);
+
+        // start command and status threads
+        zmq_cmd_thread = std::thread(commandThread, busEndpoint, log);
+        zmq_status_thread = std::thread(statusThread, busEndpoint, 5000 /*ms*/, log);
+    } else {
+        // ensure publishing disabled when ZMQ is off
+        g_publish_fan_speed_enabled.store(0);
+    }
 
     // 主循环
     int iteration = 0;
@@ -1068,6 +1058,7 @@ int runFanService(int argc, char** argv) {
     // stop ZMQ threads
     if (zmq_cmd_thread.joinable()) zmq_cmd_thread.join();
     if (zmq_status_thread.joinable()) zmq_status_thread.join();
+    if (fan_speed_thread.joinable()) fan_speed_thread.join();
 
     // 关闭服务
     FanControl::setFanSpeed(0); // 停止风扇

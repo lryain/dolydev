@@ -4,7 +4,7 @@
 # 眼睛外观配置
 appearance:
   # 虹膜主题 (CLASSIC, MODERN, SPACE, DIGI, ORBIT, GLOW, FOOD, MISC, SEASONAL, SYMBOL, CASINO, MATCH)
-  iris_theme: "CLASSIC"
+  iris_theme: "MODERN"
   
   # 虹膜样式/颜色 (COLOR_BLUE, COLOR_GREEN, COLOR_BROWN, etc.)
   iris_style: "COLOR_GOLD"
@@ -19,8 +19,8 @@ appearance:
   
   # 眼睑配置
   side_lid_id: 0        # 侧眼睑 ID (0 = 无)
-  top_lid_id: 0         # 上眼睑 ID (0 = 无)
-  bottom_lid_id: 0      # 下眼睑 ID (0 = 无)
+  top_lid_id: 1         # 上眼睑 ID (0 = 无)
+  bottom_lid_id: 2      # 下眼睑 ID (0 = 无)
   
   # 左右眼睑独立配置 (留空则使用全局)
   left_lid_id: null
@@ -28,7 +28,7 @@ appearance:
   
   # 背景配置
   background_type: "IMAGE"      # COLOR 或 IMAGE
-  background_style: "RETRO2"  # 背景样式名称
+  background_style: "RETRO2"  # 背景样式名称 黄色（RETRO2）
   
   # 亮度 (0-10)
   brightness: 8
@@ -42,8 +42,8 @@ default_expression: ""
 auto_blink:
   enabled: true
   # 眨眼间隔 (秒，随机范围)
-  interval_min: 5.0
-  interval_max: 15.0
+  interval_min: 3.0
+  interval_max: 10.0
   # 眨眼动画列表 (动画名称: 权重)
   # 将从 eyeanimations.xml 中选取指定的动画随机播放
   animations:

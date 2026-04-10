@@ -8,7 +8,7 @@ Type=simple
 User=root
 Group=root
 # 使用绝对路径启动服务
-ExecStart=/home/pi/dolydev/libs/fan/build/fan_service --bus-endpoint ipc:///tmp/doly_fan_zmq.sock -c "/home/pi/dolydev/config/fan_config.txt"
+ExecStart=/home/pi/dolydev/libs/fan/build/fan_service --bus-endpoint ipc:///tmp/doly_fan_zmq.sock -c "/home/pi/dolydev/config/fan_config.yaml"
 Restart=always
 RestartSec=5
 StandardOutput=journal

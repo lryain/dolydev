@@ -3,8 +3,8 @@
 这是一个用于Raspberry Pi的智能风扇温度控制常驻服务，使用PCA9685 PWM控制器管理风扇转速。
 
 设置配置文件路径
-# 指定启动参数  -c "/home/pi/dolydev/config/fan_config.txt"
-ExecStart=/usr/local/bin/fan_service -c "/home/pi/dolydev/config/fan_config.txt"
+# 指定启动参数  -c "/home/pi/dolydev/config/fan_config.yaml"
+ExecStart=/usr/local/bin/fan_service -c "/home/pi/dolydev/config/fan_config.yaml"
 修改后重新部署服务
 ./manage_service.sh redeploy
 TODO:
@@ -86,7 +86,7 @@ sudo ./manage_service.sh restart
 
 ### 配置管理
 
-服务使用配置文件 `/home/pi/noradev/config/fan_config.txt`。
+服务使用配置文件 `/home/pi/dolydev/config/fan_config.yaml`。
 
 修改配置后，可以通过以下方式重载：
 

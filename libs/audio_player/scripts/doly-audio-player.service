@@ -1,0 +1,16 @@
+[Unit]
+Description=Doly Audio Player Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/audio_player_service /home/pi/dolydev/config/audio_player.yaml
+User=pi
+Group=audio
+# Ensure IPC socket files are world-writable so non-root clients can connect
+ExecStartPost=/bin/sh -c 'sleep 0.1; for f in /tmp/doly_audio_player_cmd.sock /tmp/doly_audio_player_status.sock /tmp/doly_audio_player_stream.sock; do [ -e "$f" ] && chmod 0666 "$f" || true; done'
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

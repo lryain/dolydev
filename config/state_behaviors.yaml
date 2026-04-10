@@ -7,7 +7,7 @@ idle:
   min_interval: 350    # 最小触发间隔（秒）
   max_interval: 1000    # 最大触发间隔（秒）
   # 当多少秒没有与主人交互（触摸/语音）后进入短暂小睡（秒），0 表示禁用
-  snooze_after: 300    # 测试用：改为 100 秒
+  snooze_after: 600    # 测试用：改为 100 秒
   actions:
     - type: animation
       category: ANIMATION_BORED

@@ -12,7 +12,8 @@ REPO_ROOT_DIR="$(cd "$LIB_SERIAL_DIR/../.." && pwd)"
 BUILD_DIR="$LIB_SERIAL_DIR/build"
 SERVICE_BINARY="$BUILD_DIR/serial_service"
 TARGET_BIN="/usr/local/bin/serial_service"
-INSTALL_CONFIG_DIR="/etc/doly"
+# 使用仓库内的配置文件（不再复制到 /etc/doly）
+INSTALL_CONFIG_DIR="$REPO_ROOT_DIR/config"
 INSTALL_CONFIG="$INSTALL_CONFIG_DIR/serial.yaml"
 RUN_AS_USER=${RUN_AS_USER:-pi}
 RUN_AS_GROUP=${RUN_AS_GROUP:-dialout}
@@ -54,7 +55,25 @@ _install_unit_file() {
     # 将标准 unit 写入到目标路径，移除 PIDFile，确保 ExecStartPost chmod 两个 socket
     local exec_start="${TARGET_BIN} --config ${INSTALL_CONFIG}"
     print_status "写入 systemd unit: $SERVICE_PATH (User=$RUN_AS_USER Group=$RUN_AS_GROUP)"
-    # expand exec_start variable but escape $f in script body
+    local local_service="$SCRIPT_DIR/$SERVICE_FILE"
+    if [ -f "$local_service" ]; then
+        print_status "检测到本地 unit 文件 $local_service，复制到 $SERVICE_PATH"
+        sudo cp "$local_service" "$SERVICE_PATH"
+        # 确保 ExecStart/ User/Group 使用当前脚本配置
+        sudo sed -i "s|^ExecStart=.*|ExecStart=${exec_start}|" "$SERVICE_PATH" || true
+        if grep -q "^User=" "$SERVICE_PATH"; then
+            sudo sed -i "s|^User=.*|User=${RUN_AS_USER}|" "$SERVICE_PATH" || true
+        else
+            sudo sed -i "/^ExecStart=.*/a User=${RUN_AS_USER}" "$SERVICE_PATH" || true
+        fi
+        if grep -q "^Group=" "$SERVICE_PATH"; then
+            sudo sed -i "s|^Group=.*|Group=${RUN_AS_GROUP}|" "$SERVICE_PATH" || true
+        else
+            sudo sed -i "/^ExecStart=.*/a Group=${RUN_AS_GROUP}" "$SERVICE_PATH" || true
+        fi
+        return 0
+    fi
+    # fallback: 写入标准 unit
     sudo tee "$SERVICE_PATH" >/dev/null <<EOF
 [Unit]
 Description=Doly Serial Service
@@ -93,8 +112,13 @@ install_service() {
 
     SRC_CONFIG="$REPO_ROOT_DIR/config/serial.yaml"
     if [ -f "$SRC_CONFIG" ]; then
-        print_status "安装配置文件到 $INSTALL_CONFIG"
-        sudo cp "$SRC_CONFIG" "$INSTALL_CONFIG"
+        if [ "$SRC_CONFIG" != "$INSTALL_CONFIG" ]; then
+            print_status "安装配置文件到 $INSTALL_CONFIG"
+            sudo mkdir -p "$(dirname "$INSTALL_CONFIG")"
+            sudo cp "$SRC_CONFIG" "$INSTALL_CONFIG"
+        else
+            print_status "配置文件位于仓库，将直接使用: $INSTALL_CONFIG"
+        fi
     else
         print_warning "仓库内未找到 $SRC_CONFIG，跳过配置文件复制"
     fi
@@ -274,9 +298,13 @@ deploy_service() {
     # 同步配置文件
     SRC_CONFIG="$REPO_ROOT_DIR/config/serial.yaml"
     if [ -f "$SRC_CONFIG" ]; then
-        print_status "复制配置文件到 $INSTALL_CONFIG"
-        sudo mkdir -p "$INSTALL_CONFIG_DIR"
-        sudo cp "$SRC_CONFIG" "$INSTALL_CONFIG"
+        if [ "$SRC_CONFIG" != "$INSTALL_CONFIG" ]; then
+            print_status "复制配置文件到 $INSTALL_CONFIG"
+            sudo mkdir -p "$(dirname "$INSTALL_CONFIG")"
+            sudo cp "$SRC_CONFIG" "$INSTALL_CONFIG"
+        else
+            print_status "配置文件位于仓库，将直接使用: $INSTALL_CONFIG"
+        fi
     else
         print_warning "仓库内未找到 $SRC_CONFIG，跳过配置文件复制"
     fi
@@ -343,12 +371,16 @@ redeploy_service() {
     sudo cp "$SERVICE_BINARY" "$TARGET_BIN"
     sudo chmod +x "$TARGET_BIN"
 
-    # 同步配置文件：每次部署/重新部署都要把仓库中的最新 config/serial.yaml 覆盖到 /etc/doly/serial.yaml
+    # 同步配置文件：每次部署/重新部署确保使用仓库中的 config/serial.yaml（目标: $INSTALL_CONFIG）
     SRC_CONFIG="$REPO_ROOT_DIR/config/serial.yaml"
     if [ -f "$SRC_CONFIG" ]; then
-        print_status "复制配置文件到 $INSTALL_CONFIG"
-        sudo mkdir -p "$INSTALL_CONFIG_DIR"
-        sudo cp "$SRC_CONFIG" "$INSTALL_CONFIG"
+        if [ "$SRC_CONFIG" != "$INSTALL_CONFIG" ]; then
+            print_status "复制配置文件到 $INSTALL_CONFIG"
+            sudo mkdir -p "$(dirname "$INSTALL_CONFIG")"
+            sudo cp "$SRC_CONFIG" "$INSTALL_CONFIG"
+        else
+            print_status "配置文件位于仓库，将直接使用: $INSTALL_CONFIG"
+        fi
     else
         print_warning "仓库内未找到 $SRC_CONFIG，跳过配置文件复制"
     fi

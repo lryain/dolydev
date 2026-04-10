@@ -10,14 +10,14 @@ topic_prefix: "io.pca9535."
 sensor_receiver:
   # TOF 传感器数据日志
   tof:
-    enabled: true                  # 是否启用 TOF 数据接收
+    enabled: false                  # 是否启用 TOF 数据接收
     debug: false                    # 是否打印 TOF 数据日志
     log_interval_ms: 1000          # 日志打印周期（毫秒，0=每次都打印）
     topic: "status.sensor.tof"     # 订阅主题
 
   # AHRS 姿态数据日志
   ahrs:
-    enabled: true                  # 是否启用 AHRS 数据接收
+    enabled: false                  # 是否启用 AHRS 数据接收
     debug: false                   # 是否打印 AHRS 数据日志
     log_interval_ms: 1000          # 日志打印周期（毫秒）
     topic: "status.sensor.ahrs"    # 订阅主题

@@ -8,6 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(Threads REQUIRED)
 find_package(PkgConfig REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 # ZeroMQ
 pkg_check_modules(ZMQ REQUIRED libzmq)
@@ -58,6 +59,7 @@ target_link_libraries(fan_service
         fan
         ${ZMQ_LIBRARIES}
         nlohmann_json::nlohmann_json
+    yaml-cpp
         ${FANCONTROL_LIB}
         ${HELPER_LIB}
         ${SPDLOG_LIB}
