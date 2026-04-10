@@ -21,8 +21,6 @@ libs/audio_player/src
 libs/audio_player/include
 libs/audio_player/apps
 libs/audio_player/docs
-# libs/capture_control
-libs/EyeEngine
 docs/arch
 docs
 venv/

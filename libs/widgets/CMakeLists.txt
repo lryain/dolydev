@@ -27,6 +27,7 @@ set(DOLY_LIBLCDCONTROL "${DOLY_DIR}/libs/libLcdControl.a")
 # ====== 头文件搜索路径 ======
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${EYE_ENGINE_DIR}
     ${EYE_ENGINE_DIR}/include
     ${DOLY_DIR}/include
     # ${MSGBUS_CPP_DIR}/include
