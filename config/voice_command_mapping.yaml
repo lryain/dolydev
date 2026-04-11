@@ -523,34 +523,34 @@ mappings:
     priority: normal
     category: widget
   
-  # 0x1B: 倒计时 - 显示倒计时 默认30秒不自动开始
-  # cmd_ActTimerCD:
-  #   action: widget_control
-  #   widget: countdown
-  #   duration: 30  # 默认30秒
-  #   auto_start: false  # 不自动开始，需要"开始"指令
-  #   timeout: 1  # 不自动恢复eye，需要手动取消或完成
-  #   priority: high
-  #   category: widget
+  0x1B: 倒计时 - 显示倒计时 默认30秒不自动开始
+  cmd_ActTimerCD:
+    action: widget_control
+    widget: countdown
+    duration: 30  # 默认30秒
+    auto_start: false  # 不自动开始，需要"开始"指令
+    timeout: 1  # 不自动恢复eye，需要手动取消或完成
+    priority: high
+    category: widget
   
-  # # 0x1C: 十秒倒计时 - 启动一个10秒的倒计时
-  # cmd_ActTimerCD10:
-  #   action: widget_control
-  #   widget: countdown
-  #   duration: 3  # 10秒
-  #   auto_start: true  # 自动开始
-  #   # timeout: 1  # 不自动恢复
-  #   priority: high
-  #   category: widget
+  # 0x1C: 十秒倒计时 - 启动一个10秒的倒计时
+  cmd_ActTimerCD10:
+    action: widget_control
+    widget: countdown
+    duration: 3  # 10秒
+    auto_start: true  # 自动开始
+    # timeout: 1  # 不自动恢复
+    priority: high
+    category: widget
   
-  # # 0x1D: 计时器 - 启动正计时
-  # cmd_ActTimerCU:
-  #   action: widget_control
-  #   widget: timer
-  #   auto_start: true  # 自动开始
-  #   timeout: 1  # 不自动恢复
-  #   priority: normal
-  #   category: widget
+  # 0x1D: 计时器 - 启动正计时
+  cmd_ActTimerCU:
+    action: widget_control
+    widget: timer
+    auto_start: true  # 自动开始
+    timeout: 1  # 不自动恢复
+    priority: normal
+    category: widget
   
   # 0x1E: 闹钟 - 显示闹钟界面（目前没有实现闹铃功能）
   cmd_ActAlarmClock:
