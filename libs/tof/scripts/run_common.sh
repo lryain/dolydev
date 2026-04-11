@@ -25,7 +25,7 @@ ensure_tof_en_ctl() {
 resolve_tof_python() {
 	local preferred=(
 		"${PY:-}"
-		"/home/pi/DOLY-DIY/venv/bin/python"
+		"/home/pi/dolydev/.venv/bin/python"
 		"/home/pi/dolydev/.venv/bin/python"
 		"python3"
 	)

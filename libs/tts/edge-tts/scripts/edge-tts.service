@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/pi/dolydev/libs/tts/edge-tts
-ExecStart=/home/pi/DOLY-DIY/venv/bin/python3 zmq_tts_service.py --bind ipc:///tmp/doly_tts_req.sock --audio-player-endpoint ipc:///tmp/doly_audio_player_cmd.sock --output-dir ./files
+ExecStart=/home/pi/dolydev/.venv/bin/python3 zmq_tts_service.py --bind ipc:///tmp/doly_tts_req.sock --audio-player-endpoint ipc:///tmp/doly_audio_player_cmd.sock --output-dir ./files
 Restart=on-failure
 RestartSec=5s
 User=pi

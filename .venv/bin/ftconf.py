@@ -1,4 +1,4 @@
-#!/home/pi/DOLY-DIY/venv/bin/python3
+#!/home/pi/dolydev/.venv/bin/python3
 
 """Simple FTDI EEPROM configurator.
 """

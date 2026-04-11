@@ -19,7 +19,7 @@
 
 ## 验证步骤
 - 重启重新编译后的 WebSocket 服务（依然使用 `sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20` 模型资源），日志能看到中间结果和最终结果两次输出。
-- 在 `/home/pi/DOLY-DIY/venv/bin/python test_client.py` 中访问 `ws://localhost:8001/sttRealtime`，观察到由中间结果+最终整句组成的两条消息。
+- 在 `/home/pi/dolydev/.venv/bin/python test_client.py` 中访问 `ws://localhost:8001/sttRealtime`，观察到由中间结果+最终整句组成的两条消息。
 - 用内联 Python WebSocket 脚本发送 `0.wav` 和 `{"done": true}` 控制帧，也能收到“昨天”然后“昨天是 MONDAY …”的完整输出。
 
 ## 说明

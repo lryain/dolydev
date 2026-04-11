@@ -1,4 +1,4 @@
-#!/home/pi/DOLY-DIY/venv/bin/python
+#!/home/pi/dolydev/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

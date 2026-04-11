@@ -7,7 +7,7 @@ SERVICE_FILE="edge-tts.service"
 SERVICE_PATH="/etc/systemd/system/$SERVICE_FILE"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 # Use the shared DOLY python virtualenv by default
-VENV_DIR="/home/pi/DOLY-DIY/venv"
+VENV_DIR="/home/pi/dolydev/.venv"
 if [ -d "$VENV_DIR" ]; then
     # shellcheck disable=SC1090
     source "$VENV_DIR/bin/activate"

@@ -8,11 +8,11 @@ PartOf=doly.target
 [Service]
 Type=simple
 WorkingDirectory=/home/pi/dolydev
-ExecStart=/home/pi/DOLY-DIY/venv/bin/python /home/pi/dolydev/modules/doly/daemon.py --config /home/pi/dolydev/config
+ExecStart=/home/pi/dolydev/.venv/bin/python /home/pi/dolydev/modules/doly/daemon.py --config /home/pi/dolydev/config
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONPATH=/home/pi/dolydev:/home/pi/dolydev/modules
-Environment=VIRTUAL_ENV=/home/pi/DOLY-DIY/venv
-Environment=PATH=/home/pi/DOLY-DIY/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=VIRTUAL_ENV=/home/pi/dolydev/.venv
+Environment=PATH=/home/pi/dolydev/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Restart=on-failure
 RestartSec=10
 StandardOutput=journal
