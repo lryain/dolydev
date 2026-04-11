@@ -21,6 +21,10 @@ libs/audio_player/src
 libs/audio_player/include
 libs/audio_player/apps
 libs/audio_player/docs
+3rd/tofx/src
+3rd/tofx/include
+3rd/tofx/docs/dev
+3rd/tofx/arch
 docs/arch
 docs
 venv/

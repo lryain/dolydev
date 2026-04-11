@@ -2,7 +2,8 @@
 
 ## ⚡ 5分钟快速测试
 
-### Step 1: 启动音频播放服务
+### Step 1: 查看音频播放服务
+sudo systemctl status doly-audio-player.service
 
 打开终端1：
 ```bash

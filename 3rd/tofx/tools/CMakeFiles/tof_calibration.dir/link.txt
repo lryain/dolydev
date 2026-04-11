@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/tof_calibration.dir/tof_calibration.cpp.o -o tof_calibration   -L/home/pi/dolydev/libs/Doly/libs  -Wl,-rpath,/home/pi/dolydev/libs/Doly/libs libtof_test_common.a /home/pi/dolydev/3rd/vl6180_pi/test/../libvl6180_pi.a -lGpio -lTimer /usr/lib/aarch64-linux-gnu/libyaml-cpp.so.0.7.0 -lpthread -lgpiod 

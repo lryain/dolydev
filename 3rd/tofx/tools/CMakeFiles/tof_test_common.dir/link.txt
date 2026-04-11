@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtof_test_common.a CMakeFiles/tof_test_common.dir/test_common.cpp.o
+/usr/bin/ranlib libtof_test_common.a
