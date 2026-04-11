@@ -6,8 +6,10 @@ sock.connect('ipc:///tmp/doly_audio_player_cmd.sock')
 paths = [
     # 指定uri文件路径 进行播放
     # {"alias": "animal_cow"},
-    {"uri": "/.doly/sounds/music/AlanWalker-Faded.mp3"},
+    # {"uri": "/.doly/sounds/music/AlanWalker-Faded.mp3"},
     # {"uri": "/home/pi/Musics/ghsy-光辉岁月.flac"},
+    {"alias": "music_alanwalker_faded"},
+    {"alias": "music_beyond_guanghui_suiyue"},
     # {"alias": "mp3_aw_faded","priority":10, "ducking": True},
     # {"alias": "mp3_fss_huangmeixi","priority":10},
 

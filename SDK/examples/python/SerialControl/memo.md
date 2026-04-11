@@ -1,4 +1,4 @@
-source /home/pi/DOLY-DIY/venv/bin/activate
+source /home/pi/dolydev/.venv/bin/activate
 cd /home/pi/DOLY-DIY/SDK/examples/python/SerialControl/source
 pip install .
 cd ..

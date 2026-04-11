@@ -1,3 +1,18 @@
+# TtsControl (Python)
+
+
+
+## Import
+
+```python
+import doly_helper
+```
+
+## Minimal working example
+
+Below is the module’s `example.py` as a starting point.
+
+```python
 """
 example.py
 
@@ -39,9 +54,7 @@ def main():
     
     # Generate speech sound file from text
     print("[info] Produce Text to Speech")
-    # tts.produce("Hello, I am Doly. How can I help you today?")
-    # tts.produce("Bye bye, see you next time!")
-    tts.produce("Hey guys, breaking news: recently, AI has surpassed the smartest human for the first time!")
+    tts.produce("Hello, this is a text to speech test example.")
     
     # Initialize sound controler to test sound file
     rc = snd.init()
@@ -65,3 +78,22 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
+```
+
+## Common tasks
+
+- **Stop Doly service**
+- **Initialize**
+- **Produce sound**
+- **Play sound**
+- **Dispose / cleanup**
+
+## Notes
+
+- **Platform:** Raspberry Pi OS
+- **Python:** 3.11
+- **Installed on robot:** Yes (preinstalled)
+
+## API reference
+
+See: [API reference](../api/tts_control.md)

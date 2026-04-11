@@ -4,7 +4,7 @@ status_endpoint: ipc:///tmp/doly_audio_player_status.sock
 status_topic: status.audio.playback
 stream_endpoint: ipc:///tmp/doly_audio_player_stream.sock
 stream_buffer_ms: 2000
-ducking_level: 0.35
+ducking_level: 0.15
 max_concurrent_sounds: 3
 alias_paths:
   animal_bear: animal/bear.wav
@@ -130,6 +130,7 @@ alias_paths:
   game_vintage_game_sound_58050: game/vintage-game-sound-58050.mp3
   game_winner_bell_game_show_91932: game/winner-bell-game-show-91932.mp3
   music_alanwalker_faded: music/AlanWalker-Faded.mp3
+  music_beyond_guanghui_suiyue: /home/pi/Musics/ghsy-光辉岁月.flac
   music_ballad: music/ballad.mp3
   music_birthday: music/birthday.wav
   music_classic: music/classic.mp3

@@ -4,17 +4,17 @@ sock = ctx.socket(zmq.REQ)
 sock.connect('ipc:///tmp/doly_audio_player_cmd.sock')
 # 测试音频条目：使用字典形式指定 alias 或 uri
 paths = [
-    {"alias": "all"},
+    # 停止所有音频播放
+    {"alias": "all"}, # {"uri": "all"},
+    # 按路径停止
     # {"uri": "/home/pi/Musics/ghsy-光辉岁月.flac"},
     # {"uri": "/.doly/sounds/music/AlanWalker-Faded.mp3"},
-    # {"alias": "mp3_aw_faded"},
+    # 按别名停止
+    # {"alias": "music_alanwalker_faded"},
+    # {"alias": "music_beyond_guanghui_suiyue"},
     # {"alias": "bless"},
-    # {"uri": "/home/pi/dolydev/assets/music/nature.mp3"},
-    # {"uri": "/home/pi/dolydev/assets/testing/voice/voice.wav"},
-    # {"uri": "/home/pi/dolydev/assets/sounds/error.mp3"},
-    # {"uri": "/home/pi/dolydev/assets/sounds/music/AlanWalker-Faded.mp3"},
-    # {"uri": "/home/pi/dolydev/assets/lose_funny_retro_video-game-80925.mp3"}
 ]
+
 for p in paths:
     req = {"action": "cmd.audio.stop"}
     if isinstance(p, dict):
