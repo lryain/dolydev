@@ -18,7 +18,6 @@ libs/drive/src
 libs/FaceReco/videos
 libs/FaceReco/captures
 libs/audio_player/src
-libs/audio_player/include
 libs/audio_player/docs/dev
 3rd/tofx/src
 3rd/tofx/include
