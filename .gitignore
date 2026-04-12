@@ -13,11 +13,10 @@ assets/config/animations2
 docs/需求.md
 modules/animation_system/docs/dev
 libs/tofpy
-libs/drive/include
-libs/drive/src
 libs/FaceReco/videos
 libs/FaceReco/captures
 libs/audio_player/src
+libs/audio_player/include
 libs/audio_player/docs/dev
 3rd/tofx/src
 3rd/tofx/include

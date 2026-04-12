@@ -5,13 +5,13 @@ exploration:
   # ===== 传感器事件处理开关（用于调试） =====
   # 当为false时，对应的传感器事件不会触发避障行为
   sensor_event_handling:
-    cliff_event_enabled: true     # 悬崖传感器事件是否触发避障（与sensor_event_mapping冲突时关闭此项）
-    obstacle_event_enabled: true  # TOF障碍物事件是否触发避障（与sensor_event_mapping冲突时关闭此项）
+    cliff_event_enabled: false     # 悬崖传感器事件是否触发避障（与sensor_event_mapping冲突时关闭此项）
+    obstacle_event_enabled: false  # TOF障碍物事件是否触发避障（与sensor_event_mapping冲突时关闭此项）
     battery_event_enabled: false    # 电池事件是否触发停止探索
   
   # ===== 基础巡航参数 =====
   cruise:
-    enabled: true
+    enabled: false
     default_speed: 0.13          # 默认巡航速度 (0.0-1.0)
     turn_speed: 0.2             # 转向速度（略降，避免打滑）
     move_duration_min: 0.2      # 单次直行最小时长 (秒)
