@@ -4,6 +4,9 @@
 logs
 *.d
 .github
+libs/serial-ref
+libs/serial/docs/dev
+libs/serial/build_sdk
 libs/drive/docs/dev
 libs/autocharge
 libs/autocharge-videook
