@@ -12,7 +12,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_AUDIO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 REPO_ROOT_DIR="$(cd "$LIB_AUDIO_DIR/../.." && pwd)"
 BUILD_DIR="$LIB_AUDIO_DIR/build"
-SERVICE_BINARY="$BUILD_DIR/audio_player_service"
+INSTALL_DIR="$LIB_AUDIO_DIR/install"
+SERVICE_BINARY="$INSTALL_DIR/audio_player_service"
 TARGET_BIN="/usr/local/bin/audio_player_service"
 # 使用仓库内的配置文件（不再复制到 /etc/doly）
 INSTALL_CONFIG_DIR="$REPO_ROOT_DIR/config"
@@ -53,7 +54,15 @@ build_service() {
     mkdir -p "$BUILD_DIR"
     cmake -S "$LIB_AUDIO_DIR" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release
     cmake --build "$BUILD_DIR" -j$(nproc 2>/dev/null || echo 1)
-    print_success "构建完成: $SERVICE_BINARY"
+    # 将编译产物复制到 install 目录，便于提交仓库并用于部署
+    mkdir -p "$INSTALL_DIR"
+    if [ -f "$BUILD_DIR/audio_player_service" ]; then
+        cp "$BUILD_DIR/audio_player_service" "$SERVICE_BINARY"
+        chmod +x "$SERVICE_BINARY"
+        print_success "构建并复制完成: $SERVICE_BINARY"
+    else
+        print_warning "构建完成，但未找到 $BUILD_DIR/audio_player_service，无法复制到 $INSTALL_DIR"
+    fi
 }
 
 _install_unit_file() {

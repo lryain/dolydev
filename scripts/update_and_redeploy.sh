@@ -129,6 +129,7 @@ sync_repository() {
 redeploy_module() {
     local module_name="$1"
     local script_rel="$2"
+    local command_name="${3:-redeploy}"
     local script_path="$REPO_ROOT/$script_rel"
     local script_dir script_name
 
@@ -140,13 +141,13 @@ redeploy_module() {
     script_dir="$(dirname "$script_path")"
     script_name="$(basename "$script_path")"
 
-    print_status "开始重新部署: $module_name"
+    print_status "开始执行 ${command_name}: $module_name"
     if [[ -x "$script_path" ]]; then
-        (cd "$script_dir" && "./$script_name" redeploy)
+        (cd "$script_dir" && "./$script_name" "$command_name")
     else
-        (cd "$script_dir" && bash "$script_name" redeploy)
+        (cd "$script_dir" && bash "$script_name" "$command_name")
     fi
-    print_success "$module_name 重新部署完成"
+    print_success "$module_name ${command_name} 完成"
 }
 
 main() {
@@ -156,7 +157,7 @@ main() {
     sync_repository
 
     local modules=(
-        "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh"
+        "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh|deploy"
         "drive|libs/drive/scripts/manage_service.sh"
         "EyeEngine|modules/eyeEngine/scripts/manage_service.sh"
         "daemon|modules/doly/scripts/manage_service.sh"
@@ -167,12 +168,40 @@ main() {
         "widgets|libs/widgets/scripts/manage_service.sh"
     )
 
-    print_status "开始重新编译并部署服务..."
+    print_status "开始更新并部署服务..."
+    # If script received arguments, treat them as module names to limit deployment
+    local requested_modules=()
+    if [[ "$#" -gt 0 ]]; then
+        requested_modules=("$@")
+        print_status "仅部署指定模块: ${requested_modules[*]}"
+    fi
+
     for entry in "${modules[@]}"; do
-        local module_name script_rel
+        local module_name script_rel command_name
         module_name="${entry%%|*}"
         script_rel="${entry#*|}"
-        redeploy_module "$module_name" "$script_rel"
+        if [[ "$script_rel" == *"|"* ]]; then
+            command_name="${script_rel#*|}"
+            script_rel="${script_rel%%|*}"
+        else
+            command_name="redeploy"
+        fi
+        # 如果指定了目标模块列表且当前模块不在列表中，则跳过
+        if [[ "${#requested_modules[@]}" -gt 0 ]]; then
+            local match=0
+            for rm in "${requested_modules[@]}"; do
+                if [[ "$rm" == "$module_name" ]]; then
+                    match=1
+                    break
+                fi
+            done
+            if [[ "$match" -ne 1 ]]; then
+                print_status "跳过模块: $module_name"
+                continue
+            fi
+        fi
+
+        redeploy_module "$module_name" "$script_rel" "$command_name"
     done
 
     print_success "所有模块已完成更新和重新部署。"
