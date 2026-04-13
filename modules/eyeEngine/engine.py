@@ -464,7 +464,7 @@ class EyeEngine:
         # 打印所有 overlays 当前内容
         logger.debug(f"[ENGINE] play_overlay_sprite: overlays 全部: {self._overlays}")
         return overlay_id
-    def play_overlay_image(self, image: str, side: LcdSide = LcdSide.BOTH, loop: bool = False, fps: Optional[int] = None, speed: float = 1.0) -> Optional[str]:
+    def play_overlay_image(self, image: str, side: LcdSide = LcdSide.BOTH, loop: bool = False, fps: Optional[int] = None, speed: float = 1.0, suspend_when_animating: bool = False) -> Optional[str]:
         """
         以 overlay 方式叠加一张图片（PNG/JPG），可选循环。实现方式：将图片转为单帧序列，复用 play_sequence_animations 机制。
         """
@@ -517,7 +517,14 @@ class EyeEngine:
                 return None
 
         # 复用 play_sequence_animations 播放单帧序列
-        return self.play_sequence_animations(seq_name, side=side, loop=loop, fps=fps, speed=speed)
+        return self.play_sequence_animations(
+            seq_name,
+            side=side,
+            loop=loop,
+            fps=fps,
+            speed=speed,
+            suspend_when_animating=suspend_when_animating,
+        )
     """
     Doly 眼睛动画引擎
     
@@ -597,6 +604,8 @@ class EyeEngine:
         self._video_stream_thread = None
         self._video_stream_stop_event = threading.Event()
         self._video_stream_active = False # 控制是否消费视频流
+        self._video_stream_animation_suspended = False
+        self._video_stream_resume_pending = False
         self._video_stream_overlay_id = None
         self._video_stream_last_frame_ts = 0.0
         self._video_stream_stats = {
@@ -717,7 +726,42 @@ class EyeEngine:
     
     def set_video_stream_active(self, active: bool) -> None:
         self._video_stream_active = active
+        if not active:
+            self._video_stream_resume_pending = False
         logger.info(f"EyeEngine: 视频流 active 状态设置为 {active}")
+
+    def clear_video_stream_frames(self, refresh: bool = True) -> None:
+        """清空视频流 overlay 缓存帧，并可选立即刷新到眼睛默认渲染。"""
+        overlay_id = self._video_stream_overlay_id
+        if overlay_id and overlay_id in self._overlays:
+            info = self._overlays[overlay_id]
+            lock = info.get("frame_lock")
+            if lock:
+                with lock:
+                    info["latest_frame_left"] = None
+                    info["latest_frame_right"] = None
+            else:
+                info["latest_frame_left"] = None
+                info["latest_frame_right"] = None
+
+        self._video_stream_last_frame_ts = 0.0
+
+        if refresh and self._controller and not self._controller.is_animating:
+            try:
+                self._controller.update()
+            except Exception:
+                logger.exception("EyeEngine: 清空视频流后刷新显示失败")
+
+    def set_video_stream_visibility(self, active: bool, clear_cached_frame: bool = False, refresh: bool = True) -> None:
+        """统一控制视频流显示状态，避免残留上一帧。"""
+        self.set_video_stream_active(active)
+        if not active and clear_cached_frame:
+            self.clear_video_stream_frames(refresh=refresh)
+        elif refresh and self._controller and not self._controller.is_animating:
+            try:
+                self._controller.update()
+            except Exception:
+                logger.exception("EyeEngine: 更新视频流显示状态后刷新失败")
 
     def _create_lcd_driver(self, use_mock: bool, side: LcdSide) -> ILcdDriver:
         """创建 LCD 驱动"""
@@ -840,6 +884,7 @@ class EyeEngine:
                 "overlay_id": overlay_id,
                 "side": target_side,
                 "exclusive": display_mode == "exclusive",
+                "suspend_when_animating": True,
                 "latest_frame_left": None,
                 "latest_frame_right": None,
                 "frame_lock": threading.Lock(),
@@ -891,8 +936,13 @@ class EyeEngine:
                                 else:
                                     info["latest_frame_left"] = frame
                                     info["latest_frame_right"] = frame
+
+                    should_refresh = not self._video_stream_animation_suspended
+                    if self._video_stream_resume_pending and should_refresh:
+                        self._video_stream_resume_pending = False
+
                     try:
-                        if self._controller:
+                        if self._controller and should_refresh:
                             self._controller.update()
                     except Exception:
                         pass
@@ -928,6 +978,8 @@ class EyeEngine:
         return True
 
     def stop_video_stream(self) -> None:
+        self._video_stream_active = False
+        self._video_stream_resume_pending = False
         if self._video_stream_thread and self._video_stream_thread.is_alive():
             self._video_stream_stop_event.set()
             self._video_stream_thread.join(timeout=1.0)
@@ -1150,6 +1202,8 @@ class EyeEngine:
         if not self._controller:
             return
 
+        self._video_stream_resume_pending = self._video_stream_active
+
         try:
             self._controller.set_animating(False)
         except Exception:
@@ -1176,6 +1230,26 @@ class EyeEngine:
                 logger.debug(f"[ENGINE] direct flush after animation done, reason={reason}")
         except Exception as e:
             logger.warning(f"[ENGINE] direct flush after animation failed, reason={reason}, err={e}")
+
+            self._video_stream_animation_suspended = False
+
+    def _prepare_animation_display(self, reason: str = ""):
+        """统一处理动画开始前的 overlay 暂停与基础帧刷新。"""
+        self._video_stream_animation_suspended = True
+        self._video_stream_resume_pending = False
+        if not self._controller:
+            return
+
+        try:
+            self._controller.set_animating(True)
+        except Exception:
+            pass
+
+        try:
+            self._controller.refresh_without_overlays(LcdSide.BOTH)
+            logger.debug(f"[ENGINE] prepare animation display done, reason={reason}")
+        except Exception:
+            logger.exception(f"[ENGINE] prepare animation display failed, reason={reason}")
 
     def reset_to_default(self, reason: str = "") -> bool:
         """将显示恢复到基线或默认表情。"""
@@ -1325,12 +1399,7 @@ class EyeEngine:
         else:
             self._eye_anim_player.set_fps(self._config.default_fps)
 
-        # 把 controller 标记为正在播放动画
-        if self._controller:
-            try:
-                self._controller.set_animating(True)
-            except Exception:
-                pass
+        self._prepare_animation_display(reason="play_eye_animation")
 
         # 播放完成回调逻辑
         # 注意：如果 blocking=True，我们会在 play_animation 返回后处理 hold
@@ -1393,6 +1462,7 @@ class EyeEngine:
                 self._schedule_auto_reset(reason="eye_animation_complete_blocking")
         else:
             # 启动失败，清理标志
+            self._video_stream_animation_suspended = False
             if self._controller:
                 try:
                     self._controller.set_animating(False)
@@ -1453,26 +1523,17 @@ class EyeEngine:
         else:
             self._eye_anim_player.set_fps(self._config.default_fps)
 
-        # 把 controller 标记为正在播放动画
-        if self._controller:
-            try:
-                self._controller.set_animating(True)
-            except Exception:
-                pass
+        self._prepare_animation_display(reason="play_eye_animation_by_id")
 
         def _on_animation_complete():
             try:
-                if self._controller:
-                    self._controller.set_animating(False)
-                    try:
-                        self._controller.update()
-                    except Exception:
-                        pass
+                self._finalize_animation_display(reason="eye_animation_by_id_complete")
             except Exception:
                 pass
 
         started = self._eye_anim_player.play_by_id(anim_id, blocking=blocking, on_complete=_on_animation_complete)
         if not started:
+            self._video_stream_animation_suspended = False
             if self._controller:
                 try:
                     self._controller.set_animating(False)
@@ -1540,7 +1601,7 @@ class EyeEngine:
         return AnimationSystemInterface(self)
 
     # ---------------- Overlay sequence API ----------------
-    def play_sequence_animations(self, sequence: str, side: LcdSide = LcdSide.BOTH, loop: bool = False, loop_count: int = None, fps: Optional[int] = None, speed: float = 1.0, clear_time: int = 0, exclusive: bool = False) -> Optional[str]:
+    def play_sequence_animations(self, sequence: str, side: LcdSide = LcdSide.BOTH, loop: bool = False, loop_count: int = None, fps: Optional[int] = None, speed: float = 1.0, clear_time: int = 0, exclusive: bool = False, suspend_when_animating: bool = False) -> Optional[str]:
         """
         在当前渲染之上叠加播放一个 .seq 序列（最小实现：创建 SeqPlayer 并以非阻塞方式播放）
         """
@@ -1622,6 +1683,7 @@ class EyeEngine:
                 'speed': speed,
                 'clear_time': clear_time,
                 'exclusive': exclusive,
+                'suspend_when_animating': suspend_when_animating,
                 'latest_frame_left': None,
                 'latest_frame_right': None,
                 'frame_lock': threading.Lock()
@@ -1661,22 +1723,6 @@ class EyeEngine:
                 self._controller.update()
             except Exception:
                 pass
-            # 兜底：确保硬件上覆盖被清除——直接渲染并强制写回两侧屏幕
-            try:
-                try:
-                    img_l = self._renderer.render(self._left_state, LcdSide.LEFT)
-                    data_l = self._renderer.convert_to_rgb888(img_l)
-                    self._left_driver.write(data_l)
-                except Exception:
-                    logger.debug("stop_overlay_sequence: 强制刷新左眼失败或不需要")
-                try:
-                    img_r = self._renderer.render(self._right_state, LcdSide.RIGHT)
-                    data_r = self._renderer.convert_to_rgb888(img_r)
-                    self._right_driver.write(data_r)
-                except Exception:
-                    logger.debug("stop_overlay_sequence: 强制刷新右眼失败或不需要")
-            except Exception:
-                logger.exception("stop_overlay_sequence: 强制写回硬件失败")
             return True
         except Exception:
             logger.exception(f"stop_overlay_sequence: failed to stop {overlay_id}")
@@ -1716,10 +1762,23 @@ class EyeEngine:
         """Return list of overlay info dicts that are currently active."""
         # 只返回未被 stop 的 overlay，防止残帧叠加
         overlays = []
+        controller_animating = bool(self._controller and self._controller.is_animating)
         for info in self._overlays.values():
             # 如果 overlay dict 已经被 stop/清理，则不返回
             if info.get('_stop_flag', False):
                 continue
+
+            if controller_animating and info.get('suspend_when_animating', False):
+                continue
+
+            if info.get('overlay_id') == self._video_stream_overlay_id:
+                if not self._video_stream_active:
+                    continue
+                if self._video_stream_animation_suspended:
+                    continue
+                if self._video_stream_resume_pending:
+                    continue
+
             overlays.append(info)
         return overlays
 

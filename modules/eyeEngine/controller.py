@@ -60,7 +60,7 @@ class EyeController:
         self._suppress_overlays = False
         
         # 线程安全
-        self._render_lock = threading.Lock()
+        self._render_lock = threading.RLock()
         
         # 自动眨眼
         self._auto_blink_enabled = False
@@ -668,6 +668,22 @@ class EyeController:
         """设置动画状态标志（用于抑制自动眨眼和避免 Controller 写屏）"""
         with self._render_lock:
             self._animating = bool(animating)
+
+    def refresh_without_overlays(self, side: LcdSide = LcdSide.BOTH) -> None:
+        """立即刷新基础眼睛画面，不叠加任何 overlay。"""
+        with self._render_lock:
+            prev = self._suppress_overlays
+            self._suppress_overlays = True
+            try:
+                self._update_display(side)
+            finally:
+                self._suppress_overlays = prev
+
+    @property
+    def is_animating(self) -> bool:
+        """当前是否处于眼睛动画播放阶段。"""
+        with self._render_lock:
+            return self._animating
     
     def set_blink_callback(self, callback: Callable[[str], None]) -> None:
         """设置眨眼动画播放回调"""

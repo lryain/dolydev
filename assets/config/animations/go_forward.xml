@@ -12,7 +12,7 @@
     </block>
     <!-- distance 单位厘米 -->
     <block type="drive_forward">
-        <field name="start">1</field>
+        <field name="start">0</field>
         <field name="speed">30</field>
         <field name="duration">1</field>
     </block>

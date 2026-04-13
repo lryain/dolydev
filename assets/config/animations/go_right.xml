@@ -13,7 +13,7 @@
     <block type="drive_rotate_right">
         <field name="isCenter">TRUE</field>
         <field name="start">0</field>
-        <field name="speed">20</field>
-        <field name="duration">0.6</field>
+        <field name="speed">40</field>
+        <field name="duration">1.5</field>
     </block>
 </xml>

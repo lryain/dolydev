@@ -4,6 +4,7 @@
 logs
 *.d
 .github
+SDK/examples/cpp/Camera/capture.jpg
 libs/serial-ref
 libs/serial/docs/dev
 libs/serial/build_sdk

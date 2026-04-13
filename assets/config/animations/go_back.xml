@@ -11,7 +11,7 @@
         <field name="start">0</field>
     </block>
     <block type="drive_backward">
-        <field name="start">1</field>
+        <field name="start">0</field>
         <field name="speed">30</field>
         <field name="duration">1</field>
     </block>

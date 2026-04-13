@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 class VisionMode(Enum):
     """Vision Service 运行模式"""
     IDLE = "IDLE"                # 空载模式（最低资源消耗）
+    STREAM_ONLY = "STREAM_ONLY"  # 仅推流/采集，不做检测识别
     DETECT_TRACK = "DETECT_TRACK"  # 检测+跟踪模式
     FULL = "FULL"                  # 全功能模式
 
@@ -85,7 +86,7 @@ class VisionModeManager:
         切换 Vision Service 运行模式
         
         Args:
-            mode: 目标模式（IDLE/DETECT_TRACK/FULL 或对应的字符串）
+            mode: 目标模式（IDLE/STREAM_ONLY/DETECT_TRACK/FULL 或对应的字符串）
             timeout: 超时自动回 IDLE（秒），0 表示使用默认超时，-1 表示永不超时
             repeat: 发送次数（用于确保在连接建立初期消息不丢失）
             

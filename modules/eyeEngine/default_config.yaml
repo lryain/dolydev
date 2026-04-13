@@ -40,7 +40,7 @@ default_expression: ""
 
 # 自动眨眼配置
 auto_blink:
-  enabled: true
+  enabled: false
   # 眨眼间隔 (秒，随机范围)
   interval_min: 3.0
   interval_max: 10.0
@@ -87,7 +87,7 @@ video_stream:
   fps: 10
   timeout_ms: 100
   display_mode: "overlay"   # overlay / exclusive
-  overlay_style: "pupil"     # full / pupil
+  overlay_style: "full"     # full / pupil
   pupil_radius_ratio: 0.25   # 瞳孔半径比例 (0.0-1.0)，仅在 overlay_style=pupil 时有效
 
 # ZMQ 服务配置

@@ -85,6 +85,7 @@ class EyeEngineZmqService:
         side = cmd.get('side', 'BOTH')
         speed = float(cmd.get('speed', 1.0))
         delay_ms = int(cmd.get('delay_ms', 0))
+        suspend_when_animating = bool(cmd.get('suspend_when_animating', False))
 
         if not image:
             return {"success": False, "error": "缺少 image 名称"}
@@ -98,7 +99,14 @@ class EyeEngineZmqService:
             try:
                 if delay_ms > 0:
                     time.sleep(delay_ms / 1000.0)
-                overlay_id = self.engine.play_overlay_image(image, side=lcd_side, loop=loop, fps=fps, speed=speed)
+                overlay_id = self.engine.play_overlay_image(
+                    image,
+                    side=lcd_side,
+                    loop=loop,
+                    fps=fps,
+                    speed=speed,
+                    suspend_when_animating=suspend_when_animating,
+                )
                 if not overlay_id:
                     logger.error(f"play_overlay_image: 启动失败: {image}")
                     return
@@ -123,6 +131,7 @@ class EyeEngineZmqService:
         delay_ms = int(cmd.get('delay_ms', 0))
         side = cmd.get('side', 'BOTH')
         speed = float(cmd.get('speed', 1.0))
+        suspend_when_animating = bool(cmd.get('suspend_when_animating', False))
 
         if not image:
             return {"success": False, "error": "缺少 image 名称"}
@@ -135,7 +144,14 @@ class EyeEngineZmqService:
         def play_cb():
             if delay_ms > 0:
                 time.sleep(delay_ms / 1000.0)
-            return self.engine.play_overlay_image(image, side=lcd_side, loop=loop, fps=fps, speed=speed)
+            return self.engine.play_overlay_image(
+                image,
+                side=lcd_side,
+                loop=loop,
+                fps=fps,
+                speed=speed,
+                suspend_when_animating=suspend_when_animating,
+            )
 
         accepted, result = self.task_manager.submit_task_sync(f"play_overlay_image_sync_{image}", play_cb, priority=priority)
         if not accepted:
@@ -213,6 +229,7 @@ class EyeEngineZmqService:
         
         self.engine = EyeEngine(config=engine_config)
         self.engine.init(use_mock=engine_config.use_mock)
+        self._video_stream_manual_override = False
         
         # ★ 新增：注入 overlay 事件发布回调到 engine
         self.engine._on_overlay_event = self._publish_overlay_event
@@ -392,47 +409,30 @@ class EyeEngineZmqService:
         try:
             logger.info(f"[VisionEvent] 处理事件: topic={topic}")
             logger.debug(f"[VisionEvent] 完整数据: {data}")
+
+            if self._video_stream_manual_override:
+                logger.debug("[VisionEvent] 视频流处于手动强制显示模式，忽略人脸事件门控")
+                return
             
             if topic == "event.vision.face":
                 # 人脸出现/位置更新：激活视频流消费
-                if hasattr(self.engine, "set_video_stream_active"):
+                if hasattr(self.engine, "set_video_stream_visibility"):
+                    self.engine.set_video_stream_visibility(True, refresh=False)
+                elif hasattr(self.engine, "set_video_stream_active"):
                     self.engine.set_video_stream_active(True)
                 
             elif topic == "event.vision.face.lost":
-                # 人脸消失：清空视频流缓冲区
-                # 注意：数据可能被包装在 'data' 字段中
+                # 人脸消失：停用视频流并清空上一帧缓存，恢复默认眼睛渲染
                 event_data = data.get("data", data)
                 
                 tracker_id = event_data.get("id")
                 lost_frames = event_data.get("lost_frames")
                 logger.info(f"[VisionEvent] 🔴 人脸消失事件: tracker_id={tracker_id}, lost_frames={lost_frames}")
-                
-                # 清空所有 overlay 的视频帧
-                cleared_count = 0
-                for overlay_id, info in self.engine._overlays.items():
-                    lock = info.get("frame_lock")
-                    if lock:
-                        with lock:
-                            logger.info(f"[VisionEvent] 清空 overlay {overlay_id} 的视频帧")
-                            info["latest_frame_left"] = None
-                            info["latest_frame_right"] = None
-                            cleared_count += 1
-                    else:
-                        logger.warning(f"[VisionEvent] overlay {overlay_id} 无 frame_lock")
-                
-                logger.info(f"[VisionEvent] ✅ 视频流缓冲区清空完成 (清空 {cleared_count} 个 overlay)")
 
-                # 停止消费帧
-                if hasattr(self.engine, "set_video_stream_active"):
+                if hasattr(self.engine, "set_video_stream_visibility"):
+                    self.engine.set_video_stream_visibility(False, clear_cached_frame=True, refresh=True)
+                elif hasattr(self.engine, "set_video_stream_active"):
                     self.engine.set_video_stream_active(False)
-
-                # 🆕 触发一次眼睛刷新/眨眼，强行刷掉 remnant frame
-                try:
-                    # 优先调用 BLINK 动画，它会强制刷新 LCD 表面并清除离线后的最后一帧
-                    self.engine.play_eye_animation("BLINK", blocking=False)
-                    logger.info("[VisionEvent] 触发眨眼以强制刷新/清除残影")
-                except Exception as e:
-                    logger.warning(f"[VisionEvent] 触发刷新眨眼失败: {e}")
             # else:
             #     logger.warning(f"[VisionEvent] 未知事件主题: {topic}")
                 
@@ -1540,6 +1540,13 @@ class EyeEngineZmqService:
             return {"success": False, "error": str(e)}
 
     # ===== Video Stream Commands =====
+    def _video_stream_status_payload(self) -> Dict:
+        status = self.engine.get_video_stream_status()
+        status["active"] = bool(getattr(self.engine, "_video_stream_active", False))
+        status["manual_override"] = bool(self._video_stream_manual_override)
+        status["target_lcd"] = getattr(self.engine._config, "video_stream_target_lcd", "RIGHT")
+        return status
+
     def _cmd_enable_video_stream(self, cmd: Dict) -> Dict:
         """启用视频流显示"""
         try:
@@ -1548,15 +1555,24 @@ class EyeEngineZmqService:
             display_mode = cmd.get("display_mode")
             overlay_style = cmd.get("overlay_style")
             if target_lcd is not None:
-                self.engine._config.video_stream_target_lcd = str(target_lcd)
+                if isinstance(target_lcd, str):
+                    target_text = target_lcd.strip()
+                    self.engine._config.video_stream_target_lcd = int(target_text) if target_text.isdigit() else target_text.upper()
+                else:
+                    self.engine._config.video_stream_target_lcd = int(target_lcd)
             if fps is not None:
                 self.engine._config.video_stream_fps = int(fps)
             if display_mode is not None:
                 self.engine._config.video_stream_display_mode = str(display_mode)
             if overlay_style is not None:
                 self.engine._config.video_stream_overlay_style = str(overlay_style)
+            self._video_stream_manual_override = True
             ok = self.engine.start_video_stream()
-            return {"success": ok, "status": self.engine.get_video_stream_status()}
+            if ok and hasattr(self.engine, "set_video_stream_visibility"):
+                self.engine.set_video_stream_visibility(True, refresh=False)
+            elif ok and hasattr(self.engine, "set_video_stream_active"):
+                self.engine.set_video_stream_active(True)
+            return {"success": ok, "status": self._video_stream_status_payload()}
         except Exception as e:
             logger.error(f"enable_video_stream 失败: {e}", exc_info=True)
             return {"success": False, "error": str(e)}
@@ -1564,8 +1580,13 @@ class EyeEngineZmqService:
     def _cmd_disable_video_stream(self, cmd: Dict) -> Dict:
         """禁用视频流显示"""
         try:
+            self._video_stream_manual_override = False
+            if hasattr(self.engine, "set_video_stream_visibility"):
+                self.engine.set_video_stream_visibility(False, clear_cached_frame=True, refresh=True)
+            elif hasattr(self.engine, "set_video_stream_active"):
+                self.engine.set_video_stream_active(False)
             self.engine.stop_video_stream()
-            return {"success": True, "status": self.engine.get_video_stream_status()}
+            return {"success": True, "status": self._video_stream_status_payload()}
         except Exception as e:
             logger.error(f"disable_video_stream 失败: {e}", exc_info=True)
             return {"success": False, "error": str(e)}
@@ -1573,7 +1594,7 @@ class EyeEngineZmqService:
     def _cmd_video_stream_status(self, cmd: Dict) -> Dict:
         """查询视频流状态"""
         try:
-            return {"success": True, "status": self.engine.get_video_stream_status()}
+            return {"success": True, "status": self._video_stream_status_payload()}
         except Exception as e:
             logger.error(f"video_stream_status 失败: {e}", exc_info=True)
             return {"success": False, "error": str(e)}

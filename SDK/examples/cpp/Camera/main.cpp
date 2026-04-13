@@ -13,8 +13,18 @@
 
 #include <opencv2/imgcodecs.hpp>
 
-int main()
+int main(int argc, char** argv)
 {
+	bool photo_only = false;
+	for (int i = 1; i < argc; ++i)
+	{
+		std::string arg = argv[i];
+		if (arg == "--photo-only")
+		{
+			photo_only = true;
+		}
+	}
+	spdlog::info("photo_only={} argc={}", photo_only ? "true" : "false", argc);
 
 	// First find active camera id	
 	spdlog::info("Initializing camera");
@@ -40,6 +50,12 @@ int main()
 		cv::imwrite("capture.jpg", frame_rgb);
 		spdlog::info("Frame saved!");
 		cam.stopPhoto();
+	}
+
+	if (photo_only)
+	{
+		spdlog::info("Photo-only mode enabled, skipping video preview.");
+		return 0;
 	}
 
 	// Video frame capture example

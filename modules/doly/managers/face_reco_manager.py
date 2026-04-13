@@ -334,7 +334,7 @@ class FaceRecoManager:
         处理拍照命令（cmd_ActTakePhoto, 0x0D）
         
         流程：
-        1. 切换到 DETECT_TRACK 模式（检测+跟踪）
+        1. 切换到 STREAM_ONLY 模式（仅采集，不做人脸识别）
         2. 发送拍照命令到 FaceReco（通过 ZMQ）
         3. 完成后自动回 IDLE
         
@@ -349,8 +349,8 @@ class FaceRecoManager:
                 self.tts_client.speak("拍照功能暂时不可用")
             return False
         
-        # 切换到 DETECT_TRACK 模式（10秒超时，足够拍照）
-        success = self.vision_mode_manager.set_mode('DETECT_TRACK', timeout=10)
+        # 切换到 STREAM_ONLY 模式，确保相机活跃但不触发人脸识别
+        success = self.vision_mode_manager.set_mode('STREAM_ONLY', timeout=10)
         
         if success:
             logger.info("[FaceRecoManager] ✅ 拍照模式已启动")
@@ -419,7 +419,7 @@ class FaceRecoManager:
         
         # ★★★ 根据配置决定是否需要人脸跟踪 ★★★
         if not disable_face_tracking and self.vision_mode_manager:
-            # 需要人脸跟踪：切换到 DETECT_TRACK 模式
+            # 需要人脸跟踪：切换到 DETECT_TRACK 模式（不会执行人脸识别，只做检测+跟踪）
             timeout = duration + 5
             success = self.vision_mode_manager.set_mode('DETECT_TRACK', timeout=timeout)
             if not success:
@@ -429,7 +429,15 @@ class FaceRecoManager:
                 return False
             logger.info(f"[FaceRecoManager] ✅ 已切换到 DETECT_TRACK 模式（{duration}秒）")
         else:
-            # 不需要人脸跟踪：仅启动录像（不切换 Vision 模式）
+            # 不需要人脸跟踪：切换到 STREAM_ONLY，避免录像期间触发人脸识别逻辑
+            if self.vision_mode_manager:
+                timeout = duration + 5
+                success = self.vision_mode_manager.set_mode('STREAM_ONLY', timeout=timeout)
+                if not success:
+                    logger.error("[FaceRecoManager] ❌ 切换到 STREAM_ONLY 模式失败")
+                    if self.tts_client:
+                        self.tts_client.speak("录像模式启动失败")
+                    return False
             logger.info(f"[FaceRecoManager] 📹 录像模式（无人脸跟踪）已启动（{duration}秒）")
         
         # 播放提示
@@ -1639,12 +1647,19 @@ class FaceRecoManager:
     def _trigger_new_face_behavior(self, face: TrackedFace) -> None:
         """触发新人脸行为"""
         animation = self.new_face_config.get('animation', 'CURIOUS.curious_look')
+        tts_text = self.new_face_config.get('tts')
         
         if animation and self.animation_manager:
             try:
                 self.animation_manager.play_animation(animation, priority=6)
             except Exception as e:
                 logger.error(f"[FaceRecoManager] 新人脸动画失败: {e}")
+                
+        if tts_text and getattr(self, 'tts_client', None):
+            try:
+                self.tts_client.speak(tts_text.format(name="新朋友"), play_now=True)
+            except Exception as e:
+                logger.error(f"[FaceRecoManager] 新人脸 TTS 失败: {e}")
         
         logger.debug(f"[FaceRecoManager] 触发新人脸行为: tracker_id={face.tracker_id}")
     
@@ -1714,16 +1729,15 @@ class FaceRecoManager:
         if not self.zmq_publisher:
             logger.warning("[FaceRecoManager] 无法启用识别：ZMQ 发布器未设置")
             return False
+
+        if self.vision_mode_manager:
+            return self.vision_mode_manager.set_mode('FULL', timeout=duration_seconds)
         
         try:
-            import json
-            cmd = {
-                "cmd": "vision.mode",
-                "mode": "FULL",
-                "duration_s": duration_seconds
-            }
-            topic = "cmd.vision.mode"
-            self.zmq_publisher.publish(topic, json.dumps(cmd))
+            self.zmq_publisher.publish_command(
+                topic="cmd.vision.mode",
+                data={"target": "facereco", "mode": "FULL", "timeout": duration_seconds}
+            )
             logger.info(f"[FaceRecoManager] ✅ 已启用人脸识别 ({duration_seconds}秒)")
             return True
         except Exception as e:
@@ -1953,7 +1967,8 @@ class FaceRecoManager:
                         delay_ms=0,
                         side=display_side,
                         scale=display_scale,
-                        loop=False
+                        loop=False,
+                        suspend_when_animating=True
                     )
                     
                     if response and response.get('success'):
