@@ -1,0 +1,20 @@
+[Unit]
+Description=Vision Service (FaceReco)
+After=network.target syslog.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/dolydev/libs/FaceReco
+ExecStart=/usr/local/bin/vision_service
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=LD_LIBRARY_PATH=/.doly/libs/opencv/lib:/home/pi/DOLY-DIY/SDK/lib:/usr/local/lib
+Restart=on-failure
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+User=pi
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target
