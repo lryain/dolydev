@@ -1,0 +1,59 @@
+# Doly Vision Service Configuration
+
+project:
+  path: "/home/pi/dolydev/libs/FaceReco"
+
+# ZMQ 端点配置 (代码明确查找 zmq.xxx)
+zmq:
+  pub_endpoint: "ipc:///tmp/doly_vision_events.sock"
+  sub_endpoint: "ipc:///tmp/doly_events.sock"
+  query_endpoint: "ipc:///tmp/doly_vision_query.sock"
+
+# 业务逻辑配置 (部分代码使用 bus.xxx, 保持兼容)
+bus:
+  pub_endpoint: "ipc:///tmp/doly_vision_events.sock"
+  sub_endpoint: "ipc:///tmp/doly_events.sock"
+  initial_mode: "IDLE"
+  status_interval_ms: 1000
+  mode_timeout_seconds: 30
+  auto_start: true
+
+# 修复所有警告和转换错误的显式定义
+service:
+  status_interval_ms: 1000
+  auto_start: true
+  mode_timeout_seconds: 30
+  enable_mode_timeout: true
+
+image_processing:
+  input_width: 320
+  input_height: 240
+  output_width: 320
+  output_height: 240
+
+liveness_detection:
+  enabled: false
+  threshold: 0.8
+  jump: 1
+
+face_angle:
+  threshold: 30.0
+
+# 保持数据类型清晰，避免 YAMLConfig 解析警告
+gaze_follow:
+  enabled: false
+  smoothing: 0.12
+  publish_interval_ms: 50
+
+face_tracking_control:
+  gaze_tracking:
+    enabled: true
+    smoothing: 0.12
+    dead_zone: 0.08
+  motor_tracking:
+    enabled: false
+    trigger_threshold: 0.3
+    turn_speed: 30
+
+video_stream:
+  enable_to_eyeengine: true
