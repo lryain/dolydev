@@ -18,3 +18,7 @@
 使用 scripts/manage_serial_service.sh status 查看服务状态。
 使用 scripts/manage_serial_service.sh logs 查看日志。
 对于 CI 和本地测试，可以使用 tests/test_serial_publish.py，它会订阅 ZeroMQ 总线并验证消息是否被发布。
+
+## 固件升级
+仓库提供了一个独立的 SU-03T 串口升级脚本：scripts/su03t_firmware_updater.py。
+详细说明见 docs/固件升级.md。

@@ -33,13 +33,14 @@ face_recognition:
       # - "example@gmail.com"
   
   # 识别阈值
-  recognition_threshold: 0.85
+  recognition_threshold: 0.40
   liveness_required: false
   
   # 运行模式配置
   mode:
     default: "IDLE"  # 默认模式: idle, recognition, tracking
     recognition_timeout: 10  # 识别模式超时（秒）
+    recognition_cooldown_seconds: 5  # 同一张脸再次触发识别行为的冷却时间（秒）
     auto_switch_idle: true   # 识别后自动回 idle
   
   # 眼神跟随配置（Gaze Tracking）
@@ -74,7 +75,10 @@ face_recognition:
   name_to_relation:
     liuhu: master          # 主人
     zhangsan: friend       # 朋友
+    zhijun_0002: family           # 家人
     zhijun: family           # 家人
+    liweina: family           # 家人
+    new_friend_001: friend           # 家人
     # 可以继续添加更多人脸映射
     # wangwu: acquaintance
   
@@ -86,6 +90,8 @@ face_recognition:
     enabled: true
     prompt_registration: false
     auto_register_delay_seconds: 10
+    cooldown_seconds: 8
+    priority: 6
     # 新人脸动画
     animation: "CURIOUS.curious_look"
     # 新人脸 TTS（可选）

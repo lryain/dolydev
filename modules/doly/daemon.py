@@ -622,7 +622,14 @@ class DolyDaemon:
 
         self._vision_subscriber = ZMQEventSubscriber(
             endpoint=vision_endpoint or "ipc:///tmp/doly_vision_events.sock",  # ★ 修复：正确的Vision事件发布端点
-            topics=["event.vision.face", "event.vision.face.recognized", "event.vision.capture", "status.vision.state"],
+            topics=[
+                "event.vision.face",
+                "event.vision.face.recognized",
+                "event.vision.face.new",
+                "event.vision.face.lost",
+                "event.vision.capture",
+                "status.vision.state",
+            ],
             event_bus=self.event_bus,
             source_name="vision_service"
         )

@@ -98,6 +98,8 @@ class FaceRecoManager:
         # 状态
         self.last_greet_time: Dict[str, float] = {}  # face_id -> 上次打招呼时间 (deprecated, 用 recognition_history)
         self.recognition_history: Dict[str, Dict[str, Any]] = {}  # 识别历史: name -> {last_seen, last_liveness, greeted}
+        self.recognition_cooldown: float = 5.0
+        self.recognition_timeout: int = 30
         self.service_connected: bool = False
         self._lock = threading.RLock()
         
@@ -121,12 +123,10 @@ class FaceRecoManager:
         
         # ★★★ 新增：强制打招呼标志 ★★★
         self.force_greet_next_recognition: bool = False  # 用于 cmd_ActWhoami 场景，绕过冷却时间
+        self._last_new_face_prompt_ms: int = 0  # 新人脸提示节流，避免跟踪抖动导致重复播报
         
         # ★★★ 新增：人脸注册流程控制 ★★★
         self.pending_register_command: bool = False  # 是否有待处理的注册命令
-        self.register_timeout_timer: Optional[threading.Timer] = None  # 注册超时计时器
-        self.register_name: Optional[str] = None  # 待注册的姓名
-        
         # 回调
         self.on_face_recognized: Optional[Callable[[TrackedFace], None]] = None
         self.on_face_lost: Optional[Callable[[TrackedFace], None]] = None
@@ -160,6 +160,9 @@ class FaceRecoManager:
             self.recognition_threshold = face_config.get('recognition_threshold', 0.85)
             self.liveness_required = face_config.get('liveness_required', True)
             self.liveness_change_alert = face_config.get('liveness_change_alert', True)  # 活体变化提醒
+            mode_config = face_config.get('mode', {})
+            self.recognition_timeout = mode_config.get('recognition_timeout', 30)
+            self.recognition_cooldown = float(mode_config.get('recognition_cooldown_seconds', 5))
             self.name_to_relation = face_config.get('name_to_relation', {})  # 姓名到角色映射
             logger.info(f"[FaceRecoManager] 🔍 name_to_relation 原始值: {self.name_to_relation}")
             self.default_relation = face_config.get('default_relation', 'stranger')  # 默认关系
@@ -209,6 +212,8 @@ class FaceRecoManager:
         self.enabled = True
         self.auto_greet = True
         self.greet_cooldown = 300
+        self.recognition_cooldown = 5.0
+        self.recognition_timeout = 30
         self.recognition_threshold = 0.85
         self.liveness_required = True
         self.liveness_change_alert = True  # 默认开启活体变化提醒
@@ -293,8 +298,7 @@ class FaceRecoManager:
             return False
         
         # 获取配置的超时时间
-        mode_config = self.config.get('face_recognition', {}).get('mode', {})
-        timeout = mode_config.get('recognition_timeout', 30)
+        timeout = getattr(self, 'recognition_timeout', 30)
         
         # ★★★ 设置强制打招呼标志（绕过冷却时间限制）★★★
         self.force_greet_next_recognition = True
@@ -930,13 +934,35 @@ class FaceRecoManager:
         Returns:
             FaceRelation 枚举
         """
-        # 从配置的映射表中查找
-        relation_str = self.name_to_relation.get(name)
+        relation_str = None
+        candidates = []
+        normalized_name = (name or '').strip()
+        if normalized_name:
+            candidates.append(normalized_name)
+            lower_name = normalized_name.lower()
+            if lower_name != normalized_name:
+                candidates.append(lower_name)
+
+            trimmed_name = normalized_name
+            while '_' in trimmed_name:
+                trimmed_name = trimmed_name.rsplit('_', 1)[0].strip()
+                if trimmed_name and trimmed_name not in candidates:
+                    candidates.append(trimmed_name)
+                lower_trimmed = trimmed_name.lower()
+                if trimmed_name and lower_trimmed not in candidates:
+                    candidates.append(lower_trimmed)
+
+        for candidate in candidates:
+            relation_str = self.name_to_relation.get(candidate)
+            if relation_str:
+                if candidate != normalized_name:
+                    logger.info(f"[FaceRecoManager] 姓名 '{normalized_name}' 未直接命中，回退匹配 '{candidate}' -> {relation_str}")
+                break
         
-        # 如果找不到，使用默认关系
+        # 如果找不到映射，视为已注册但未分配关系标签
         if not relation_str:
-            relation_str = self.default_relation
-            logger.debug(f"[FaceRecoManager] 姓名 '{name}' 未找到映射，使用默认关系: {relation_str}")
+            logger.debug(f"[FaceRecoManager] 姓名 '{name}' 未找到关系映射，使用 UNKNOWN")
+            return FaceRelation.UNKNOWN
         
         # 转换为枚举
         try:
@@ -1143,36 +1169,67 @@ class FaceRecoManager:
         tracker_id = event.get('tracker_id', event.get('id'))
         face_id = event.get('face_id', '')
         name = event.get('name', 'unknown')
-        confidence = event.get('confidence', 0.0)
+        raw_confidence = event.get('confidence', 0.0)
         liveness = event.get('liveness', False)
         metadata = event.get('metadata', {})
-        
-        # 置信度检查：对于已识别为伪人脸的情况，我们需要处理假脸逻辑
-        # 注意：FaceReco 发出的 confidence 实际上是 liveness score (活体得分)
-        # 伪人脸的得分通常较低，为了能触发 fake 行为，我们需要针对伪人脸降低门槛
-        effective_threshold = self.recognition_threshold
-        if not liveness:
-            # 对于假脸，几乎不设门槛，只要识别出是假脸且有名字就允许通过以触发警告
-            effective_threshold = 0.01 
-            
-        if confidence < effective_threshold:
-            logger.debug(f"[FaceRecoManager] 置信度不足: {name} ({confidence:.5f}, 阈值: {effective_threshold})")
-            
-            # ✅ 新增：如果是 cmd_ActWhoami 触发的，应该提示"陌生人/不认识"
+        match_score = metadata.get('match_score', event.get('match_score'))
+        liveness_confidence = metadata.get('liveness_confidence', raw_confidence)
+
+        if not name or name == 'unknown':
+            logger.debug(f"[FaceRecoManager] 跳过无效识别事件: tracker_id={tracker_id}, name={name}")
+            return False
+
+        if match_score is not None:
+            try:
+                match_score = float(match_score)
+            except (TypeError, ValueError):
+                match_score = None
+
+        if match_score is not None and match_score < self.recognition_threshold:
+            logger.debug(
+                f"[FaceRecoManager] 识别匹配分数不足: {name} ({match_score:.5f}, 阈值: {self.recognition_threshold})"
+            )
+
             if self.force_greet_next_recognition:
-                logger.info("[FaceRecoManager] 🤷 cmd_ActWhoami检测到陌生人或置信度不足")
-                self._trigger_stranger_behavior(face)
+                temp_face = self.current_faces.get(tracker_id) or TrackedFace(
+                    tracker_id=tracker_id,
+                    first_seen_ms=int(time.time() * 1000),
+                    last_seen_ms=int(time.time() * 1000),
+                )
+                temp_face.name = name
+                logger.info("[FaceRecoManager] 🤷 cmd_ActWhoami检测到低分匹配，按陌生人处理")
+                self._trigger_stranger_behavior(temp_face)
                 self.force_greet_next_recognition = False
-                
-                # 切回 IDLE 并解锁命令
+
                 if self.vision_mode_manager:
                     def switch_to_idle_and_unlock():
                         self.vision_mode_manager.set_mode('IDLE')
                         if self.daemon and hasattr(self.daemon, 'unlock_command'):
                             self.daemon.unlock_command('cmd_ActWhoami')
                     threading.Timer(2.0, switch_to_idle_and_unlock).start()
-            
+
             return False
+
+        recognition_key = str(face_id or name or tracker_id)
+        now = time.time()
+        history = self.recognition_history.get(recognition_key)
+        if history is None:
+            history = {
+                'last_seen': 0,
+                'last_liveness': None,
+                'greeted': False,
+                'last_recognition': 0,
+            }
+            self.recognition_history[recognition_key] = history
+
+        if not self.force_greet_next_recognition and self.recognition_cooldown > 0:
+            last_recognition = float(history.get('last_recognition', 0) or 0)
+            elapsed = now - last_recognition
+            if last_recognition > 0 and elapsed < self.recognition_cooldown:
+                logger.debug(
+                    f"[FaceRecoManager] 识别冷却中: {recognition_key} (剩余 {self.recognition_cooldown - elapsed:.1f}s)"
+                )
+                return False
         
         with self._lock:
             # 更新或创建跟踪数据
@@ -1189,13 +1246,16 @@ class FaceRecoManager:
             
             face.face_id = face_id
             face.name = name
-            face.confidence = confidence
+            face.confidence = match_score if match_score is not None else raw_confidence
             face.liveness = liveness
             face.recognized = True
             
             # 根据姓名确定关系类型（从配置映射表）
             face.relation = self._get_relation_from_name(name)
             logger.info(f"[FaceRecoManager] 🔍 姓名映射调试: name='{name}', name_to_relation={self.name_to_relation}, relation={face.relation.value}")
+
+            history['last_recognition'] = now
+            history['last_seen'] = now
         
         # 检查活体：如果 liveness=False（伪人脸），触发 fake 行为
         if not liveness:
@@ -1235,7 +1295,11 @@ class FaceRecoManager:
             except Exception as e:
                 logger.error(f"[FaceRecoManager] 识别回调异常: {e}")
         
-        logger.info(f"[FaceRecoManager] 识别到: {name} (置信度={confidence:.2f}, 关系={face.relation.value}, 活体={liveness})")
+        logger.info(
+            f"[FaceRecoManager] 识别到: {name} "
+            f"(match_score={match_score if match_score is not None else 'n/a'}, "
+            f"liveness_score={liveness_confidence:.2f}, 关系={face.relation.value}, 活体={liveness})"
+        )
         
         # 自动回 IDLE 模式（如果启用）
         if self.vision_mode_manager:
@@ -1254,9 +1318,9 @@ class FaceRecoManager:
                     
                     # ★★★ 清除已识别人脸的greeted标志，允许下一次识别再次打招呼 ★★★
                     # 这样当用户再次cmd_ActWhoami时，即使在冷却期内也能因为force_greet而打招呼
-                    if name in self.recognition_history:
-                        self.recognition_history[name]['greeted'] = False
-                        logger.debug(f"[FaceRecoManager] 清除 {name} 的greeted标志")
+                    if recognition_key in self.recognition_history:
+                        self.recognition_history[recognition_key]['greeted'] = False
+                        logger.debug(f"[FaceRecoManager] 清除 {recognition_key} 的greeted标志")
                     face.greeted = False
                     
                     self.vision_mode_manager.set_mode('IDLE')
@@ -1312,7 +1376,6 @@ class FaceRecoManager:
             face_id = data.get('face_id', '')
             updated_fields = data.get('updated_fields', [])
             name = data.get('name', '')
-
             logger.info(f"[FaceRecoManager] 📥 face.updated: id={face_id}, name={name}, ok={success}")
             if success and name:
                 with self._lock:
@@ -1361,9 +1424,15 @@ class FaceRecoManager:
     
     def _handle_new_face(self, event: Dict[str, Any]) -> bool:
         """处理新人脸出现事件"""
-        tracker_id = event.get('tracker_id')
+        tracker_id = event.get('tracker_id', event.get('id'))
         detection_count = event.get('detection_count', 0)
         liveness = event.get('liveness', False)
+        now_ms = int(time.time() * 1000)
+        cooldown_ms = int(float(self.new_face_config.get('cooldown_seconds', 8)) * 1000)
+
+        if tracker_id is None:
+            logger.warning(f"[FaceRecoManager] 新人脸事件缺少 tracker_id: {event}")
+            return False
         
         if not self.new_face_config.get('enabled', True):
             return False
@@ -1377,13 +1446,32 @@ class FaceRecoManager:
             if tracker_id not in self.current_faces:
                 self.current_faces[tracker_id] = TrackedFace(
                     tracker_id=tracker_id,
-                    first_seen_ms=int(time.time() * 1000),
-                    last_seen_ms=int(time.time() * 1000)
+                    first_seen_ms=now_ms,
+                    last_seen_ms=now_ms
                 )
             
             face = self.current_faces[tracker_id]
+            face.last_seen_ms = now_ms
             face.liveness = liveness
             face.bbox = event.get('bbox', {})
+            face.recognized = False
+            face.relation = FaceRelation.STRANGER
+            self.last_detected_face = face
+
+            should_trigger = True
+            if cooldown_ms > 0 and self._last_new_face_prompt_ms > 0:
+                elapsed_ms = now_ms - self._last_new_face_prompt_ms
+                if elapsed_ms < cooldown_ms:
+                    should_trigger = False
+                    logger.info(
+                        f"[FaceRecoManager] 新人脸提示冷却中: tracker_id={tracker_id}, 剩余={(cooldown_ms - elapsed_ms) / 1000:.1f}s"
+                    )
+
+            if should_trigger:
+                self._last_new_face_prompt_ms = now_ms
+
+        if not should_trigger:
+            return True
         
         # 触发新人脸行为
         self._trigger_new_face_behavior(face)
@@ -1469,17 +1557,19 @@ class FaceRecoManager:
         """
         now = time.time()
         name = face.name
+        history_key = str(face.face_id or name)
         liveness = face.liveness
         
         # 获取或初始化识别历史
-        if name not in self.recognition_history:
-            self.recognition_history[name] = {
+        if history_key not in self.recognition_history:
+            self.recognition_history[history_key] = {
                 'last_seen': 0,
                 'last_liveness': None,
-                'greeted': False
+                'greeted': False,
+                'last_recognition': 0
             }
         
-        history = self.recognition_history[name]
+        history = self.recognition_history[history_key]
         
         # **活体变化检测**：从伪人脸变为真人脸
         if (self.liveness_change_alert and 
@@ -1504,6 +1594,26 @@ class FaceRecoManager:
         # 获取行为配置
         relation_key = face.relation.value
         behavior = self.known_face_behaviors.get(relation_key, {})
+
+        if face.relation == FaceRelation.UNKNOWN or not behavior:
+            logger.debug(f"[FaceRecoManager] 通用打招呼: {name}")
+
+            greeting_text = f"{name}，你好" if name else "你好"
+            try:
+                if self.tts_client:
+                    self.tts_client.speak(greeting_text, play_now=True)
+                    logger.info(f"[FaceRecoManager] 🎤 通用TTS: {greeting_text}")
+                else:
+                    logger.warning(f"[FaceRecoManager] TTS管理器未设置，跳过语音: {greeting_text}")
+            except Exception as e:
+                logger.error(f"[FaceRecoManager] 通用TTS失败: {e}", exc_info=True)
+
+            face.greeted = True
+            history['greeted'] = True
+            history['last_seen'] = now
+            history['last_liveness'] = liveness
+            logger.info(f"[FaceRecoManager] 通用打招呼完成: {name}")
+            return
         
         if not behavior:
             logger.debug(f"[FaceRecoManager] 未找到 {relation_key} 的行为配置")
@@ -1648,10 +1758,11 @@ class FaceRecoManager:
         """触发新人脸行为"""
         animation = self.new_face_config.get('animation', 'CURIOUS.curious_look')
         tts_text = self.new_face_config.get('tts')
+        priority = self.new_face_config.get('priority', 6)
         
         if animation and self.animation_manager:
             try:
-                self.animation_manager.play_animation(animation, priority=6)
+                self.animation_manager.play_animation(animation, priority=priority)
             except Exception as e:
                 logger.error(f"[FaceRecoManager] 新人脸动画失败: {e}")
                 

@@ -26,6 +26,7 @@
 #include <sstream>
 #include <queue>
 #include <map>
+#include <set>
 #include <filesystem>
 #include <zmq.hpp>
 
@@ -49,6 +50,7 @@ using doly::vision::YAMLConfig;
 static doly::vision::RuntimeControl* g_runtime_control = nullptr;
 static doly::vision::VisionBusBridge* g_bus_bridge = nullptr;
 static doly::vision::RuntimeMetrics* g_runtime_metrics = nullptr;
+static bool g_interactive_register_mode = false;
 
 void SetVisionRuntimeContext(doly::vision::RuntimeControl* control,
                              doly::vision::VisionBusBridge* bus,
@@ -56,6 +58,14 @@ void SetVisionRuntimeContext(doly::vision::RuntimeControl* control,
     g_runtime_control = control;
     g_bus_bridge = bus;
     g_runtime_metrics = metrics;
+}
+
+void SetInteractiveRegisterMode(bool enabled) {
+    g_interactive_register_mode = enabled;
+}
+
+bool IsInteractiveRegisterMode() {
+    return g_interactive_register_mode;
 }
 
 #include <fstream>
@@ -357,6 +367,7 @@ struct TrackedFace {
     bool recognition_disabled;
     bool prompted_for_registration;
     int detection_attempts;  // Count detection attempts before registering as new face
+    std::string stable_face_id;
     std::string last_recognized_name;
 };
 
@@ -452,8 +463,8 @@ void calculateFaceDescriptorsFromDisk(Arcface & facereco,std::map<std::string,cv
 
 	if (image_number == 0) {
 		std::cout << "No image files[jpg]" << std::endl;
-        std::cout << "At least one image of 112*112 should be put into the img folder. Otherwise, the program will broke down." << std::endl;
-        exit(0);
+        std::cout << "img 目录为空，先以空人脸库启动，等待后续自动注册。" << std::endl;
+        return;
 	}
     //cout <<"loading pictures..."<<endl;
     //cout <<"image number in total:"<<image_number<<endl;
@@ -554,6 +565,57 @@ static bool saveDescriptorCache(const std::string & cache_path, const std::map<s
         std::cerr << "[WARN] saveDescriptorCache failed: " << e.what() << std::endl;
         return false;
     }
+}
+
+
+static bool isFourDigitFaceId(const std::string& value)
+{
+    return value.size() == 4 && std::all_of(value.begin(), value.end(), [](unsigned char ch) {
+        return std::isdigit(ch) != 0;
+    });
+}
+
+static std::string generateNextFourDigitFaceId(const doly::vision::FaceDatabase& face_db,
+                                               const std::map<std::string,cv::Mat>& face_descriptors_map)
+{
+    std::set<int> used_ids;
+    for (const auto& record : face_db.list()) {
+        if (isFourDigitFaceId(record.face_id)) {
+            used_ids.insert(std::stoi(record.face_id));
+        }
+    }
+    for (const auto& [descriptor_id, _] : face_descriptors_map) {
+        if (isFourDigitFaceId(descriptor_id)) {
+            used_ids.insert(std::stoi(descriptor_id));
+        }
+    }
+
+    for (int candidate = 1; candidate <= 9999; ++candidate) {
+        if (used_ids.find(candidate) != used_ids.end()) {
+            continue;
+        }
+        std::ostringstream oss;
+        oss << std::setw(4) << std::setfill('0') << candidate;
+        return oss.str();
+    }
+
+    return std::string();
+}
+
+static std::string buildFaceImagePath(const std::string& face_id)
+{
+    return project_path + "/img/" + face_id + "_0.jpg";
+}
+
+static std::string currentIsoTimestamp()
+{
+    auto now = std::chrono::system_clock::now();
+    auto t = std::chrono::system_clock::to_time_t(now);
+    std::tm tm{};
+    gmtime_r(&t, &tm);
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
+    return oss.str();
 }
 
 // Async saver for heavy disk writes (imwrite) to avoid blocking main loop
@@ -744,6 +806,32 @@ std::string  getClosestFaceDescriptorPersonName(std::map<std::string,cv::Mat> & 
 
     return person_name;
 }
+
+static std::pair<std::string, double> getClosestFaceDescriptorMatch(
+    std::map<std::string,cv::Mat> & disk_face_descriptors,
+    const cv::Mat& face_descriptor)
+{
+    if (disk_face_descriptors.empty()) {
+        return {std::string(), 0.0};
+    }
+
+    double best_score = std::numeric_limits<double>::lowest();
+    std::string best_label;
+    for (const auto& disk_descp : disk_face_descriptors) {
+        const double score = Statistics::cosineDistance(disk_descp.second, face_descriptor);
+        if (score > best_score) {
+            best_score = score;
+            best_label = disk_descp.first;
+        }
+    }
+
+    if (best_score > face_thre) {
+        return {best_label, best_score};
+    }
+
+    return {std::string(), best_score};
+}
+
 std::string  getClosestFaceDescriptorPersonName(std::map<std::string,std::list<cv::Mat>> & disk_face_descriptors, cv::Mat face_descriptor)
 {
     // guard: no descriptors available
@@ -832,6 +920,28 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
         std::cout << "[FaceDB] ⚠️  face_db.json 不存在或为空，将在注册时创建新数据库" << std::endl;
     }
 
+    auto get_face_db_mtime = [&db_path]() -> long long {
+        std::error_code ec;
+        auto time = std::filesystem::last_write_time(db_path, ec);
+        if (ec) {
+            return 0;
+        }
+        return static_cast<long long>(time.time_since_epoch().count());
+    };
+    long long face_db_mtime = get_face_db_mtime();
+    auto reload_face_db_if_changed = [&](bool force = false) {
+        long long current_mtime = get_face_db_mtime();
+        if (!force && current_mtime == face_db_mtime) {
+            return true;
+        }
+        if (!face_db.load()) {
+            std::cerr << "[FaceDB] ❌ 重新加载 face_db.json 失败: " << db_path << std::endl;
+            return false;
+        }
+        face_db_mtime = current_mtime;
+        return true;
+    };
+
     // Descriptor cache settings
     bool enable_descriptor_cache = Settings::getBool("enable_descriptor_cache", true);
     std::string descriptor_cache_path = Settings::getString("descriptor_cache_path", project_path + "/descriptors.yml");
@@ -849,6 +959,86 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
             saveDescriptorCache(descriptor_cache_path, face_descriptors_dict);
         }
     }
+
+    auto trim_copy = [](std::string value) {
+        const std::string whitespace = " \t\r\n";
+        const std::size_t begin = value.find_first_not_of(whitespace);
+        if (begin == std::string::npos) {
+            return std::string();
+        }
+        const std::size_t end = value.find_last_not_of(whitespace);
+        return value.substr(begin, end - begin + 1);
+    };
+
+    auto register_face_record = [&](TrackedFace& tracker,
+                                    const cv::Mat& aligned_img,
+                                    const cv::Mat& face_descriptor,
+                                    const Bbox& bbox,
+                                    float liveness_confidence,
+                                    float face_angle,
+                                    const std::string& register_name,
+                                    const std::string& register_source,
+                                    std::string* registered_face_id = nullptr) -> bool {
+        reload_face_db_if_changed(true);
+
+        const std::string generated_face_id = generateNextFourDigitFaceId(face_db, face_descriptors_dict);
+        if (generated_face_id.empty()) {
+            std::cerr << "[FaceDB] ❌ 无法分配新的4位人脸编号" << std::endl;
+            return false;
+        }
+
+        const std::string image_path = buildFaceImagePath(generated_face_id);
+        std::error_code ec;
+        std::filesystem::create_directories(std::filesystem::path(image_path).parent_path(), ec);
+
+        doly::vision::FaceRecord record;
+        record.face_id = generated_face_id;
+        record.name = register_name.empty() ? generated_face_id : register_name;
+        record.image_path = image_path;
+        record.created_at = currentIsoTimestamp();
+        record.last_seen = record.created_at;
+        record.sample_count = 1;
+        record.metadata = {
+            {"tracker_id", tracker.id},
+            {"register_source", register_source},
+            {"bbox", {
+                {"x1", bbox.x1 * ratio_x},
+                {"y1", bbox.y1 * ratio_y},
+                {"x2", bbox.x2 * ratio_x},
+                {"y2", bbox.y2 * ratio_y}
+            }},
+            {"liveness", true},
+            {"confidence", liveness_confidence},
+            {"angle", face_angle}
+        };
+
+        if (!face_db.addOrUpdate(record) || !face_db.save()) {
+            std::cerr << "[FaceDB] ❌ 注册新人脸失败: " << generated_face_id << std::endl;
+            return false;
+        }
+
+        face_db_mtime = get_face_db_mtime();
+        static AsyncSaver saver;
+        saver.saveImageAsync(image_path, aligned_img);
+        face_descriptors_dict[generated_face_id] = face_descriptor;
+        if (enable_descriptor_cache) {
+            saveDescriptorCache(descriptor_cache_path, face_descriptors_dict);
+        }
+
+        tracker.stable_face_id = generated_face_id;
+        tracker.last_recognized_name = record.name;
+        tracker.recognition_disabled = true;
+        tracker.detection_attempts = 0;
+        tracker.recognition_attempts = 0;
+
+        if (registered_face_id) {
+            *registered_face_id = generated_face_id;
+        }
+
+        std::cout << "[TRACK " << tracker.id << "] registered as: "
+                  << record.name << " (" << generated_face_id << ") -> " << image_path << std::endl;
+        return true;
+    };
 
     Live live;
 
@@ -889,6 +1079,10 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
         frame_skip_rate = YAMLConfig::getInt("face_detection.frame_skip_rate", frame_skip_rate);
         ncnn_num_threads = YAMLConfig::getInt("face_detection.ncnn_num_threads", ncnn_num_threads);
         detect_new_max_reco_times = YAMLConfig::getInt("face_detection.detect_new_max_reco_times", detect_new_max_reco_times);
+    const bool auto_register_new_face = Settings::getBool(
+        "auto_register_new_face",
+        YAMLConfig::getBool("face_detection.auto_register_new_face", false));
+    const bool interactive_register_face = IsInteractiveRegisterMode();
     stream_only = Settings::getBool("vision_stream_only", YAMLConfig::getBool("video_stream.stream_only", stream_only));
     stream_publish_always = Settings::getBool(
         "vision_stream_publish_always",
@@ -907,6 +1101,8 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
     std::cout << "[CONFIG] frame_skip_rate=" << frame_skip_rate << std::endl;
     std::cout << "[CONFIG] ncnn_num_threads=" << ncnn_num_threads << std::endl;
     std::cout << "[CONFIG] detect_new_max_reco_times=" << detect_new_max_reco_times << std::endl;
+    std::cout << "[CONFIG] auto_register_new_face=" << (auto_register_new_face ? 1 : 0) << std::endl;
+    std::cout << "[CONFIG] interactive_register_face=" << (interactive_register_face ? 1 : 0) << std::endl;
     std::cout << "[CONFIG] enable_liveness_detection=" << (enable_liveness_detection ? 1 : 0) << std::endl;
     std::cout << "[CONFIG] stream_only=" << (stream_only ? 1 : 0) << std::endl;
     std::cout << "[CONFIG] stream_publish_always=" << (stream_publish_always ? 1 : 0) << std::endl;
@@ -1026,6 +1222,10 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
     // 从配置文件读取 GUI 设置
     bool enable_gui = false;
     const bool allow_interactive_registration = ::isatty(STDIN_FILENO);
+    if (interactive_register_face && !allow_interactive_registration) {
+        std::cerr << "[LiveFaceReco] ❌ register_face 模式需要交互式终端" << std::endl;
+        return -1;
+    }
     
     // 首先尝试从 YAML 配置文件读取 gui.enabled 设置
     ConfigManager gui_config;
@@ -1177,6 +1377,7 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
                 new_tracker.recognition_disabled = false;
                 new_tracker.prompted_for_registration = false;
                 new_tracker.detection_attempts = 0;  // Initialize detection attempts counter
+                new_tracker.stable_face_id = "";
                 new_tracker.last_recognized_name = "";
                 active_trackers[new_tracker.id] = new_tracker;
                 best_tracker_id = new_tracker.id;
@@ -1216,6 +1417,7 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
                     };
                     primary_face["confidence"] = confidence;
                     primary_face["name"] = cur_tracker.last_recognized_name;
+                    primary_face["face_id"] = cur_tracker.stable_face_id;
                     primary_face["liveness"] = !enable_liveness_detection || confidence > true_thre;
                     primary_face["angle"] = angle;
 
@@ -1246,14 +1448,12 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
                 // Determine if we should attempt recognition
                 bool should_recognize = false;
                 const bool recognition_mode_enabled = (!g_bus_bridge) ? true : g_bus_bridge->isRecognitionAllowed();
+                const int max_unknown_attempts = (interactive_register_face || auto_register_new_face)
+                    ? std::max(recognition_max_attempts, detect_new_max_reco_times)
+                    : recognition_max_attempts;
                 if (recognition_mode_enabled) {
-                    if (enable_continuous_recognition) {
-                        should_recognize = true;  // Always recognize in continuous mode
-                    } else {
-                        // Limited mode: only recognize if not disabled and attempts < max
-                        should_recognize = (!cur_tracker.recognition_disabled && 
-                                           cur_tracker.recognition_attempts < recognition_max_attempts);
-                    }
+                    should_recognize = !cur_tracker.recognition_disabled &&
+                        (enable_continuous_recognition || cur_tracker.recognition_attempts < max_unknown_attempts);
                 }
                 
                 // Check angle threshold
@@ -1282,11 +1482,29 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
                         liveface = "Face detected";
                     }
                     
-                    std::string person_name = getClosestFaceDescriptorPersonName(face_descriptors_dict, face_descriptor);
-                    
-                    std::cout << "[DEBUG] 识别结果: person_name=" << (person_name.empty() ? "empty" : person_name) << std::endl;
+                    auto match_result = getClosestFaceDescriptorMatch(face_descriptors_dict, face_descriptor);
+                    std::string matched_face_id = match_result.first;
+                    const double match_score = match_result.second;
+                    std::string person_name = matched_face_id;
+
+                    if (!matched_face_id.empty()) {
+                        reload_face_db_if_changed();
+                        auto matched_record = face_db.get(matched_face_id);
+                        if (!matched_record.has_value()) {
+                            matched_record = face_db.getByName(matched_face_id);
+                        }
+                        if (matched_record.has_value()) {
+                            matched_face_id = matched_record->face_id;
+                            person_name = matched_record->name.empty() ? matched_record->face_id : matched_record->name;
+                        }
+                    }
+
+                    std::cout << "[DEBUG] 识别结果: face_id=" << (matched_face_id.empty() ? "empty" : matched_face_id)
+                              << ", name=" << (person_name.empty() ? "empty" : person_name)
+                              << ", match_score=" << match_score << std::endl;
                     
                     if (!person_name.empty()) {
+                        cur_tracker.stable_face_id = matched_face_id;
                         cur_tracker.last_recognized_name = person_name;
                         cur_tracker.recognition_disabled = true;  // Stop recognition after successful match
                         cur_tracker.detection_attempts = 0;  // Reset detection attempts for known faces
@@ -1299,10 +1517,16 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
                             json rec_payload;
                             rec_payload["event"] = "face_recognized";
                             rec_payload["id"] = cur_tracker.id;
+                            rec_payload["face_id"] = matched_face_id;
                             rec_payload["name"] = person_name;
                             rec_payload["confidence"] = confidence;
+                            rec_payload["match_score"] = match_score;
                             rec_payload["timestamp_ms"] = timestamp;
                             rec_payload["liveness"] = is_real_face;
+                            rec_payload["metadata"] = {
+                                {"match_score", match_score},
+                                {"liveness_confidence", confidence}
+                            };
                             std::cout << "[DEBUG] 📢 准备发布人脸识别事件: " << rec_payload.dump() << std::endl;
                             g_bus_bridge->publishRecognitionEvent(rec_payload);
                             std::cout << "[DEBUG] ✅ 人脸识别事件已发送: " << person_name << std::endl;
@@ -1312,75 +1536,107 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
                         metrics.recognized_faces.fetch_add(1);
                     } else {
                         // Unknown person
-                        if (!enable_continuous_recognition) {
-                            cur_tracker.recognition_attempts++;
-                            std::cout << "[TRACK " << cur_tracker.id << "] attempt " << cur_tracker.recognition_attempts 
-                                      << "/" << recognition_max_attempts << " - unknown" << std::endl;
-                            
-                            if (cur_tracker.recognition_attempts >= recognition_max_attempts) {
-                                cur_tracker.recognition_disabled = true;
-                                std::cout << "[TRACK " << cur_tracker.id << "] max recognition attempts reached, pausing" << std::endl;
-                            }
-                        }
-                        
-                        // Interactive registration: only for REAL faces, prompt user when detection threshold reached
-                        if (record_face && !cur_tracker.prompted_for_registration && is_real_face) {
+                        cur_tracker.recognition_attempts++;
+                        std::cout << "[TRACK " << cur_tracker.id << "] attempt " << cur_tracker.recognition_attempts
+                                  << "/" << max_unknown_attempts << " - unknown" << std::endl;
+
+                        if (!cur_tracker.prompted_for_registration && is_real_face) {
                             cur_tracker.detection_attempts++;
-                            std::cout << "[TRACK " << cur_tracker.id << "] detection attempt " << cur_tracker.detection_attempts 
+                            std::cout << "[TRACK " << cur_tracker.id << "] detection attempt " << cur_tracker.detection_attempts
                                       << "/" << detect_new_max_reco_times << " for new face registration" << std::endl;
                             
                             if (cur_tracker.detection_attempts >= detect_new_max_reco_times) {
                                 cur_tracker.prompted_for_registration = true;
 
-                                if (!allow_interactive_registration) {
-                                    std::cout << "[TRACK " << cur_tracker.id
-                                              << "] interactive registration skipped (non-interactive service mode)"
-                                              << std::endl;
-                                    person_name = "unknown";
-                                    cur_tracker.last_recognized_name = person_name;
-                                    continue;
+                                if (g_bus_bridge && g_bus_bridge->isFaceOpsAllowed()) {
+                                    uint64_t timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                        std::chrono::system_clock::now().time_since_epoch()).count();
+                                    json new_face_payload;
+                                    new_face_payload["event"] = "face_new";
+                                    new_face_payload["tracker_id"] = cur_tracker.id;
+                                    new_face_payload["id"] = cur_tracker.id;
+                                    new_face_payload["detection_count"] = cur_tracker.detection_attempts;
+                                    new_face_payload["bbox"] = {
+                                        {"x1", large_box.x1 * ratio_x},
+                                        {"y1", large_box.y1 * ratio_y},
+                                        {"x2", large_box.x2 * ratio_x},
+                                        {"y2", large_box.y2 * ratio_y}
+                                    };
+                                    new_face_payload["liveness"] = true;
+                                    new_face_payload["confidence"] = confidence;
+                                    new_face_payload["angle"] = angle;
+                                    new_face_payload["timestamp_ms"] = timestamp;
+                                    g_bus_bridge->publishEvent("event.vision.face.new", new_face_payload);
+                                    std::cout << "[DEBUG] ✅ 新人脸事件已发送: " << new_face_payload.dump() << std::endl;
                                 }
 
-                                // Prompt user for name input
-                                std::cout << "\n========================================" << std::endl;
-                                std::cout << "[NEW FACE DETECTED] Please enter a name to register this person," << std::endl;
-                                std::cout << "or press Enter to skip registration:" << std::endl;
-                                std::string user_input;
-                                std::getline(std::cin, user_input);
-                                
-                                // Trim whitespace
-                                user_input.erase(0, user_input.find_first_not_of(" \t\r\n"));
-                                user_input.erase(user_input.find_last_not_of(" \t\r\n") + 1);
-                                
-                                if (!user_input.empty()) {
-                                    // User provided a name - register the face
-                                    auto now = std::chrono::system_clock::now();
-                                    auto timestamp = std::chrono::system_clock::to_time_t(now);
-                                    std::ostringstream oss;
-                                    oss << user_input << "_" << std::setfill('0') << std::setw(10) << timestamp;
-                                    std::string registered_name = oss.str();
-                                    
-                                    // Non-blocking async save
-                                    static AsyncSaver saver;
-                                    saver.saveImageAsync(project_path + "/img/" + registered_name + "_0.jpg", aligned_img);
-                                    face_descriptors_dict[registered_name] = face_descriptor;
-                                    
-                                    std::cout << "[TRACK " << cur_tracker.id << "] registered as: " << registered_name << std::endl;
-                                    std::cout << "========================================\n" << std::endl;
+                                if (interactive_register_face) {
+                                    std::string input_name;
+                                    std::cout << "\n[REGISTER_FACE] 检测到新的人脸，请输入姓名并回车保存（留空跳过）: " << std::flush;
+                                    if (!std::getline(std::cin, input_name)) {
+                                        std::cin.clear();
+                                    }
+                                    input_name = trim_copy(input_name);
+
+                                    if (input_name.empty()) {
+                                        cur_tracker.recognition_disabled = true;
+                                        person_name = "unknown";
+                                        std::cout << "[REGISTER_FACE] 已跳过当前人脸注册" << std::endl;
+                                    } else {
+                                        std::string registered_face_id;
+                                        if (register_face_record(
+                                                cur_tracker,
+                                                aligned_img,
+                                                face_descriptor,
+                                                large_box,
+                                                confidence,
+                                                angle,
+                                                input_name,
+                                                "interactive_cli",
+                                                &registered_face_id)) {
+                                            person_name = input_name;
+                                            std::cout << "[REGISTER_FACE] 注册成功: " << input_name
+                                                      << " (face_id=" << registered_face_id << ")" << std::endl;
+                                        } else {
+                                            cur_tracker.recognition_disabled = true;
+                                            person_name = "unknown";
+                                        }
+                                    }
+                                } else if (auto_register_new_face) {
+                                    std::string registered_face_id;
+                                    if (register_face_record(
+                                            cur_tracker,
+                                            aligned_img,
+                                            face_descriptor,
+                                            large_box,
+                                            confidence,
+                                            angle,
+                                            "",
+                                            "auto_new_face",
+                                            &registered_face_id)) {
+                                        person_name = registered_face_id;
+                                    }
                                 } else {
-                                    // User skipped - mark as temporary unknown
-                                    std::cout << "[TRACK " << cur_tracker.id << "] registration skipped by user" << std::endl;
-                                    std::cout << "========================================\n" << std::endl;
+                                    cur_tracker.recognition_disabled = true;
+                                    person_name = "unknown";
+                                    std::cout << "[TRACK " << cur_tracker.id << "] stranger kept as unknown (auto-register disabled)" << std::endl;
                                 }
                             }
-                        } else if (record_face && !is_real_face) {
+                        } else if ((interactive_register_face || auto_register_new_face) && !is_real_face) {
                             // Detected fake face - skip registration attempts
                             std::cout << "[TRACK " << cur_tracker.id << "] detected as FAKE (confidence=" 
                                       << std::fixed << std::setprecision(3) << confidence 
                                       << "), skipping registration" << std::endl;
                         }
+
+                        if (!cur_tracker.recognition_disabled && cur_tracker.recognition_attempts >= max_unknown_attempts) {
+                            cur_tracker.recognition_disabled = true;
+                            std::cout << "[TRACK " << cur_tracker.id << "] max unknown attempts reached, pausing" << std::endl;
+                        }
                         
-                        person_name = "unknown";
+                        if (person_name.empty()) {
+                            person_name = "unknown";
+                        }
                     }
                     
                     cur_tracker.last_recognized_name = person_name;

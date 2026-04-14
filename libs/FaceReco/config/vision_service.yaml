@@ -15,14 +15,14 @@ bus:
   sub_endpoint: "ipc:///tmp/doly_events.sock"
   initial_mode: "IDLE"
   status_interval_ms: 1000
-  mode_timeout_seconds: 30
+  mode_timeout_seconds: 60
   auto_start: true
 
 # 修复所有警告和转换错误的显式定义
 service:
   status_interval_ms: 1000
   auto_start: true
-  mode_timeout_seconds: 30
+  mode_timeout_seconds: 60
   enable_mode_timeout: true
 
 image_processing:

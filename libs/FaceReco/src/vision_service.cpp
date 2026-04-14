@@ -15,7 +15,7 @@ namespace doly::vision {
 
 VisionService::VisionService(Options options)
     : options_(std::move(options))
-    , face_db_("/home/pi/dolydev/libslibs/FaceReco/data/face_db.json") {}
+    , face_db_("/home/pi/dolydev/libs/FaceReco/data/face_db.json") {}
 
 bool VisionService::loadSettings() {
     if (options_.config_path.empty()) {
@@ -59,6 +59,14 @@ void VisionService::applyRuntimeConfig() {
     // 🔍 打印初始模式配置
     std::cout << "[VisionService] 🎯 初始模式配置: " << runModeToString(bus_config_.initial_mode) << std::endl;
 
+    if (IsInteractiveRegisterMode()) {
+        bus_config_.auto_start = true;
+        bus_config_.initial_mode = RunMode::FULL;
+        bus_config_.enable_mode_timeout = false;
+        bus_config_.mode_timeout_seconds = 0;
+        std::cout << "[VisionService] 📝 register_face 模式启用，强制进入 FULL 模式且不自动超时" << std::endl;
+    }
+
     std::cout << "[VisionService] 👁️ 人脸跟踪配置已加载:"
               << "\n  - 模式: " << bus_config_.tracking_mode
               << "\n  - 眼睛跟踪: " << (bus_config_.gaze_enabled ? "启用" : "禁用") 
@@ -71,7 +79,7 @@ void VisionService::applyRuntimeConfig() {
 
     auto db_path = Settings::getString(
         "vision_face_db_path",
-        YAMLConfig::getString("project.path", "/home/pi/dolydev/libslibs/FaceReco") + "/data/face_db.json");
+        YAMLConfig::getString("project.path", "/home/pi/dolydev/libs/FaceReco") + "/data/face_db.json");
     face_db_.setStoragePath(db_path);
     face_db_.load();
 
@@ -213,6 +221,8 @@ static std::string makeFaceId() {
 nlohmann::json VisionService::handleFaceCommand(const std::string& topic, const nlohmann::json& data) {
     nlohmann::json result;
     result["success"] = false;
+
+    face_db_.load();
 
     auto request_id = data.value("request_id", std::string());
     if (!request_id.empty()) {
@@ -359,6 +369,8 @@ static bool matchesFilter(const FaceRecord& record, const nlohmann::json& filter
 }
 
 nlohmann::json VisionService::handleQuery(const std::string& topic, const nlohmann::json& data) {
+    face_db_.load();
+
     if (topic == "query.vision.face.list") {
         auto filter = data.value("filter", nlohmann::json::object());
         auto limit = data.value("limit", 100);
@@ -379,6 +391,7 @@ nlohmann::json VisionService::handleQuery(const std::string& topic, const nlohma
             faces.push_back({
                 {"face_id", record.face_id},
                 {"name", record.name},
+                {"image_path", record.image_path},
                 {"created_at", record.created_at},
                 {"last_seen", record.last_seen},
                 {"metadata", record.metadata},

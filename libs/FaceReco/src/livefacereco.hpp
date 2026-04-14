@@ -52,6 +52,9 @@ void SetVisionRuntimeContext(doly::vision::RuntimeControl* control,
                              doly::vision::VisionBusBridge* bus,
                              doly::vision::RuntimeMetrics* metrics);
 
+void SetInteractiveRegisterMode(bool enabled);
+bool IsInteractiveRegisterMode();
+
 // 🆕 视频发布器集成
 #include <nora/coms/video_stream/video_stream_publisher.h>
 #include <memory>
