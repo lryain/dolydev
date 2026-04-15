@@ -166,7 +166,9 @@ bool EnsureEyeEngineVideoStreamEnabled(bool force_retry = false) {
         {
             {"action", "enable_video_stream"},
             {"target_lcd", g_video_stream_target_lcd},
-            {"fps", std::max(Settings::getInt("cap_fps", 15), 1)}
+            {"fps", std::max(Settings::getInt("cap_fps", 15), 1)},
+            {"display_mode", "overlay"},
+            {"overlay_style", "full"}
         },
         &response);
 
@@ -196,6 +198,124 @@ void DisableEyeEngineVideoStream() {
 
     g_eyeengine_stream_enabled = false;
     g_eyeengine_next_enable_retry = std::chrono::steady_clock::time_point::min();
+}
+
+std::string EyeEngineSideFromLcdIndex(int lcd_index) {
+    switch (lcd_index) {
+        case 0:
+            return "LEFT";
+        case 1:
+            return "RIGHT";
+        default:
+            return "BOTH";
+    }
+}
+
+std::string BuildEyeEnginePreviewPath(const std::string& source_path, int display_lcd) {
+    std::filesystem::path source(source_path);
+    std::filesystem::path preview_dir = std::filesystem::path(PROJECT_PATH) / "tmp" / "eyeengine_preview";
+    std::error_code ec;
+    std::filesystem::create_directories(preview_dir, ec);
+
+    std::string stem = source.stem().string();
+    if (stem.empty()) {
+        stem = "capture";
+    }
+
+    std::ostringstream oss;
+    oss << stem << "_lcd240_" << EyeEngineSideFromLcdIndex(display_lcd) << ".jpg";
+    return (preview_dir / oss.str()).string();
+}
+
+bool FitImageToSquare(const cv::Mat& src, cv::Mat& dst, int target_size) {
+    if (src.empty() || target_size <= 0) {
+        return false;
+    }
+
+    const double scale = std::min(static_cast<double>(target_size) / std::max(1, src.cols),
+                                  static_cast<double>(target_size) / std::max(1, src.rows));
+    const int new_w = std::max(1, static_cast<int>(std::round(src.cols * scale)));
+    const int new_h = std::max(1, static_cast<int>(std::round(src.rows * scale)));
+
+    cv::Mat resized;
+    cv::resize(src, resized, cv::Size(new_w, new_h), 0, 0, cv::INTER_AREA);
+
+    cv::Mat canvas(target_size, target_size, resized.type(), cv::Scalar::all(0));
+    const int offset_x = (target_size - new_w) / 2;
+    const int offset_y = (target_size - new_h) / 2;
+    resized.copyTo(canvas(cv::Rect(offset_x, offset_y, new_w, new_h)));
+    dst = canvas;
+    return true;
+}
+
+bool ShowCapturedPhotoOnEyeEngine(const std::string& file_path, float display_duration_s, int display_lcd) {
+    if (file_path.empty() || display_duration_s <= 0.0f) {
+        return false;
+    }
+
+    cv::Mat source = cv::imread(file_path, cv::IMREAD_COLOR);
+    if (source.empty()) {
+        std::cerr << "[FaceReco] 无法读取抓拍图片用于 LCD 适配: " << file_path << std::endl;
+        return false;
+    }
+
+    cv::Mat preview;
+    if (!FitImageToSquare(source, preview, 240)) {
+        std::cerr << "[FaceReco] 抓拍图片 LCD 适配失败: " << file_path << std::endl;
+        return false;
+    }
+
+    const std::string preview_path = BuildEyeEnginePreviewPath(file_path, display_lcd);
+    try {
+        if (!cv::imwrite(preview_path, preview)) {
+            std::cerr << "[FaceReco] 无法写入 LCD 预览图: " << preview_path << std::endl;
+            return false;
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "[FaceReco] 写入 LCD 预览图异常: " << e.what() << std::endl;
+        return false;
+    }
+
+    json response;
+    const std::string side = EyeEngineSideFromLcdIndex(display_lcd);
+    const bool ok = SendEyeEngineCommand(
+        {
+            {"action", "play_overlay_image_sync"},
+            {"image", preview_path},
+            {"side", side},
+            {"loop", false}
+        },
+        &response);
+
+    if (!ok) {
+        std::cerr << "[FaceReco] 拍照后显示照片失败: 无法启动 overlay, file=" << preview_path << std::endl;
+        return false;
+    }
+
+    const std::string overlay_id = response.value("overlay_id", std::string());
+    if (overlay_id.empty()) {
+        std::cerr << "[FaceReco] 拍照后显示照片失败: 未返回 overlay_id, response=" << response.dump() << std::endl;
+        return false;
+    }
+
+    std::thread([overlay_id, display_duration_s]() {
+        std::this_thread::sleep_for(std::chrono::milliseconds(
+            static_cast<int>(display_duration_s * 1000.0f)));
+        json stop_response;
+        if (!SendEyeEngineCommand(
+                {
+                    {"action", "stop_overlay_image_sync"},
+                    {"overlay_id", overlay_id}
+                },
+                &stop_response)) {
+            std::cerr << "[FaceReco] 停止照片 overlay 失败: overlay_id=" << overlay_id << std::endl;
+        }
+    }).detach();
+
+    std::cout << "[FaceReco] 已通知 eyeEngine 显示抓拍照片: side=" << side
+              << ", duration=" << display_duration_s << "s, overlay_id=" << overlay_id
+              << ", preview=" << preview_path << std::endl;
+    return true;
 }
 
 }  // namespace
@@ -275,7 +395,9 @@ void PublishCurrentFrame(const cv::Mat& frame) {
     }
 
     if (!g_eyeengine_stream_enabled) {
-        EnsureEyeEngineVideoStreamEnabled();
+        if (!EnsureEyeEngineVideoStreamEnabled()) {
+            return;
+        }
     }
     
     try {
@@ -1164,6 +1286,9 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
             }
         }
 
+        // 先主动停一次，避免 PiCamera 内部视频线程残留导致 “video thread already running”
+        stop_camera_video(false);
+
         for (int attempt = 1; attempt <= 2; ++attempt) {
             try {
                 if (attempt > 1) {
@@ -1998,11 +2123,10 @@ int MTCNNDetection(doly::vision::RuntimeControl& control,
                         if (display_duration > 0.0f) {
                             std::cout << "[DEBUG] 📷 显示照片到LCD " << display_lcd 
                                       << " 持续 " << display_duration << "秒" << std::endl;
-                            
-                            // 发送命令到eyeEngine显示图片
-                            // TODO: 需要通过ZMQ发送命令
-                            // 暂时只记录日志
-                            std::cout << "[DEBUG] ✅ 照片路径: " << file_path.string() << std::endl;
+
+                            if (!ShowCapturedPhotoOnEyeEngine(file_path.string(), display_duration, display_lcd)) {
+                                std::cout << "[DEBUG] ❌ eyeEngine 未能显示照片: " << file_path.string() << std::endl;
+                            }
                         }
                     }
                 } catch (const std::exception& e) {

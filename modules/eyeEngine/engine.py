@@ -876,6 +876,8 @@ class EyeEngine:
 
         self._video_stream_consumer = consumer
         self._video_stream_stop_event.clear()
+        self._video_stream_active = True
+        self._video_stream_resume_pending = False
 
         # 创建 overlay
         overlay_id = "video_stream"

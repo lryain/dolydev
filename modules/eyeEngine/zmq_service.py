@@ -123,6 +123,89 @@ class EyeEngineZmqService:
 
         return {"success": True, "task_id": f"play_overlay_image_{image}"}
 
+    def _cmd_stop_overlay_image_sync(self, cmd: Dict, priority: int) -> Dict:
+        """同步停止 overlay 图片（与 play_overlay_image_sync 配套）"""
+        overlay_id = cmd.get('overlay_id')
+    def _cmd_stop_overlay_image_sync(self, cmd: Dict, priority: int) -> Dict:
+        """同步停止 overlay 图片（与 play_overlay_image_sync 配套）"""
+        overlay_id = cmd.get('overlay_id')
+        if not overlay_id:
+            return {"success": False, "error": "缺少 overlay_id"}
+
+        def stop_cb():
+            ok = self.engine.stop_overlay_sequence(overlay_id)
+            if not ok:
+                raise RuntimeError(f"stop_overlay_image failed for {overlay_id}")
+            return True
+
+        accepted, result = self.task_manager.submit_task_sync(f"stop_overlay_image_sync_{overlay_id}", stop_cb, priority=priority)
+        if not accepted:
+            return self._priority_reject()
+        if isinstance(result, str) and result.startswith('Traceback'):
+            return {"success": False, "error": result}
+        try:
+            self._publish_event('overlay.stopped', {"overlay_id": overlay_id})
+        except Exception:
+            logger.exception("_cmd_stop_overlay_image_sync: unable to publish overlay.stopped event")
+        return {"success": True, "stopped": True}
+
+    def _cmd_stop_overlay_image(self, cmd: Dict, priority: int) -> Dict:
+        """停止 overlay 图片（异步）"""
+        overlay_id = cmd.get('overlay_id')
+        if not overlay_id:
+            return {"success": False, "error": "缺少 overlay_id"}
+
+        def task():
+            ok = self.engine.stop_overlay_sequence(overlay_id)
+            if ok:
+                self._publish_event('overlay.stopped', {"overlay_id": overlay_id})
+            else:
+                raise RuntimeError(f"stop_overlay_image failed for {overlay_id}")
+
+        task_id = f"stop_overlay_image_{overlay_id}"
+        accepted = self.task_manager.submit_task(task_id, task, priority, blocking=False)
+        if not accepted:
+            return self._priority_reject()
+        return {"success": True, "task_id": task_id}
+        if not overlay_id:
+            return {"success": False, "error": "缺少 overlay_id"}
+
+        def stop_cb():
+            ok = self.engine.stop_overlay_sequence(overlay_id)
+            if not ok:
+                raise RuntimeError(f"stop_overlay_image failed for {overlay_id}")
+            return True
+
+            accepted, result = self.task_manager.submit_task_sync(f"stop_overlay_image_sync_{overlay_id}", stop_cb, priority=priority)
+            if not accepted:
+                return self._priority_reject()
+            if isinstance(result, str) and result.startswith('Traceback'):
+                return {"success": False, "error": result}
+            try:
+                self._publish_event('overlay.stopped', {"overlay_id": overlay_id})
+            except Exception:
+                logger.exception("_cmd_stop_overlay_image_sync: unable to publish overlay.stopped event")
+            return {"success": True, "stopped": True}
+
+        def _cmd_stop_overlay_image(self, cmd: Dict, priority: int) -> Dict:
+            """停止 overlay 图片（异步）"""
+            overlay_id = cmd.get('overlay_id')
+            if not overlay_id:
+                return {"success": False, "error": "缺少 overlay_id"}
+
+            def task():
+                ok = self.engine.stop_overlay_sequence(overlay_id)
+                if ok:
+                    self._publish_event('overlay.stopped', {"overlay_id": overlay_id})
+                else:
+                    raise RuntimeError(f"stop_overlay_image failed for {overlay_id}")
+
+            task_id = f"stop_overlay_image_{overlay_id}"
+            accepted = self.task_manager.submit_task(task_id, task, priority, blocking=False)
+            if not accepted:
+                return self._priority_reject()
+            return {"success": True, "task_id": task_id}
+
     def _cmd_play_overlay_image_sync(self, cmd: Dict, priority: int) -> Dict:
         """同步播放 overlay 图片并返回 overlay_id（尊重优先级检查）"""
         image = cmd.get('image')

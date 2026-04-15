@@ -421,28 +421,17 @@ class FaceRecoManager:
             logger.warning(f"[FaceRecoManager] ⚠️ 录像时长超过限制，调整为 {max_duration} 秒")
             duration = max_duration
         
-        # ★★★ 根据配置决定是否需要人脸跟踪 ★★★
-        if not disable_face_tracking and self.vision_mode_manager:
-            # 需要人脸跟踪：切换到 DETECT_TRACK 模式（不会执行人脸识别，只做检测+跟踪）
+        # ★★★ 录像只做推流，不做人脸识别 ★★★
+        # 统一切换到 STREAM_ONLY，避免录像期间触发任何人脸检测/识别链路
+        if self.vision_mode_manager:
             timeout = duration + 5
-            success = self.vision_mode_manager.set_mode('DETECT_TRACK', timeout=timeout)
+            success = self.vision_mode_manager.set_mode('STREAM_ONLY', timeout=timeout)
             if not success:
-                logger.error("[FaceRecoManager] ❌ 切换到 DETECT_TRACK 模式失败")
+                logger.error("[FaceRecoManager] ❌ 切换到 STREAM_ONLY 模式失败")
                 if self.tts_client:
                     self.tts_client.speak("录像模式启动失败")
                 return False
-            logger.info(f"[FaceRecoManager] ✅ 已切换到 DETECT_TRACK 模式（{duration}秒）")
-        else:
-            # 不需要人脸跟踪：切换到 STREAM_ONLY，避免录像期间触发人脸识别逻辑
-            if self.vision_mode_manager:
-                timeout = duration + 5
-                success = self.vision_mode_manager.set_mode('STREAM_ONLY', timeout=timeout)
-                if not success:
-                    logger.error("[FaceRecoManager] ❌ 切换到 STREAM_ONLY 模式失败")
-                    if self.tts_client:
-                        self.tts_client.speak("录像模式启动失败")
-                    return False
-            logger.info(f"[FaceRecoManager] 📹 录像模式（无人脸跟踪）已启动（{duration}秒）")
+        logger.info(f"[FaceRecoManager] 📹 录像模式已切换为 STREAM_ONLY（{duration}秒，仅推流）")
         
         # 播放提示
         if self.tts_client:

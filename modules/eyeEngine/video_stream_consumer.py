@@ -261,31 +261,41 @@ class VideoStreamConsumer:
 
 
 def resize_frame(frame: np.ndarray, target_size: int = 240) -> np.ndarray:
-    """缩放到 LCD 大小（240x240）。"""
+    """等比缩放并留边填充到 LCD 大小（240x240）。"""
     if frame is None:
         return frame
     h, w = frame.shape[:2]
     if h == target_size and w == target_size:
         return frame
 
-    # 快速裁剪到正方形（避免昂贵的 resize）
-    if h == target_size and w > target_size:
-        start = (w - target_size) // 2
-        return frame[:, start:start + target_size]
-    if w == target_size and h > target_size:
-        start = (h - target_size) // 2
-        return frame[start:start + target_size, :]
-
-    # 其他情况回退到 resize
+    # 等比缩放到目标框内，避免把 4:3 内容直接裁成 1:1 造成“放大感”
     try:
         import cv2
-        return cv2.resize(frame, (target_size, target_size), interpolation=cv2.INTER_AREA)
+        scale = min(target_size / max(1, w), target_size / max(1, h))
+        new_w = max(1, int(round(w * scale)))
+        new_h = max(1, int(round(h * scale)))
+        resized = cv2.resize(frame, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
+        if len(frame.shape) == 2:
+            canvas = np.zeros((target_size, target_size), dtype=frame.dtype)
+        else:
+            channels = frame.shape[2]
+            canvas = np.zeros((target_size, target_size, channels), dtype=frame.dtype)
+
+        offset_x = (target_size - new_w) // 2
+        offset_y = (target_size - new_h) // 2
+        canvas[offset_y:offset_y + new_h, offset_x:offset_x + new_w] = resized
+        return canvas
     except Exception:
         try:
             from PIL import Image
             img = Image.fromarray(frame)
-            img = img.resize((target_size, target_size), Image.BILINEAR)
-            return np.array(img)
+            img.thumbnail((target_size, target_size), Image.Resampling.LANCZOS)
+            canvas = Image.new(img.mode, (target_size, target_size), 0)
+            offset_x = (target_size - img.width) // 2
+            offset_y = (target_size - img.height) // 2
+            canvas.paste(img, (offset_x, offset_y))
+            return np.array(canvas)
         except Exception:
             logger.exception("VideoStreamConsumer: resize failed")
             return frame
