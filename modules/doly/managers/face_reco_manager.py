@@ -335,39 +335,39 @@ class FaceRecoManager:
     
     def handle_take_photo_command(self, **kwargs) -> bool:
         """
-        处理拍照命令（cmd_ActTakePhoto, 0x0D）
+        处理拍摄命令（cmd_ActTakePhoto, 0x0D）
         
         流程：
         1. 切换到 STREAM_ONLY 模式（仅采集，不做人脸识别）
-        2. 发送拍照命令到 FaceReco（通过 ZMQ）
+        2. 发送拍摄命令到 FaceReco（通过 ZMQ）
         3. 完成后自动回 IDLE
         
         Returns:
             是否成功
         """
-        logger.info("[FaceRecoManager] 📸 收到语音命令: cmd_ActTakePhoto (拍照)")
+        logger.info("[FaceRecoManager] 📸 收到语音命令: cmd_ActTakePhoto (拍摄)")
         
         if not self.vision_mode_manager:
             logger.warning("[FaceRecoManager] VisionModeManager 未设置")
             if self.tts_client:
-                self.tts_client.speak("拍照功能暂时不可用")
+                self.tts_client.speak("拍摄功能暂时不可用")
             return False
         
         # 切换到 STREAM_ONLY 模式，确保相机活跃但不触发人脸识别
         success = self.vision_mode_manager.set_mode('STREAM_ONLY', timeout=10)
         
         if success:
-            logger.info("[FaceRecoManager] ✅ 拍照模式已启动")
+            logger.info("[FaceRecoManager] ✅ 拍摄模式已启动")
             
             # 播放提示
             if self.tts_client:
-                self.tts_client.speak("3，2，1，茄子！")
+                self.tts_client.speak("3,2,1,茄子!")
             
-            # ✅ 发送拍照指令到 Vision Service
+            # ✅ 发送拍摄指令到 Vision Service
             if not self.zmq_publisher:
-                logger.error("[FaceRecoManager] ❌ ZMQ Publisher 未初始化，无法发送拍照命令")
+                logger.error("[FaceRecoManager] ❌ ZMQ Publisher 未初始化，无法发送拍摄命令")
                 if self.tts_client:
-                    self.tts_client.speak("拍照失败，请重试")
+                    self.tts_client.speak("拍摄失败，请重试")
                 return False
             
             try:
@@ -377,65 +377,65 @@ class FaceRecoManager:
                     "save_snapshot": True
                 }
                 
-                logger.info(f"[FaceRecoManager] 📤 发送拍照命令到 FaceReco: {capture_command}")
+                logger.info(f"[FaceRecoManager] 📤 发送拍摄命令到 FaceReco: {capture_command}")
                 self.zmq_publisher.publish_command(
                     topic="cmd.vision.capture.photo",
                     data=capture_command
                 )
                 
-                logger.info("[FaceRecoManager] ✅ 拍照命令已发送到 FaceReco")
+                logger.info("[FaceRecoManager] ✅ 拍摄命令已发送到 FaceReco")
                 
             except Exception as e:
-                logger.error(f"[FaceRecoManager] ❌ 发送拍照命令失败: {e}", exc_info=True)
+                logger.error(f"[FaceRecoManager] ❌ 发送拍摄命令失败: {e}", exc_info=True)
                 if self.tts_client:
-                    self.tts_client.speak("拍照失败，请重试")
+                    self.tts_client.speak("拍摄失败，请重试")
                 return False
         else:
-            logger.error("[FaceRecoManager] ❌ 拍照模式启动失败")
+            logger.error("[FaceRecoManager] ❌ 拍摄模式启动失败")
             if self.tts_client:
-                self.tts_client.speak("拍照失败")
+                self.tts_client.speak("拍摄失败")
         
         return success
     
     def handle_take_video_command(self, duration: int = 10, **kwargs) -> bool:
         """
-        处理录像命令（cmd_ActTakeVideo, 0x0E）
+        处理录制命令（cmd_ActTakeVideo, 0x0E）
         
         Args:
-            duration: 录像时长（秒）
+            duration: 录制时长（秒）
             **kwargs: 其他参数
         
         Returns:
             是否成功
         """
-        logger.info(f"[FaceRecoManager] 🎥 收到语音命令: cmd_ActTakeVideo (录像 {duration}秒)")
+        logger.info(f"[FaceRecoManager] 🎥 收到语音命令: cmd_ActTakeVideo (录制 {duration}秒)")
         
-        # 获取录像配置
+        # 获取录制配置
         video_config = self.config.get('face_recognition', {}).get('video', {})
         max_duration = video_config.get('max_duration', 60)
         enable_stream_preview = video_config.get('enable_stream_preview', True)
         disable_face_tracking = video_config.get('disable_face_tracking', True)
         
-        # 限制录像时长
+        # 限制录制时长
         if duration > max_duration:
-            logger.warning(f"[FaceRecoManager] ⚠️ 录像时长超过限制，调整为 {max_duration} 秒")
+            logger.warning(f"[FaceRecoManager] ⚠️ 录制时长超过限制，调整为 {max_duration} 秒")
             duration = max_duration
         
-        # ★★★ 录像只做推流，不做人脸识别 ★★★
-        # 统一切换到 STREAM_ONLY，避免录像期间触发任何人脸检测/识别链路
+        # ★★★ 录制只做推流，不做人脸识别 ★★★
+        # 统一切换到 STREAM_ONLY，避免录制期间触发任何人脸检测/识别链路
         if self.vision_mode_manager:
             timeout = duration + 5
             success = self.vision_mode_manager.set_mode('STREAM_ONLY', timeout=timeout)
             if not success:
                 logger.error("[FaceRecoManager] ❌ 切换到 STREAM_ONLY 模式失败")
                 if self.tts_client:
-                    self.tts_client.speak("录像模式启动失败")
+                    self.tts_client.speak("录制模式启动失败")
                 return False
-        logger.info(f"[FaceRecoManager] 📹 录像模式已切换为 STREAM_ONLY（{duration}秒，仅推流）")
+        logger.info(f"[FaceRecoManager] 📹 录制模式已切换为 STREAM_ONLY（{duration}秒，仅推流）")
         
         # 播放提示
         if self.tts_client:
-            self.tts_client.speak(f"开始录像，时长{duration}秒")
+            self.tts_client.speak(f"开始录制，时长{duration}秒")
         
         # ✅ 发送录视开始指令到 Vision Service
         if not self.zmq_publisher:
@@ -454,7 +454,7 @@ class FaceRecoManager:
             }
             
             logger.info(f"[FaceRecoManager] 📤 发送录视开始命令到 FaceReco: {video_start_command}")
-            logger.info(f"[FaceRecoManager] � 录像配置: enable_stream_preview={enable_stream_preview}, disable_face_tracking={disable_face_tracking}")
+            logger.info(f"[FaceRecoManager] � 录制配置: enable_stream_preview={enable_stream_preview}, disable_face_tracking={disable_face_tracking}")
             self.zmq_publisher.publish_command(
                 topic="cmd.vision.capture.video.start",
                 data=video_start_command
@@ -462,13 +462,13 @@ class FaceRecoManager:
             
             logger.info("[FaceRecoManager] ✅ 录视开始命令已发送到 FaceReco")
             
-            # ✅ 设置强力定时器自动停止录像（使用线程池，避免被主线程堵住）
+            # ✅ 设置强力定时器自动停止录制（使用线程池，避免被主线程堵住）
             def stop_video_recording():
                 try:
                     # 延迟一段时间后停止
                     time.sleep(duration)
                     
-                    logger.info(f"[FaceRecoManager] ⏱️ 录像时长到期，发送停止命令 (request_id={request_id})")
+                    logger.info(f"[FaceRecoManager] ⏱️ 录制时长到期，发送停止命令 (request_id={request_id})")
                     video_stop_command = {
                         "request_id": request_id,
                         "type": "video_stop"
@@ -476,16 +476,16 @@ class FaceRecoManager:
                     
                     # 确保 ZMQ 发布器可用
                     if not self.zmq_publisher:
-                        logger.error(f"[FaceRecoManager] ❌ ZMQ Publisher 不可用，无法停止录像")
+                        logger.error(f"[FaceRecoManager] ❌ ZMQ Publisher 不可用，无法停止录制")
                         return
                     
                     self.zmq_publisher.publish_command(
                         topic="cmd.vision.capture.video.stop",
                         data=video_stop_command
                     )
-                    logger.info("[FaceRecoManager] ✅ 录像停止命令已发送")
+                    logger.info("[FaceRecoManager] ✅ 录制停止命令已发送")
                 except Exception as e:
-                    logger.error(f"[FaceRecoManager] ❌ 发送录像停止命令失败: {e}", exc_info=True)
+                    logger.error(f"[FaceRecoManager] ❌ 发送录制停止命令失败: {e}", exc_info=True)
             
             # ★★★ 使用线程池而不是 Timer，确保不被主线程堵住 ★★★
             import concurrent.futures
@@ -494,7 +494,7 @@ class FaceRecoManager:
             
             # 提交到线程池
             self._executor.submit(stop_video_recording)
-            logger.info(f"[FaceRecoManager] ⏱️ 已在后台线程设置 {duration} 秒后自动停止录像")
+            logger.info(f"[FaceRecoManager] ⏱️ 已在后台线程设置 {duration} 秒后自动停止录制")
             
         except Exception as e:
             logger.error(f"[FaceRecoManager] ❌ 发送录视命令失败: {e}", exc_info=True)
@@ -1037,7 +1037,7 @@ class FaceRecoManager:
                 except Exception as e:
                     logger.error(f"[FaceRecoManager] 处理 face event 出错: {e}", exc_info=True)
                     return False
-            # ★★★ 新增：拍照/录像结果事件 ★★★
+            # ★★★ 新增：拍摄/录制结果事件 ★★★
             elif event.topic == 'event.vision.capture.complete':
                 return self._handle_capture_complete_event(event_data)
             elif event.topic == 'event.vision.capture.started':
@@ -1979,11 +1979,11 @@ class FaceRecoManager:
             self.confirmation_handler.tts_client = tts_client
             logger.debug("[FaceRecoManager] ConfirmationHandler TTS 已设置")
     
-    # ========== 拍照/录像结果处理 ==========
+    # ========== 拍摄/录制结果处理 ==========
     
     def _handle_capture_complete_event(self, event_data: Dict[str, Any]) -> bool:
         """
-        处理拍照/录像完成事件
+        处理拍摄/录制完成事件
         
         Args:
             event_data: 事件数据
@@ -2006,13 +2006,13 @@ class FaceRecoManager:
             success = event_data.get('success', False)
             request_id = event_data.get('request_id', '')
             
-            logger.info(f"[FaceRecoManager] 📸 收到拍照/录像完成事件: type={capture_type}, success={success}")
+            logger.info(f"[FaceRecoManager] 📸 收到拍摄/录制完成事件: type={capture_type}, success={success}")
             
             if not success:
                 error = event_data.get('error', '未知错误')
-                logger.error(f"[FaceRecoManager] ❌ 拍照/录像失败: {error}")
+                logger.error(f"[FaceRecoManager] ❌ 拍摄/录制失败: {error}")
                 if self.tts_client:
-                    self.tts_client.speak(f"{'拍照' if capture_type == 'photo' else '录像'}失败")
+                    self.tts_client.speak(f"{'拍摄' if capture_type == 'photo' else '录制'}失败")
                 return False
             
             file_path = event_data.get('file_path', '')
@@ -2031,12 +2031,12 @@ class FaceRecoManager:
                 return False
                 
         except Exception as e:
-            logger.error(f"[FaceRecoManager] ❌ 处理拍照/录像完成事件失败: {e}", exc_info=True)
+            logger.error(f"[FaceRecoManager] ❌ 处理拍摄/录制完成事件失败: {e}", exc_info=True)
             return False
     
     def _handle_photo_complete(self, event_data: Dict[str, Any], file_path: str) -> bool:
         """
-        处理拍照完成
+        处理拍摄完成
         
         Args:
             event_data: 事件数据
@@ -2046,9 +2046,9 @@ class FaceRecoManager:
             是否处理成功
         """
         try:
-            logger.info(f"[FaceRecoManager] 📸 处理拍照完成: {file_path}")
+            logger.info(f"[FaceRecoManager] 📸 处理拍摄完成: {file_path}")
             
-            # 获取拍照配置
+            # 获取拍摄配置
             photo_config = self.config.get('face_recognition', {}).get('photo', {})
             
             # 1. 显示照片到屏幕
@@ -2119,19 +2119,19 @@ class FaceRecoManager:
             if self.tts_client:
                 faces_count = event_data.get('faces_detected', 0)
                 if faces_count > 0:
-                    self.tts_client.speak(f"拍照完成，检测到{faces_count}张人脸")
+                    self.tts_client.speak(f"拍摄完成，检测到{faces_count}张人脸")
                 else:
-                    self.tts_client.speak("拍照完成")
+                    self.tts_client.speak("拍摄完成")
             
             return True
             
         except Exception as e:
-            logger.error(f"[FaceRecoManager] ❌ 处理拍照完成失败: {e}", exc_info=True)
+            logger.error(f"[FaceRecoManager] ❌ 处理拍摄完成失败: {e}", exc_info=True)
             return False
     
     def _handle_video_complete(self, event_data: Dict[str, Any], file_path: str) -> bool:
         """
-        处理录像完成
+        处理录制完成
         
         Args:
             event_data: 事件数据
@@ -2141,7 +2141,7 @@ class FaceRecoManager:
             是否处理成功
         """
         try:
-            logger.info(f"[FaceRecoManager] 🎥 处理录像完成: {file_path}")
+            logger.info(f"[FaceRecoManager] 🎥 处理录制完成: {file_path}")
             
             # ★★★ 检查视频文件大小，诊断 FaceReco 的 video_record 问题 ★★★
             import os
@@ -2156,16 +2156,16 @@ class FaceRecoManager:
                     logger.error("[FaceRecoManager] ⚠️ 诊断: FaceReco 的 video_record 模块可能未实现")
                     
                     if self.tts_client:
-                        self.tts_client.speak("录像失败：视频保存出错，功能暂不可用")
+                        self.tts_client.speak("录制失败：视频保存出错，功能暂不可用")
                     
                     return False
             else:
                 logger.error(f"[FaceRecoManager] ❌ 视频文件不存在: {file_path}")
                 if self.tts_client:
-                    self.tts_client.speak("录像失败：文件未生成")
+                    self.tts_client.speak("录制失败：文件未生成")
                 return False
             
-            # 获取录像配置
+            # 获取录制配置
             video_config = self.config.get('face_recognition', {}).get('video', {})
             
             # 发送邮件（如果配置了）
@@ -2178,17 +2178,17 @@ class FaceRecoManager:
             
             # TTS 反馈
             if self.tts_client:
-                self.tts_client.speak("录像完成")
+                self.tts_client.speak("录制完成")
             
             return True
             
         except Exception as e:
-            logger.error(f"[FaceRecoManager] ❌ 处理录像完成失败: {e}", exc_info=True)
+            logger.error(f"[FaceRecoManager] ❌ 处理录制完成失败: {e}", exc_info=True)
             return False
     
     def _handle_capture_started_event(self, event_data: Dict[str, Any]) -> bool:
         """
-        处理拍照/录像开始事件
+        处理拍摄/录制开始事件
         
         Args:
             event_data: 事件数据
@@ -2198,10 +2198,10 @@ class FaceRecoManager:
         """
         try:
             capture_type = event_data.get('type', 'unknown')
-            logger.info(f"[FaceRecoManager] 📹 拍照/录像已开始: type={capture_type}")
+            logger.info(f"[FaceRecoManager] 📹 拍摄/录制已开始: type={capture_type}")
             return True
         except Exception as e:
-            logger.error(f"[FaceRecoManager] ❌ 处理拍照/录像开始事件失败: {e}", exc_info=True)
+            logger.error(f"[FaceRecoManager] ❌ 处理拍摄/录制开始事件失败: {e}", exc_info=True)
             return False
     
     def _send_photo_email(self, photo_path: str, recipients: List[str], event_data: Dict[str, Any]) -> bool:
