@@ -95,6 +95,13 @@ class DolyDaemon:
         self.config = {}
         try:
             import yaml
+            system_cfg_path = self.config_dir / 'system.yaml'
+            if system_cfg_path.exists():
+                with open(system_cfg_path, 'r', encoding='utf-8') as f:
+                    self.config['system'] = yaml.safe_load(f) or {}
+            else:
+                self.config['system'] = {}
+
             tof_cfg_path = self.config_dir / 'tof_integration.yaml'
             if tof_cfg_path.exists():
                 with open(tof_cfg_path, 'r', encoding='utf-8') as f:
@@ -140,11 +147,14 @@ class DolyDaemon:
         self.voice_manager = VoiceCommandManager(str(self.config_dir / "voice_command_mapping.yaml"))
         
         # ★★★ 初始化音量管理器 ★★★
+        audio_volume_cfg = self.config.get('system', {}).get('audio_volume', {})
         audio_config = {
-            'max_volume': 100,
-            'min_volume': 0,
-            'step': 10,
-            'default_volume': 80,
+            'max_volume': audio_volume_cfg.get('max_volume', 127),
+            'min_volume': audio_volume_cfg.get('min_volume', 0),
+            'step': audio_volume_cfg.get('step', 10),
+            'default_volume': audio_volume_cfg.get('default_volume', 80),
+            'mute_volume': audio_volume_cfg.get('mute_volume', 30),
+            'control_name': audio_volume_cfg.get('control_name', 'Speaker'),
         }
         self.audio_volume_manager = AudioVolumeManager(config=audio_config)
         
@@ -665,6 +675,12 @@ class DolyDaemon:
             logger.info(f"[Voice] 提取命令: cmd={cmd}")
             # 更新最后交互时间
             self.last_interaction_time = time.time()
+
+            # TTS 播放期间忽略系统音量类语音命令，避免把机器人自己的播报识别成指令
+            if cmd in {'cmd_SysVolMute', 'cmd_SysVolNorm', 'cmd_SysVolUp', 'cmd_SysVolDown'} and self._is_tts_playback_active():
+                logger.info(f"[Voice] 忽略 TTS 播放期间的音量命令: {cmd}")
+                return
+
             # 如果收到静音命令，切换 actions_muted
             if cmd == 'cmd_SysVolMute':
                 self.actions_muted = not getattr(self, 'actions_muted', False)
@@ -765,6 +781,24 @@ class DolyDaemon:
             
             # 如果没有 command 字段，使用空字符串让 _process_voice_command 自己推导
             self._process_voice_command(command_name, event.data)
+
+    def _is_tts_playback_active(self) -> bool:
+        """判断当前是否正在播放 TTS 音频。"""
+        tts_manager = getattr(self, 'tts_manager', None)
+        if not tts_manager:
+            return False
+
+        playback_queue = getattr(tts_manager, 'playback_queue', None)
+        if not playback_queue:
+            return False
+
+        try:
+            return bool(
+                getattr(playback_queue, 'is_playing', False)
+                or playback_queue.task_queue.qsize() > 0
+            )
+        except Exception:
+            return False
     
     def _on_touch_event(self, event: DolyEvent) -> None:
         """处理触摸事件"""

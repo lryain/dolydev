@@ -190,6 +190,15 @@ tts:
   eyengine:
     emotion_enabled: true
 
+# ===== 音量控制配置 =====
+audio_volume:
+  control_name: "Speaker"      # wm8960 默认输出控制项
+  max_volume: 127               # wm8960 Speaker 原始刻度上限
+  min_volume: 0
+  step: 10                      # 原始刻度步进
+  default_volume: 80            # 取消静音后恢复到的原始音量值
+  mute_volume: 30               # 执行静音时保留的最低原始音量值，避免彻底归零
+
 # ===== LLM AI 大模型配置 =====
 llm:
   enabled: true
