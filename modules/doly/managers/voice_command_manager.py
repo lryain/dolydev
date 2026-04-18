@@ -730,6 +730,7 @@ class VoiceCommandHandlers:
         # 如果配置了动画，播放动画
         animation = mapping.get('animation')
         if animation and self.animation_manager:
+            print(f"------> [Photo] 播放拍照动画: {animation}")
             self.animation_manager.play_animation(animation, priority=7)
         
         # TODO: 调用相机模块
