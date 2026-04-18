@@ -361,7 +361,7 @@ class FaceRecoManager:
             
             # 播放提示
             if self.tts_client:
-                self.tts_client.speak("准备拍照，请看镜头")
+                self.tts_client.speak("3，2，1，茄子！")
             
             # ✅ 发送拍照指令到 Vision Service
             if not self.zmq_publisher:

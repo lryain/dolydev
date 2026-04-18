@@ -1,23 +1,23 @@
 [
   {
-    "created_at": "2026-04-18T03:07:23Z",
+    "created_at": "2026-04-18T12:10:22Z",
     "face_id": "0001",
     "image_path": "/home/pi/dolydev/libs/FaceReco/img/0001_0.jpg",
-    "last_seen": "2026-04-18T03:07:23Z",
+    "last_seen": "2026-04-18T12:10:22Z",
     "metadata": {
-      "angle": 13.150529861450195,
+      "angle": 0.02199518494307995,
       "bbox": {
-        "x1": 47.0,
-        "x2": 278.0,
-        "y1": 0.0,
-        "y2": 198.0
+        "x1": 175.0,
+        "x2": 319.0,
+        "y1": 140.0,
+        "y2": 239.0
       },
       "confidence": 1.0,
       "liveness": true,
       "register_source": "interactive_cli",
-      "tracker_id": 1
+      "tracker_id": 3
     },
-    "name": "Kevin",
+    "name": "lily",
     "sample_count": 1
   }
 ]
