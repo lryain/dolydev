@@ -156,16 +156,31 @@ main() {
     print_status "仓库根目录: $REPO_ROOT"
     sync_repository
 
+    print_status "更新python虚拟环境..."
+    if [[ -f "/home/pi/dolydev/.venv/bin/activate" ]]; then
+        # shellcheck disable=SC1090
+        source "/home/pi/dolydev/.venv/bin/activate"
+        if [[ -f "/home/pi/dolydev/libs/requirements.txt" ]]; then
+            pip install -r "/home/pi/dolydev/libs/requirements.txt"
+            print_success "Python依赖已更新。"
+        else
+            print_warning "未找到 requirements.txt，跳过 Python 依赖更新。"
+        fi
+    else
+        print_warning "未找到 Python 虚拟环境，跳过 Python 依赖更新。"
+    fi
+
+
     local modules=(
-        "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh|deploy"
-        "drive|libs/drive/scripts/manage_service.sh"
+        # "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh|deploy"
+        # "drive|libs/drive/scripts/manage_service.sh"
         "EyeEngine|modules/eyeEngine/scripts/manage_service.sh"
         "daemon|modules/doly/scripts/manage_service.sh"
-        "fan|libs/fan/scripts/manage_service.sh"
-        "nlu/doly-nlpjs|libs/nlu/doly-nlpjs/scripts/manage_service.sh"
-        "serial|libs/serial/scripts/manage_serial_service.sh"
-        "tts/edge-tts|libs/tts/edge-tts/scripts/manage_service.sh"
-        "widgets|libs/widgets/scripts/manage_service.sh"
+        # "fan|libs/fan/scripts/manage_service.sh"
+        # "nlu/doly-nlpjs|libs/nlu/doly-nlpjs/scripts/manage_service.sh"
+        # "serial|libs/serial/scripts/manage_serial_service.sh"
+        # "tts/edge-tts|libs/tts/edge-tts/scripts/manage_service.sh"
+        # "widgets|libs/widgets/scripts/manage_service.sh"
     )
 
     print_status "开始更新并部署服务..."

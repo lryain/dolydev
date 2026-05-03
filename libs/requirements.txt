@@ -18,4 +18,5 @@ websockets>=12.0
 
 # sudo apt install -y jq
 numpy
-
+Pillow
+lz4
