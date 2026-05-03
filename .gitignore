@@ -1,6 +1,6 @@
 ## Repository-level .gitignore
 # Ignore Python virtualenvs (including the top-level .venv)
-# .venv/
+.venv/
 logs
 *.d
 .github
