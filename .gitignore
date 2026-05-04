@@ -12,6 +12,7 @@ libs/drive/docs/dev
 libs/autocharge
 libs/autocharge-videook
 3rd/vl6180_pi
+config/motor_config.ini
 tmp
 assets/config/animations2
 docs/需求.md
