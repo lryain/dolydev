@@ -1,15 +1,36 @@
 [
   {
-    "created_at": "2026-04-18T12:10:22Z",
-    "face_id": "0001",
-    "image_path": "/home/pi/dolydev/libs/FaceReco/img/0001_0.jpg",
-    "last_seen": "2026-04-18T12:10:22Z",
+    "created_at": "2026-04-24T15:36:31Z",
+    "face_id": "0003",
+    "image_path": "/home/pi/dolydev/libs/FaceReco/img/0003_0.jpg",
+    "last_seen": "2026-04-24T15:36:31Z",
     "metadata": {
-      "angle": 0.02199518494307995,
+      "angle": 9.50056266784668,
       "bbox": {
-        "x1": 175.0,
-        "x2": 319.0,
-        "y1": 140.0,
+        "x1": 0.0,
+        "x2": 260.0,
+        "y1": 0.0,
+        "y2": 239.0
+      },
+      "confidence": 1.0,
+      "liveness": true,
+      "register_source": "interactive_cli",
+      "tracker_id": 8
+    },
+    "name": "hu",
+    "sample_count": 1
+  },
+  {
+    "created_at": "2026-04-18T13:10:25Z",
+    "face_id": "0002",
+    "image_path": "/home/pi/dolydev/libs/FaceReco/img/0002_0.jpg",
+    "last_seen": "2026-04-18T13:10:25Z",
+    "metadata": {
+      "angle": 10.329411506652832,
+      "bbox": {
+        "x1": 102.0,
+        "x2": 315.0,
+        "y1": 58.0,
         "y2": 239.0
       },
       "confidence": 1.0,

@@ -73,8 +73,9 @@ face_recognition:
   # 格式: 姓名: 关系类型
   # 关系类型可选: master, family, friend, acquaintance, stranger
   name_to_relation:
-    liuhu: master          # 主人
+    lily: master          # 主人
     kevin: master          # 主人
+    hu: master          # 主人
     zhangsan: friend       # 朋友
     zhijun_0002: family           # 家人
     zhijun: family           # 家人

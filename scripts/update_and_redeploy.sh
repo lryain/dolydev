@@ -177,7 +177,7 @@ main() {
         "EyeEngine|modules/eyeEngine/scripts/manage_service.sh"
         "daemon|modules/doly/scripts/manage_service.sh"
         "fan|libs/fan/scripts/manage_service.sh"
-        "nlu/doly-nlpjs|libs/nlu/doly-nlpjs/scripts/manage_service.sh"
+        #"nlu/doly-nlpjs|libs/nlu/doly-nlpjs/scripts/manage_service.sh"
         "serial|libs/serial/scripts/manage_serial_service.sh"
         "tts/edge-tts|libs/tts/edge-tts/scripts/manage_service.sh"
         "widgets|libs/widgets/scripts/manage_service.sh"

@@ -9,7 +9,7 @@ email:
     port: 465                    # SMTP 端口（587 for TLS, 465 for SSL）
     use_tls: true                # 是否使用 TLS
     username: "47129927@qq.com"                 # SMTP 用户名（通常是邮箱地址）
-    password: ""                 # SMTP 密码或应用专用密码
+    password: "jrpkyscymwbwbhea"                 # SMTP 密码或应用专用密码
   
   # 发件人信息
   sender:
