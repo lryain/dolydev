@@ -747,7 +747,7 @@ FaceRecoManager 测试脚本
 
 import sys
 import time
-sys.path.insert(0, "/home/pi/dev/nora-xiaozhi-dev")
+sys.path.insert(0, "/home/pi/dev/dolydev")
 
 from modules.doly.managers.face_reco_manager import (
     FaceRecoManager, FaceRelation, TrackedFace

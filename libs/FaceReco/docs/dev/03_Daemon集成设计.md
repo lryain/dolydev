@@ -82,7 +82,7 @@ class FaceRecoManager:
     
     def __init__(self, config_path: Optional[str] = None):
         self.config_path = Path(config_path or 
-            "/home/pi/dev/nora-xiaozhi-dev/config/face_reco_settings.yaml")
+            "/home/pi/dev/dolydev/config/face_reco_settings.yaml")
         
         # 配置
         self.config: Dict[str, Any] = {}
@@ -747,7 +747,7 @@ FaceRecoManager 测试脚本
 
 import sys
 import time
-sys.path.insert(0, "/home/pi/dev/nora-xiaozhi-dev")
+sys.path.insert(0, "/home/pi/dev/dolydev")
 
 from modules.doly.managers.face_reco_manager import (
     FaceRecoManager, FaceRelation, TrackedFace

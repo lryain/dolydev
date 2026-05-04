@@ -321,10 +321,10 @@ face_recognition:
   enable_descriptor_cache: true
   
   # 描述符缓存文件路径（性能优化）
-  descriptor_cache_path: "/home/pi/dev/nora-xiaozhi-dev/libs/FaceReco/descriptors.yml"
+  descriptor_cache_path: "/home/pi/dev/dolydev/libs/FaceReco/descriptors.yml"
   
   # 🆕 人脸数据库路径（主数据源）
-  face_database_path: "/home/pi/dev/nora-xiaozhi-dev/libs/FaceReco/data/face_db.json"
+  face_database_path: "/home/pi/dev/dolydev/libs/FaceReco/data/face_db.json"
 ```
 
 ---
