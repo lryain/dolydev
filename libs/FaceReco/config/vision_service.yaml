@@ -33,11 +33,11 @@ image_processing:
 
 liveness_detection:
   enabled: false
-  threshold: 0.8
+  threshold: 0.4
   jump: 1
 
 face_angle:
-  threshold: 30.0
+  threshold: 45.0
 
 # 保持数据类型清晰，避免 YAMLConfig 解析警告
 gaze_follow:

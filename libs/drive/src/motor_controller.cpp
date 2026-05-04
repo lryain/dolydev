@@ -13,11 +13,14 @@ std::mutex MotorController::callback_registry_mutex_;
 
 MotorController::MotorController(const std::string& i2c_dev, int addr) {
     active_instance_ = this;
+    auto load_member = static_cast<bool (MotorController::*)(bool&, bool&)>(&MotorController::loadMotorConfig);
+    (this->*load_member)(left_motor_reverse_, right_motor_reverse_);
     load_pwm_compensation(); // Load default config
 }
 
 MotorController::MotorController(const std::string& i2c_dev, int addr, const std::string& config_file) {
     active_instance_ = this;
+    MotorController::loadMotorConfig(left_motor_reverse_, right_motor_reverse_, config_file);
     load_pwm_compensation(config_file);
 }
 
@@ -75,8 +78,10 @@ void MotorController::setSpeeds(float left, float right, float duration) {
     uint8_t right_pc = normalize_manual_speed(right, comp_right);
     printf("[MotorController] setSpeeds left=%.2f (comp=%.2f pc=%d) right=%.2f (comp=%.2f pc=%d) duration=%.2fs\n",
            left, comp_left, left_pc, right, comp_right, right_pc, duration);
-    DriveControl::freeDrive(left_pc, true, left >= 0);
-    DriveControl::freeDrive(right_pc, false, right >= 0);
+    bool left_forward = (left >= 0.0f) != left_motor_reverse_;
+    bool right_forward = (right >= 0.0f) != right_motor_reverse_;
+    DriveControl::freeDrive(left_pc, true, left_forward);
+    DriveControl::freeDrive(right_pc, false, right_forward);
     if(duration > 0.0f) startAutoStopTimer(duration);
 }
 
@@ -364,6 +369,8 @@ bool MotorController::loadMotorConfig(bool& left_reverse, bool& right_reverse) {
         if (p.empty()) continue;
         float r = 0.0f;
         if (loadMotorConfig(left_reverse, right_reverse, p, &r)) {
+            left_motor_reverse_ = left_reverse;
+            right_motor_reverse_ = right_reverse;
             std::cout << "配置文件已从 " << p << " 加载" << std::endl;
             return true;
         }
