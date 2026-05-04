@@ -15,6 +15,8 @@ BUILD_DIR="$LIB_AUDIO_DIR/build"
 INSTALL_DIR="$LIB_AUDIO_DIR/install"
 SERVICE_BINARY="$INSTALL_DIR/audio_player_service"
 TARGET_BIN="/usr/local/bin/audio_player_service"
+AUDIO_SOURCE_DIR="$LIB_AUDIO_DIR/audios"
+AUDIO_INSTALL_DIR="/.doly/sounds"
 # 使用仓库内的配置文件（不再复制到 /etc/doly）
 INSTALL_CONFIG_DIR="$REPO_ROOT_DIR/config"
 INSTALL_CONFIG="$INSTALL_CONFIG_DIR/audio_player.yaml"
@@ -42,6 +44,29 @@ check_dependencies() {
     fi
     print_success "依赖检查通过"
     return 0
+}
+
+copy_audio_files() {
+    if [ ! -d "$AUDIO_SOURCE_DIR" ]; then
+        print_warning "音频源目录不存在: $AUDIO_SOURCE_DIR，跳过音频部署"
+        return 0
+    fi
+
+    print_status "同步音频文件到系统目录: $AUDIO_INSTALL_DIR"
+    sudo mkdir -p "$AUDIO_INSTALL_DIR"
+
+    local src_file dest_file rel_path
+    while IFS= read -r -d '' src_file; do
+        rel_path="${src_file#$AUDIO_SOURCE_DIR/}"
+        dest_file="$AUDIO_INSTALL_DIR/$rel_path"
+        if [ -f "$dest_file" ]; then
+            print_status "已存在音频文件，跳过: $rel_path"
+            continue
+        fi
+        print_status "复制音频文件: $rel_path"
+        sudo mkdir -p "$(dirname "$dest_file")"
+        sudo cp "$src_file" "$dest_file"
+    done < <(find "$AUDIO_SOURCE_DIR" -type f -print0)
 }
 
 build_service() {
@@ -137,6 +162,7 @@ install_service() {
     fi
 
     _install_unit_file
+    copy_audio_files
 
     sudo systemctl daemon-reload
     sudo systemctl enable "$SERVICE_NAME"
@@ -299,6 +325,8 @@ deploy_service() {
         print_warning "仓库内未找到 $SRC_CONFIG，跳过配置文件复制"
     fi
 
+    copy_audio_files
+
     sudo systemctl daemon-reload
     sudo systemctl enable "$SERVICE_NAME" || true
     sudo systemctl restart "$SERVICE_NAME"
@@ -363,6 +391,8 @@ redeploy_service() {
         print_status "系统单元 $SERVICE_PATH 不存在，正在写入 unit 文件"
         _install_unit_file
     fi
+
+    copy_audio_files
 
     sudo systemctl daemon-reload
 

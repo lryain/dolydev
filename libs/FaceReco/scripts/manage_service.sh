@@ -177,6 +177,15 @@ redeploy_service() {
         sleep 1
     fi
 
+    if ! sudo systemctl is-enabled --quiet "$SERVICE_NAME"; then
+        print_status "检测到服务未被 enable，正在 enable"
+        if sudo systemctl enable "$SERVICE_NAME"; then
+            print_success "服务已 enable，会在启动时自动运行"
+        else
+            print_warning "无法 enable 服务，请检查权限或 unit 文件"
+        fi
+    fi
+    
     print_status "更新 systemd 服务文件: $SERVICE_FILE -> $SERVICE_PATH"
     sudo cp "$SCRIPT_DIR/../scripts/$SERVICE_FILE" "$SERVICE_PATH"
 

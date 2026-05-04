@@ -172,15 +172,16 @@ main() {
 
 
     local modules=(
-        # "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh|deploy"
-        # "drive|libs/drive/scripts/manage_service.sh"
+        "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh|deploy"
+        "drive|libs/drive/scripts/manage_service.sh"
         "EyeEngine|modules/eyeEngine/scripts/manage_service.sh"
         "daemon|modules/doly/scripts/manage_service.sh"
-        # "fan|libs/fan/scripts/manage_service.sh"
-        # "nlu/doly-nlpjs|libs/nlu/doly-nlpjs/scripts/manage_service.sh"
-        # "serial|libs/serial/scripts/manage_serial_service.sh"
-        # "tts/edge-tts|libs/tts/edge-tts/scripts/manage_service.sh"
-        # "widgets|libs/widgets/scripts/manage_service.sh"
+        "fan|libs/fan/scripts/manage_service.sh"
+        "nlu/doly-nlpjs|libs/nlu/doly-nlpjs/scripts/manage_service.sh"
+        "serial|libs/serial/scripts/manage_serial_service.sh"
+        "tts/edge-tts|libs/tts/edge-tts/scripts/manage_service.sh"
+        "widgets|libs/widgets/scripts/manage_service.sh"
+        "vision|libs/FaceReco/scripts/manage_service.sh"
     )
 
     print_status "开始更新并部署服务..."
