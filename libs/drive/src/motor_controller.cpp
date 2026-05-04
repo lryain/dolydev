@@ -272,11 +272,109 @@ std::int32_t MotorController::angle_to_pulse_diff(float angle_deg) const {
 void MotorController::setContinuousMode(bool enabled) { continuous_mode_ = enabled; }
 void MotorController::setAutoStopTimeout(float timeout) { auto_stop_timeout_ = timeout; }
 bool MotorController::loadMotorConfig(bool& left_reverse, bool& right_reverse, const std::string& config_file, float* ramp_time_out) {
-    left_reverse = false; right_reverse = false;
-    if(ramp_time_out) *ramp_time_out = 0.2f;
+    left_reverse = false;
+    right_reverse = false;
+
+    std::ifstream config_stream(config_file);
+    if (!config_stream.is_open()) {
+        std::cout << "配置文件 " << config_file << " 不存在，使用默认配置" << std::endl;
+        return false;
+    }
+
+    std::string line;
+    bool in_motor_section = false;
+
+    while (std::getline(config_stream, line)) {
+        // 移除注释和空白字符
+        size_t comment_pos = line.find('#');
+        if (comment_pos != std::string::npos) {
+            line = line.substr(0, comment_pos);
+        }
+
+        // 移除前后空白
+        line.erase(line.begin(), std::find_if(line.begin(), line.end(), [](unsigned char ch) {
+            return !std::isspace(ch);
+        }));
+        line.erase(std::find_if(line.rbegin(), line.rend(), [](unsigned char ch) {
+            return !std::isspace(ch);
+        }).base(), line.end());
+
+        if (line.empty()) continue;
+
+        // 检查节
+        if (line == "[motor]") {
+            in_motor_section = true;
+            continue;
+        }
+
+        if (in_motor_section) {
+            // 解析配置项
+            size_t equal_pos = line.find('=');
+            if (equal_pos != std::string::npos) {
+                std::string key = line.substr(0, equal_pos);
+                std::string value = line.substr(equal_pos + 1);
+
+                // 移除前后空白
+                key.erase(key.begin(), std::find_if(key.begin(), key.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                key.erase(std::find_if(key.rbegin(), key.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), key.end());
+
+                value.erase(value.begin(), std::find_if(value.begin(), value.end(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }));
+                value.erase(std::find_if(value.rbegin(), value.rend(), [](unsigned char ch) {
+                    return !std::isspace(ch);
+                }).base(), value.end());
+
+                if (key == "left_reverse") {
+                    left_reverse = (value == "true" || value == "1");
+                } else if (key == "right_reverse") {
+                    right_reverse = (value == "true" || value == "1");
+                } else if (key == "ramp_time") {
+                    // 可选的缓启动时间（秒）
+                    try {
+                        float rt = std::stof(value);
+                        if (ramp_time_out) *ramp_time_out = rt;
+                    } catch (...) {
+                        // ignore parse errors
+                    }
+                }
+            }
+        }
+    }
+
+    config_stream.close();
+
+    std::cout << "电机方向配置已加载: 左电机" << (left_reverse ? "反转" : "正转")
+              << ", 右电机" << (right_reverse ? "反转" : "正转") << std::endl;
+
     return true;
 }
-bool MotorController::loadMotorConfig(bool& left_reverse, bool& right_reverse) { return true; }
+
+bool MotorController::loadMotorConfig(bool& left_reverse, bool& right_reverse) {
+    // 按优先级搜索配置文件路径
+    std::vector<std::string> search_paths = {
+        "/home/pi/dolydev/config/motor_config.ini"
+    };
+
+    for (const auto& p : search_paths) {
+        if (p.empty()) continue;
+        float r = 0.0f;
+        if (loadMotorConfig(left_reverse, right_reverse, p, &r)) {
+            std::cout << "配置文件已从 " << p << " 加载" << std::endl;
+            return true;
+        }
+    }
+
+    std::cout << "未找到配置文件，使用默认配置" << std::endl;
+    left_reverse = false;
+    right_reverse = false;
+    return false;
+}
+
 long MotorController::getLeftEncoderPosition() const { return 0; }
 long MotorController::getRightEncoderPosition() const { return 0; }
 long MotorController::getLeftEncoderDelta() { return 0; }

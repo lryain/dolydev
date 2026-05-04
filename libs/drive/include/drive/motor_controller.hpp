@@ -247,6 +247,7 @@ private:
     float baseline_x_mm_ = 0.0f;
     float baseline_y_mm_ = 0.0f;
     float baseline_head_deg_ = 0.0f;
+    float ramp_time_seconds = 0.0f;
 
     mutable std::mutex encoder_delta_mutex_;
     mutable long last_left_encoder_report_ = 0;
