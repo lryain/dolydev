@@ -72,7 +72,7 @@ struct TimerAudioConfig {
     // 🆕 edge-tts 配置
     bool edge_tts_enabled = false;               // 是否使用 edge-tts 播报（替代本地 TTS）
     std::string edge_tts_endpoint = "ipc:///tmp/doly_tts_req.sock"; // TTS 服务地址
-    std::string edge_tts_client_bin = "python3 /home/pi/dev/nora-xiaozhi-dev/libs/tts/tts-server/edge_tts_client.py"; // 客户端可执行
+    std::string edge_tts_client_bin = "python3 /home/pi/dev/dolydev/libs/tts/tts-server/edge_tts_client.py"; // 客户端可执行
     std::string edge_tts_voice = "zh-CN-YunxiaNeural";  // 默认发音人
     std::string edge_tts_pitch = "+0Hz";                // 默认音调
     std::string edge_tts_rate = "+0%";                 // 默认语速

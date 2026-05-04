@@ -79,7 +79,7 @@ public:
     std::string espeak_command_en = "espeak-ng -v en '{text}' >/dev/null 2>&1";  // espeak-ng 英文模板
         std::string edge_tts_transport = "zmq";    // zmq | cmd
         std::string edge_tts_endpoint = "ipc:///tmp/doly_tts_req.sock";
-        std::string edge_tts_client_bin = "python3 /home/pi/dev/nora-xiaozhi-dev/libs/tts/tts-server/edge_tts_client.py";
+        std::string edge_tts_client_bin = "python3 /home/pi/dev/dolydev/libs/tts/tts-server/edge_tts_client.py";
     std::string edge_tts_voice = "zh-CN-YunxiaNeural";
     std::string edge_tts_voice_en = "en-US-JennyNeural";
         std::string edge_tts_pitch = "+0Hz";

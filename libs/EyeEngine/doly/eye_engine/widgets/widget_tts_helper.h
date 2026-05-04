@@ -11,7 +11,7 @@ struct WidgetEdgeTtsConfig {
     bool enabled = false;
     std::string transport = "zmq";              // zmq | cmd
     std::string endpoint = "ipc:///tmp/doly_tts_req.sock";
-    std::string client_bin = "python3 /home/pi/dev/nora-xiaozhi-dev/libs/tts/tts-server/edge_tts_client.py";
+    std::string client_bin = "python3 /home/pi/dev/dolydev/libs/tts/tts-server/edge_tts_client.py";
     std::string voice = "zh-CN-YunxiaNeural";
     std::string pitch = "+0Hz";
     std::string rate = "+0%";
