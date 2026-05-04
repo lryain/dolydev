@@ -85,3 +85,4 @@ libs/FaceReco/descriptors.yml
 libs/FaceReco/descriptors.yml
 libs/FaceReco/data/face_db.json
 config/email_settings.yaml
+libs/FaceReco/docs/dev
