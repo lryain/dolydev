@@ -22,14 +22,14 @@ find_library(SPDLOG_LIB spdlog HINTS /usr/local/lib /usr/lib/aarch64-linux-gnu)
 find_library(FMT_LIB fmt HINTS /usr/lib/aarch64-linux-gnu)
 
 # FanControl library from SDK
-find_path(FANCONTROL_INCLUDE_DIR FanControl.h HINTS /home/pi/DOLY-DIY/SDK/include)
-find_library(FANCONTROL_LIB FanControl HINTS /home/pi/DOLY-DIY/SDK/lib)
+find_path(FANCONTROL_INCLUDE_DIR FanControl.h HINTS /home/pi/dolydev/SDK/include)
+find_library(FANCONTROL_LIB FanControl HINTS /home/pi/dolydev/SDK/lib)
 if(FANCONTROL_INCLUDE_DIR)
     include_directories(${FANCONTROL_INCLUDE_DIR})
 endif()
 
 # Helper library from SDK
-find_library(HELPER_LIB Helper HINTS /home/pi/DOLY-DIY/SDK/lib)
+find_library(HELPER_LIB Helper HINTS /home/pi/dolydev/SDK/lib)
 
 add_library(fan STATIC
     src/fan_service_bus.cpp

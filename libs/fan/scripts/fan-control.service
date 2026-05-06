@@ -16,7 +16,7 @@ StandardError=journal
 SyslogIdentifier=fan-service
 
 # 环境变量
-Environment=LD_LIBRARY_PATH=/home/pi/DOLY-DIY/SDK/lib:/usr/local/lib:/usr/lib/aarch64-linux-gnu
+Environment=LD_LIBRARY_PATH=/home/pi/dolydev/SDK/lib:/usr/local/lib:/usr/lib/aarch64-linux-gnu
 
 # 预执行
 ExecStartPre=/usr/bin/mkdir -p /home/pi/dolydev/data/logs

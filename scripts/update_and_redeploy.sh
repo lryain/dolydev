@@ -157,17 +157,57 @@ main() {
     sync_repository
 
     print_status "更新python虚拟环境..."
-    if [[ -f "/home/pi/dolydev/.venv/bin/activate" ]]; then
-        # shellcheck disable=SC1090
-        source "/home/pi/dolydev/.venv/bin/activate"
-        if [[ -f "/home/pi/dolydev/libs/requirements.txt" ]]; then
-            pip install -r "/home/pi/dolydev/libs/requirements.txt"
-            print_success "Python依赖已更新。"
-        else
-            print_warning "未找到 requirements.txt，跳过 Python 依赖更新。"
+    local venv_path="/home/pi/dolydev/.venv"
+    local requirements_file="/home/pi/dolydev/libs/requirements.txt"
+    
+    if [[ ! -f "$venv_path/bin/activate" ]]; then
+        print_warning "虚拟环境不存在，正在创建..."
+        
+        # 检查 Python3 是否安装
+        if ! command -v python3 &> /dev/null; then
+            print_error "Python3 未安装，请先安装 Python3"
+            exit 1
         fi
+        
+        # 检查 venv 模块是否可用
+        if ! python3 -m venv --help &> /dev/null; then
+            print_warning "venv 模块不可用，尝试安装..."
+            sudo apt-get update && sudo apt-get install -y python3-venv || {
+                print_error "无法安装 python3-venv"
+                exit 1
+            }
+        fi
+        
+        # 创建虚拟环境
+        print_status "创建虚拟环境: $venv_path"
+        python3 -m venv "$venv_path" || {
+            print_error "创建虚拟环境失败"
+            exit 1
+        }
+        
+        print_success "虚拟环境创建成功"
     else
-        print_warning "未找到 Python 虚拟环境，跳过 Python 依赖更新。"
+        print_status "虚拟环境已存在，将更新依赖..."
+    fi
+    
+    # 激活虚拟环境
+    # shellcheck disable=SC1090
+    source "$venv_path/bin/activate"
+    
+    # 升级 pip
+    print_status "升级 pip..."
+    pip install --upgrade pip setuptools wheel || print_warning "pip 升级失败，继续执行"
+    
+    # 安装或更新依赖
+    if [[ -f "$requirements_file" ]]; then
+        print_status "安装/更新 Python 依赖..."
+        pip install -r "$requirements_file" || {
+            print_error "安装依赖失败"
+            exit 1
+        }
+        print_success "Python依赖已更新。"
+    else
+        print_warning "未找到 requirements.txt，跳过 Python 依赖更新。"
     fi
 
 
