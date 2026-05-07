@@ -426,6 +426,19 @@ class DolyDaemon:
             except Exception as e:
                 logger.warning(f"[Daemon] 无法注册 SIGHUP 处理: {e}")
             
+            # ★★★ 注册 SIGTERM 和 SIGINT 信号处理（用于 systemd 服务管理）★★★
+            try:
+                def _signal_handler(signum, frame):
+                    sig_name = signal.Signals(signum).name
+                    logger.info(f"[Daemon] 收到信号 {sig_name} ({signum})，准备优雅退出...")
+                    self._running = False
+                
+                signal.signal(signal.SIGTERM, _signal_handler)
+                signal.signal(signal.SIGINT, _signal_handler)
+                logger.info("[Daemon] 已注册 SIGTERM/SIGINT 信号处理")
+            except Exception as e:
+                logger.warning(f"[Daemon] 无法注册信号处理: {e}")
+            
             logger.info("✅ [Daemon] 初始化成功")
             
             # ★★★ 启动 TaskEngine ★★★
@@ -2463,6 +2476,8 @@ def main():
     """主函数"""
     import argparse
     
+    logger.info("[Main] >>> main() 函数开始执行")
+    
     parser = argparse.ArgumentParser(description='Doly Daemon')
     parser.add_argument('--config', type=str, default='/home/pi/dolydev/config',
                         help='配置目录路径')
@@ -2485,11 +2500,15 @@ def main():
         return 1
     
     # 启动 Daemon
+    logger.info("[Main] 调用 daemon.start()...")
     if not daemon.start():
         logger.error("❌ Daemon 启动失败")
         return 1
     
+    logger.info("[Main] ✅ Daemon.start() 返回成功，进入主循环")
+    
     # ★ 在主线程中运行 event loop（这样 async 操作可以正确执行）
+    logger.info("[Main] 🔄 开始主循环...")
     try:
         # 主线程保活，同时运行事件循环以支持 asyncio 操作
         while daemon._running:
@@ -2497,18 +2516,28 @@ def main():
                 # 运行一次 event loop 迭代（非阻塞）
                 daemon.loop.run_until_complete(asyncio.sleep(0.1))
             except KeyboardInterrupt:
-                raise
+                logger.info("\n⏹️ 收到中断信号")
+                break
             except Exception as e:
                 logger.error(f"[MainLoop] Event loop 异常: {e}")
+                # Don't break on exceptions, keep running
+                time.sleep(1)  # Prevent tight loop on errors
             
     except KeyboardInterrupt:
         logger.info("\n⏹️ 收到中断信号")
+    except SystemExit:
+        logger.info("\n⏹️ 系统退出信号")
+    except Exception as e:
+        logger.error(f"\n❌ 主循环异常: {e}")
     
     finally:
+        logger.info("[Main] <<< 进入 finally 块，准备停止 daemon")
+        logger.info("[Daemon] 开始停止流程...")
         daemon.stop()
         logger.info("=" * 60)
         logger.info("🤖 Doly Daemon 已关闭")
         logger.info("=" * 60)
+        logger.info("[Main] <<< main() 函数即将返回")
 
 
 if __name__ == '__main__':

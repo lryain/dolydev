@@ -1,7 +1,7 @@
 [Unit]
 Description=Doly Daemon - Main Control System
 Documentation=file:///home/pi/dolydev/modules/doly/README.md
-Requires=network.target doly-serial.service eyeengine-service.service widget-service.service drive-service.service
+After=network.target doly-serial.service eyeengine-service.service widget-service.service drive-service.service
 Wants=network.target eyeengine-service.service widget-service.service drive-service.service
 PartOf=doly.target
 
@@ -14,7 +14,9 @@ Environment=PYTHONPATH=/home/pi/dolydev:/home/pi/dolydev/modules
 Environment=VIRTUAL_ENV=/home/pi/dolydev/.venv
 Environment=PATH=/home/pi/dolydev/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Restart=on-failure
+# Restart=no
 RestartSec=10
+TimeoutStopSec=30
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=doly-daemon
