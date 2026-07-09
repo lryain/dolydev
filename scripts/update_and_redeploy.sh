@@ -213,7 +213,7 @@ main() {
 
 
     local modules=(
-        "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh|deploy"
+        "audio_player|libs/audio_player/scripts/manage_audio_player_service.sh|redeploy"
         "drive|libs/drive/scripts/manage_service.sh"
         "EyeEngine|modules/eyeEngine/scripts/manage_service.sh"
         "daemon|modules/doly/scripts/manage_service.sh"
