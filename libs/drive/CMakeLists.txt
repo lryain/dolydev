@@ -69,8 +69,8 @@ set(DOLY_RUNTIME_PATHS
 # 静态库
 add_library(doly_drive STATIC ${EXTIO_SOURCES})
 target_link_libraries(doly_drive PUBLIC
-    spdlog::spdlog
-    fmt::fmt
+    spdlog
+    fmt
     Threads::Threads
     ${GPIOD_LIBRARIES}
     ${ZMQ_LIBRARIES}
