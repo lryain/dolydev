@@ -157,7 +157,7 @@ main() {
     sync_repository
 
     print_status "更新python虚拟环境..."
-    sudo apt-get install -y python3-venv libspdlog-dev
+    sudo apt-get install -y python3-venv libspdlog-dev libyaml-cpp-dev
     local venv_path="/home/pi/dolydev/.venv"
     local requirements_file="/home/pi/dolydev/libs/requirements.txt"
     
