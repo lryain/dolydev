@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/pi/DOLY-DIY/SDK/include -I/home/pi/dolydev/3rd/vl6180_pi/test/../include -I/home/pi/dolydev/libs/Doly/include
+CXX_INCLUDES = -I/home/pi/dolydev/SDK/include -I/home/pi/dolydev/3rd/vl6180_pi/test/../include -I/home/pi/dolydev/libs/Doly/include
 
 CXX_FLAGS = -g -std=c++17
 

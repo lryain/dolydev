@@ -9,7 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(VL6180_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/..")
 get_filename_component(DOLYDEV_ROOT_DEFAULT "${VL6180_ROOT}/../.." ABSOLUTE)
 set(DOLYDEV_ROOT "${DOLYDEV_ROOT_DEFAULT}" CACHE PATH "Path to the dolydev workspace root")
-set(SDK_ROOT "/home/pi/DOLY-DIY/SDK" CACHE PATH "Path to the DOLY-DIY SDK root")
+set(SDK_ROOT "/home/pi/dolydev/SDK" CACHE PATH "Path to the DOLY-DIY SDK root")
 
 set(DOLY_GPIO_INCLUDE_DIR "${DOLYDEV_ROOT}/libs/Doly/include")
 set(DOLY_GPIO_LIB_DIR "${DOLYDEV_ROOT}/libs/Doly/libs")

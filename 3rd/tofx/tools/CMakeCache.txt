@@ -216,16 +216,16 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 DOLYDEV_ROOT:PATH=/home/pi/dolydev
 
 //Path to a library.
-DRIVECONTROL_LIB:FILEPATH=/home/pi/DOLY-DIY/SDK/lib/libDriveControl.so
+DRIVECONTROL_LIB:FILEPATH=/home/pi/dolydev/SDK/lib/libDriveControl.so
 
 //Path to a library.
 GPIO_LIB:FILEPATH=/home/pi/dolydev/libs/Doly/libs/libGpio.so
 
 //Path to a library.
-HELPER_LIB:FILEPATH=/home/pi/DOLY-DIY/SDK/lib/libHelper.so
+HELPER_LIB:FILEPATH=/home/pi/dolydev/SDK/lib/libHelper.so
 
 //Path to the DOLY-DIY SDK root
-SDK_ROOT:PATH=/home/pi/DOLY-DIY/SDK
+SDK_ROOT:PATH=/home/pi/dolydev/SDK
 
 //Path to a library.
 TIMER_LIB:FILEPATH=/home/pi/dolydev/libs/Doly/libs/libTimer.so

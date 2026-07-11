@@ -7,11 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(example main.cpp)
 
 target_include_directories(example PRIVATE
-    /home/pi/DOLY-DIY/SDK/include
+    /home/pi/dolydev/SDK/include
 )
 
 target_link_directories(example PRIVATE
-    /home/pi/DOLY-DIY/SDK/lib
+    /home/pi/dolydev/SDK/lib
 )
 
 target_link_libraries(example PRIVATE

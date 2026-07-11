@@ -19,14 +19,14 @@ add_executable(example
 # Add include dirs - IMPORTANT: Add VIVOKA includes BEFORE system includes
 target_include_directories(example PRIVATE
   /.doly/libs/vivoka/include
-  /home/pi/DOLY-DIY/SDK/include
+  /home/pi/dolydev/SDK/include
   /usr/local/include
 )
 
 # Add link dirs
 target_link_directories(example PRIVATE
   /.doly/libs/vivoka/lib
-  /home/pi/DOLY-DIY/SDK/lib
+  /home/pi/dolydev/SDK/lib
   /usr/local/lib
 )
 

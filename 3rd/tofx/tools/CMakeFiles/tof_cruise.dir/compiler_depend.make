@@ -369,12 +369,12 @@ CMakeFiles/tof_cruise.dir/tof_cruise.cpp.o: /home/pi/dolydev/3rd/vl6180_pi/test/
   /usr/include/aarch64-linux-gnu/bits/sigthread.h \
   /usr/include/aarch64-linux-gnu/bits/signal_ext.h \
   /usr/include/c++/12/iostream \
-  /home/pi/DOLY-DIY/SDK/include/DriveControl.h \
-  /home/pi/DOLY-DIY/SDK/include/DriveEventListener.h \
-  /home/pi/DOLY-DIY/SDK/include/Helper.h
+  /home/pi/dolydev/SDK/include/DriveControl.h \
+  /home/pi/dolydev/SDK/include/DriveEventListener.h \
+  /home/pi/dolydev/SDK/include/Helper.h
 
 
-/home/pi/DOLY-DIY/SDK/include/Helper.h:
+/home/pi/dolydev/SDK/include/Helper.h:
 
 /usr/include/c++/12/iostream:
 
@@ -438,7 +438,7 @@ CMakeFiles/tof_cruise.dir/tof_cruise.cpp.o: /home/pi/dolydev/3rd/vl6180_pi/test/
 
 /usr/include/yaml-cpp/node/emit.h:
 
-/home/pi/DOLY-DIY/SDK/include/DriveControl.h:
+/home/pi/dolydev/SDK/include/DriveControl.h:
 
 /usr/include/yaml-cpp/node/parse.h:
 
@@ -602,7 +602,7 @@ CMakeFiles/tof_cruise.dir/tof_cruise.cpp.o: /home/pi/dolydev/3rd/vl6180_pi/test/
 
 /usr/include/c++/12/bits/ostream_insert.h:
 
-/home/pi/DOLY-DIY/SDK/include/DriveEventListener.h:
+/home/pi/dolydev/SDK/include/DriveEventListener.h:
 
 /usr/include/aarch64-linux-gnu/bits/endianness.h:
 

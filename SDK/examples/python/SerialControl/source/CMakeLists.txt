@@ -10,11 +10,11 @@ find_package(pybind11 REQUIRED)
 pybind11_add_module(SerialControlPy bindings.cpp)
 
 target_include_directories(SerialControlPy PRIVATE
-    /home/pi/DOLY-DIY/SDK/include
+    /home/pi/dolydev/SDK/include
 )
 
 target_link_directories(SerialControlPy PRIVATE
-    /home/pi/DOLY-DIY/SDK/lib
+    /home/pi/dolydev/SDK/lib
 )
 
 target_link_libraries(SerialControlPy PRIVATE

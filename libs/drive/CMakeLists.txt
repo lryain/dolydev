@@ -55,7 +55,7 @@ set(EXTIO_SOURCES
 
 # 官方 Doly 库路径
 set(DOLY_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Doly/libs")
-set(DOLY_SDK_LIB_DIR "/home/pi/DOLY-DIY/SDK/lib")
+set(DOLY_SDK_LIB_DIR "/home/pi/dolydev/SDK/lib")
 set(DOLY_SERVO_LIB "${DOLY_LIB_DIR}/libServoMotor.a")
 set(DOLY_GPIO_LIB "${DOLY_LIB_DIR}/libGpio.a")
 set(DOLY_TIMER_LIB "${DOLY_LIB_DIR}/libTimer.a")

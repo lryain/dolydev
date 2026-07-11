@@ -16,8 +16,8 @@ if str(TOF_ROOT) not in sys.path:
     sys.path.insert(0, str(TOF_ROOT))
 
 SDK_BUILD_DIRS = [
-    Path("/home/pi/DOLY-DIY/SDK/examples/python/DriveControl/build"),
-    Path("/home/pi/DOLY-DIY/SDK/examples/python/Helper/build"),
+    Path("/home/pi/dolydev/SDK/examples/python/DriveControl/build"),
+    Path("/home/pi/dolydev/SDK/examples/python/Helper/build"),
 ]
 
 for sdk_build_dir in SDK_BUILD_DIRS:

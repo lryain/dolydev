@@ -3,8 +3,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DRIVE_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-SDK_INCLUDE_DIR="/home/pi/DOLY-DIY/SDK/include"
-SDK_LIB_DIR="/home/pi/DOLY-DIY/SDK/lib"
+SDK_INCLUDE_DIR="/home/pi/dolydev/SDK/include"
+SDK_LIB_DIR="/home/pi/dolydev/SDK/lib"
 LOCAL_INCLUDE_DIR="${DRIVE_DIR}/include/sdk"
 LOCAL_LIB_DIR="/home/pi/dolydev/libs/Doly/libs"
 SYSTEM_SPDLOG_LIB="/usr/local/lib/libspdlog.so.1.17"

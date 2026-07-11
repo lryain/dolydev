@@ -8,13 +8,13 @@ add_executable(example main.cpp)
 
 # Add include dirs
 target_include_directories(example PRIVATE
-  /home/pi/DOLY-DIY/SDK/include
+  /home/pi/dolydev/SDK/include
   /usr/local/include            # spdlog headers installed here by build
 )
 
 # Add link dirs
 target_link_directories(example PRIVATE
-	/home/pi/DOLY-DIY/SDK/lib
+	/home/pi/dolydev/SDK/lib
   /usr/local/lib                # spdlog library location
 )
 

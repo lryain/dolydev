@@ -93,8 +93,8 @@ tof_cruise_EXTERNAL_OBJECTS =
 tof_cruise: CMakeFiles/tof_cruise.dir/tof_cruise.cpp.o
 tof_cruise: CMakeFiles/tof_cruise.dir/build.make
 tof_cruise: libtof_test_common.a
-tof_cruise: /home/pi/DOLY-DIY/SDK/lib/libDriveControl.so
-tof_cruise: /home/pi/DOLY-DIY/SDK/lib/libHelper.so
+tof_cruise: /home/pi/dolydev/SDK/lib/libDriveControl.so
+tof_cruise: /home/pi/dolydev/SDK/lib/libHelper.so
 tof_cruise: /home/pi/dolydev/3rd/vl6180_pi/test/../libvl6180_pi.a
 tof_cruise: /home/pi/dolydev/libs/Doly/libs/libGpio.so
 tof_cruise: /home/pi/dolydev/libs/Doly/libs/libTimer.so

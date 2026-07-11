@@ -18,7 +18,7 @@ target_include_directories(doly_eye PRIVATE
 target_link_directories(doly_eye PRIVATE
   #/.doly/libs/sdk/lib
   #${CMAKE_CURRENT_SOURCE_DIR}/../../../../include
-  /home/pi/DOLY-DIY/SDK/lib
+  /home/pi/dolydev/SDK/lib
 )
 
 # Link library

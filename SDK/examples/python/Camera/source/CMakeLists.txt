@@ -11,14 +11,14 @@ pybind11_add_module(doly_camera bindings.cpp)
 
 # Add include dirs
 target_include_directories(doly_camera PRIVATE
-    /home/pi/DOLY-DIY/SDK/include
+    /home/pi/dolydev/SDK/include
     /.doly/libs/opencv/include/opencv4/
     /usr/include/libcamera/
 )
 
 # Add link dirs
 target_link_directories(doly_camera PRIVATE
-  /home/pi/DOLY-DIY/SDK/lib
+  /home/pi/dolydev/SDK/lib
   /.doly/libs/opencv/lib
 )
 

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(servo_example)
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(/home/pi/DOLY-DIY/SDK/include)
+include_directories(/home/pi/dolydev/SDK/include)
 include_directories(/home/pi/dolydev/libs/servo_drive/include)
 include_directories(/home/pi/dolydev/libs/Doly/include)
 

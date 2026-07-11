@@ -109,7 +109,7 @@ run_service_console() {
     echo "Starting Fan Service in foreground (console mode)..."
     # clear old socket
     rm -f /tmp/doly_fan_zmq.sock 2>/dev/null || true
-    export LD_LIBRARY_PATH=/home/pi/DOLY-DIY/SDK/lib:/usr/local/lib:/usr/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=/home/pi/dolydev/SDK/lib:/usr/local/lib:/usr/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
     echo "Configuration: $CONFIG_FILE"
     "$SERVICE_BINARY" --console --bus-endpoint ipc:///tmp/doly_fan_zmq.sock -c "$CONFIG_FILE"
 }

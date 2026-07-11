@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 BUILD_DIR="${SCRIPT_DIR}/build"
-SDK_ROOT="${SDK_ROOT:-/home/pi/DOLY-DIY/SDK}"
+SDK_ROOT="${SDK_ROOT:-/home/pi/dolydev/SDK}"
 
 if [[ $# -lt 1 ]]; then
     echo "usage: $0 {demo|simpletest|continuoustest|calibration|alts_cal|cruise|smoke|smoke-left|smoke-paired} [args...]" >&2

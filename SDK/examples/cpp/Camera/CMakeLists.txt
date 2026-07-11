@@ -8,7 +8,7 @@ add_executable(example main.cpp)
 
 # Add include dirs
 target_include_directories(example PRIVATE
-  /home/pi/DOLY-DIY/SDK/include
+  /home/pi/dolydev/SDK/include
   /usr/local/include            # spdlog headers (built from source)
   /.doly/libs/opencv/include/opencv4   # robot-provided OpenCV headers
   /usr/include/libcamera/             # camera headers (system or robot)
@@ -16,7 +16,7 @@ target_include_directories(example PRIVATE
 
 # Add link dirs
 target_link_directories(example PRIVATE
-	/home/pi/DOLY-DIY/SDK/lib
+	/home/pi/dolydev/SDK/lib
   /usr/local/lib                # spdlog library location
   /.doly/libs/opencv/lib       # robot-provided OpenCV libs
   # system libraries (libcamera) are found automatically

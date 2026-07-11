@@ -4,7 +4,7 @@ set -e
 # Paths
 SOURCE_DIR="/home/pi/dolydev/libs/serial"
 BUILD_DIR="${SOURCE_DIR}/build_sdk"
-SDK_ROOT="/home/pi/DOLY-DIY/SDK"
+SDK_ROOT="/home/pi/dolydev/SDK"
 SDK_LIB_DIR="${SDK_ROOT}/lib"
 SDK_INC_DIR="${SDK_ROOT}/include"
 EXAMPLE_CPP_DIR="${SDK_ROOT}/examples/cpp/SerialControl"
@@ -76,11 +76,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(example main.cpp)
 
 target_include_directories(example PRIVATE
-    /home/pi/DOLY-DIY/SDK/include
+    /home/pi/dolydev/SDK/include
 )
 
 target_link_directories(example PRIVATE
-    /home/pi/DOLY-DIY/SDK/lib
+    /home/pi/dolydev/SDK/lib
 )
 
 target_link_libraries(example PRIVATE
@@ -129,11 +129,11 @@ find_package(pybind11 REQUIRED)
 pybind11_add_module(SerialControl bindings.cpp)
 
 target_include_directories(SerialControl PRIVATE
-    /home/pi/DOLY-DIY/SDK/include
+    /home/pi/dolydev/SDK/include
 )
 
 target_link_directories(SerialControl PRIVATE
-    /home/pi/DOLY-DIY/SDK/lib
+    /home/pi/dolydev/SDK/lib
 )
 
 target_link_libraries(SerialControl PRIVATE
